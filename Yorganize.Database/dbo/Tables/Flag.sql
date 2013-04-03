@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Flag] (
+    [FlagId]  UNIQUEIDENTIFIER NOT NULL,
+    [FlagUrl] VARCHAR (256)    NULL,
+    PRIMARY KEY CLUSTERED ([FlagId] ASC)
+);
+

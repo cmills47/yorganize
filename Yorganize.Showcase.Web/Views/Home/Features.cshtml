@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Features";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+@section header{
+    <div id="highlighted">
+        <div class="container">
+            <div class="row-fluid header">
+                <h2 class="page-title"><span>Features</span> <small>Yorganize features</small></h2>
+                <!--Portfolio sort links-->
+                <ul class="nav nav-pills" id="quicksand-categories">
+                    <li class="active _tooltip" data-placement="top" data-original-title="Web"><a href="#all" class="all">All</a></li>
+                    <li><a href="#projects" class="_tooltip" data-placement="top" data-original-title="Projects">P</a></li>
+                    <li><a href="#contexts" class="_tooltip" data-placement="top" data-original-title="Contexts">C</a></li>
+                    <li><a href="#other" class="_tooltip" data-placement="top" data-original-title="Other">O</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+<!--Features items-->
+<ul class="thumbnails block projects" id="quicksand">
+
+    <li class="span12" data-id="id-0" data-type="projects">
+        <div class="row">
+            <a href="#">
+                <div class="span6">
+                    <img src="~/content/images/slides/projectview.png" alt="Home Red" style="width: 90%" />
+                </div>
+            </a>
+            <div class="span6">
+                <h4 class="title">Projects</h4>
+                <p class="muted">Group related tasks into a project to help keep track of remaining work</p>
+            </div>
+        </div>
+    </li>
+
+    <li class="span12" data-id="id-1" data-type="contexts">
+        <div class="row">
+            <div class="span6">
+                <h4 class="title">Contexts</h4>
+                <p class="muted">Organize your actions into contexts so when it comes time to run errands, you can see all the errands you need to run across all of your projects and take care of all of them in one trip.</p>
+            </div>
+            <a href="#">
+                <div class="span6">
+                    <img src="~/content/images/slides/contextview.png" alt="Home Red" style="width: 90%" />
+                </div>
+            </a>
+
+        </div>
+    </li>
+
+    <li class="span12" data-id="id-3" data-type="other">
+        <div class="row">
+            <a href="#">
+                <div class="span6">
+                    <img src="~/content/images/slides/yorganize_devices.png" alt="Sync" style="width: 90%" />
+                </div>
+            </a>
+            <div class="span6">
+                <h4 class="title">Sync</h4>
+                <p class="muted">Whether you're using a Windows 8 desktop, tablet, or phone, or any device with a web browser, manage your todo lists</p>
+            </div>
+        </div>
+    </li>
+
+    <li class="span12" data-id="id-4" data-type="other">
+        <div class="row">
+            <div class="span6">
+                <h4 class="title">Inbox</h4>
+                <p class="muted">Use your inbox to quickly enter items you need to do as they arise with as little effort as possible, enabling you to come back and categorize them into projects and contexts later when you have time for processing.</p>
+            </div>
+            <a href="#">
+                <div class="span6">
+                    <img src="~/content/images/slides/feature comparison.png" alt="Home Red" style="width: 90%" />
+                </div>
+            </a>
+
+        </div>
+    </li>
+
+</ul>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#portfolio-categories').scrollspy();
+    });
+</script>

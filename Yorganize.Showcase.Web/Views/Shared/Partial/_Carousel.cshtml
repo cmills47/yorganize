@@ -1,0 +1,64 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        var $body = $('body');
+        if (!$body.hasClass('page-index-carousel'))
+            $body.addClass("page-index-carousel");
+    });
+</script>
+
+<div id="highlighted">
+    <div class="inner">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div id="carousel-front" class="carousel slide carousel-featured">
+                        <div class="carousel-inner">
+                            <!--Slide 1-->
+                            <div class="item active">
+                                <div class="row-fluid">
+                                    <div class="span6 pull-center animated fadeInUpBig">
+                                        <img src="~/content/images/slides/yorganize_devices.png" alt="Full responsive slide image" />
+                                    </div>
+                                    <div class="span6 animated fadeInDownBig">
+                                        <h3 class="margin-top-large">Yorganize</h3>
+                                        <p class="lead">will help you in Getting Things Done wherever you find yourself.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Slide 2-->
+                            <div class="item">
+                                <div class="row-fluid">
+                                    <div class="span6 pull-center animated fadeInUpBig">
+                                        <img src="~/content/images/slides/projectview.png" alt="">
+                                    </div>
+                                    <div class="span5 animated fadeInDownBig">
+                                        <h3 class="margin-top-large">Projects</h3>
+                                        <p class="lead">
+                                            Organize your todo lists by project to see what needs done to achieve each of your goals.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Slide 3-->
+                            <div class="item">
+                                <div class="row-fluid">
+                                    <div class="span6  pull-center animated fadeInDownBig">
+                                        <img src="~/content/images/slides/contextview.png" alt="">
+                                    </div>
+                                    <div class="span5 animated fadeInUpBig">
+                                        <h3 class="margin-top-medium">Contexts</h3>
+                                        <p class="lead">When running an errand, view your todo items by context instead of looking through each of your projects for things you need to pick up at the store.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a class="left carousel-control carousel-control-rounded carousel-control-small" href="#carousel-front" data-slide="prev">‹</a>
+                        <a class="right carousel-control carousel-control-rounded carousel-control-small" href="#carousel-front" data-slide="next">›</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

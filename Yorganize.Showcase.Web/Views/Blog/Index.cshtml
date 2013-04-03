@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Blog";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+@section header{
+    <div id="highlighted">
+        <div class="container">
+            <div class="row-fluid header">
+                <h2 class="page-title"><span>Blog</span> <small>Sometimes words do speak louder than actions</small></h2>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <!--Blog Roll Content-->
+    <div class="span8 blog-list">
+
+        @for (int i = 0; i < 3; i++)
+        {
+            <!-- Blog post -->
+            @Html.Partial("Partial/_PostItem")
+        }
+
+        <!--Insert pagination here... -->
+    </div>
+
+    <!--Sidebar-->
+    @Html.Partial("Partial/_Sidebar")
+
+</div>

@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+@section head{
+    <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/c/video.js"></script>
+}
+
+@section header{
+    <div id="highlighted">
+        <div class="container">
+            <div class="row-fluid header">
+                <h2 class="page-title"><span>Video</span> <small>Video tutorials</small></h2>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="span9">
+
+        <!-- Video -->
+        <div class="row">
+
+            <div class="span9">
+
+                <h3>How to create a project</h3>
+                <p>This video demonstrates how to create projects and folders and structure them in a simple hierarchy...</p>
+                <div class=" bordered-top-medium">
+                    <video id="my_video_1" class="video-js vjs-default-skin" controls
+                        preload="auto" width="640" height="264" poster="~/content/images/clients/html5.png"
+                        data-setup="{}">
+                        <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4'>
+                        <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm'>
+                    </video>
+                </div>
+            </div>
+        </div>
+  
+        <!-- Video list -->
+       
+        <div class="row">
+            <h4 class="bordered-top-large" id="team">Videos in category <i class="icon-double-angle-right"></i> Projects</h4>
+            <ul class="thumbnails block projects" id="quicksand">
+                <li class="span3" data-id="id-0" data-type="projects">
+                    <div class="row">
+                        <div class="span3">
+                            <h4 class="title"><a href="#">How to create a project</a></h4>
+                            <p class="muted">Group related tasks into a project to help keep track of remaining work</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="span3" data-id="id-0" data-type="projects">
+                    <div class="row">
+                        <div class="span3">
+                            <h4 class="title"><a href="#">How to create a project</a></h4>
+                            <p class="muted">Group related tasks into a project to help keep track of remaining work</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="span3" data-id="id-0" data-type="projects">
+                    <div class="row">
+                        <div class="span3">
+                            <h4 class="title"><a href="#">How to create a project</a></h4>
+                            <p class="muted">Group related tasks into a project to help keep track of remaining work</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="span3" data-id="id-0" data-type="projects">
+                    <div class="row">
+                        <div class="span3">
+                            <h4 class="title"><a href="#">How to create a project</a></h4>
+                            <p class="muted">Group related tasks into a project to help keep track of remaining work</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="span3" data-id="id-0" data-type="projects">
+                    <div class="row">
+                        <div class="span3">
+                            <h4 class="title"><a href="#">How to create a project</a></h4>
+                            <p class="muted">Group related tasks into a project to help keep track of remaining work</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="span3" data-id="id-0" data-type="projects">
+                    <div class="row">
+                        <div class="span3">
+                            <h4 class="title"><a href="#">How to create a project</a></h4>
+                            <p class="muted">Group related tasks into a project to help keep track of remaining work</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar -->
+    @Html.Partial("Partial/_Sidebar")
+
+</div>

@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+@section header
+{
+    <div id="highlighted">
+        <div class="container">
+            <div class="row-fluid header">
+                <h2 class="page-title"><span>Contact</span> <small>No project too big or small, get in touch!</small></h2>
+            </div>
+        </div>
+    </div>
+}
+<div class="row block">
+    <div class="span6">
+        <form id="contact-form" action="#">
+            <input type="text" class="span5" placeholder="Name">
+            <input type="email" class="span5" placeholder="Email">
+            <textarea rows="15" class="span5" placeholder="Message"></textarea>
+            <input type="button" class="btn btn-primary" value="Send Message">
+        </form>
+    </div>
+    <div class="span6">
+        <h3 class="block-title sub-title"><span>Other Ways To Get In Touch</span></h3>
+        <address>
+            <p>
+                <abbr title="General">G</abbr>: e22pii@live.com
+            </p>
+            <p>
+                <abbr title="Support">S</abbr>: e22pii@live.com
+            </p>
+            <p>
+                <a href="#"><i class="icon-cloud-download"></i>&nbsp;Get Yorganize</a>
+            </p>
+        </address>
+    </div>
+</div>
