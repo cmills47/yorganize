@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Yorganize.Showcase.Web
+namespace Yorganize.Showcase.Web.App_Start
 {
     public class FilterConfig
     {

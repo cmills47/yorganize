@@ -7,7 +7,6 @@ using Yorganize.Showcase.Web.Models;
 namespace Yorganize.Showcase.Web.Controllers
 {
     [Authorize]
-    //[InitializeSimpleMembership]
     public class AccountController : Controller
     {
         //
@@ -33,76 +32,12 @@ namespace Yorganize.Showcase.Web.Controllers
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
             AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-            if (!result.IsSuccessful)
-            {
-                return RedirectToAction("ExternalLoginFailure");
-            }
 
+            if (!result.IsSuccessful)
+                return RedirectToAction("Index","Home");
+          
             FormsAuthentication.SetAuthCookie(result.UserName, false);
             return RedirectToLocal(returnUrl);
-
-            /*
-                // User is new, ask for their desired membership name
-                string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-                ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
-             */
-        }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
-        {
-            string provider = null;
-            string providerUserId = null;
-
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
-            {
-                // return RedirectToAction("Manage");
-            }
-
-            if (ModelState.IsValid)
-            {
-                // Insert a new user into the database
-                //using (UsersContext db = new UsersContext())
-                //{
-                //    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
-                //    // Check if user already exists
-                //    if (user == null)
-                //    {
-                //        // Insert name into the profile table
-                //        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
-                //        db.SaveChanges();
-
-                //        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                //        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
-
-                //        return RedirectToLocal(returnUrl);
-                //    }
-                //    else
-                //    {
-                //        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                //    }
-                //}
-            }
-
-            ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
-        }
-
-        //
-        // GET: /Account/ExternalLoginFailure
-
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
-            return View();
         }
 
         #region Helpers
@@ -116,13 +51,6 @@ namespace Yorganize.Showcase.Web.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-        }
-
-        public enum ManageMessageId
-        {
-            ChangePasswordSuccess,
-            SetPasswordSuccess,
-            RemoveLoginSuccess,
         }
 
         internal class ExternalLoginResult : ActionResult

@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YOrganize.Showcase.Web</RootNamespace>
+    <RootNamespace>Yorganize.Showcase.Web</RootNamespace>
     <AssemblyName>Yorganize.Showcase.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
@@ -39,7 +39,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\packages\Ninject.Web.Common.3.0.0.7\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\packages\Ninject.MVC3.3.0.0.6\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -114,6 +126,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
@@ -179,6 +194,7 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -188,7 +204,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AutomapperExtensions.cs" />
+    <Compile Include="Infrastructure\AutoMapperNinjectModule.cs" />
+    <Compile Include="Infrastructure\JsonNetResult.cs" />
+    <Compile Include="Mappings\BlogMappings.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BlogModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +224,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
+    <Content Include="Content\icons\favicon.ico" />
     <Content Include="Content\images\bg_noise-2.png" />
     <Content Include="Content\images\bg_noise-5.png" />
     <Content Include="Content\images\clients\amazon.png" />
@@ -219,6 +241,25 @@
     <Content Include="Content\images\slides\yorganize_devices.png" />
     <Content Include="Content\images\yorganize-logo.png" />
     <Content Include="Content\images\yorganize_website_logo_63px.png" />
+    <Content Include="Content\kendo\bootstrap\editor.png" />
+    <Content Include="Content\kendo\bootstrap\imagebrowser.png" />
+    <Content Include="Content\kendo\bootstrap\loading-image.gif" />
+    <Content Include="Content\kendo\bootstrap\loading.gif" />
+    <Content Include="Content\kendo\bootstrap\slider-h.gif" />
+    <Content Include="Content\kendo\bootstrap\slider-v.gif" />
+    <Content Include="Content\kendo\bootstrap\sprite%402x.png" />
+    <Content Include="Content\kendo\bootstrap\sprite.png" />
+    <Content Include="Content\kendo\default\editor.png" />
+    <Content Include="Content\kendo\default\imagebrowser.png" />
+    <Content Include="Content\kendo\default\loading-image.gif" />
+    <Content Include="Content\kendo\default\loading.gif" />
+    <Content Include="Content\kendo\default\slider-h.gif" />
+    <Content Include="Content\kendo\default\slider-v.gif" />
+    <Content Include="Content\kendo\default\sprite%402x.png" />
+    <Content Include="Content\kendo\default\sprite.png" />
+    <Content Include="Content\kendo\kendo.bootstrap.min.css" />
+    <Content Include="Content\kendo\kendo.common.min.css" />
+    <Content Include="Content\kendo\kendo.default.min.css" />
     <Content Include="Content\theme-style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -280,9 +321,15 @@
     <Content Include="Content\font\fontawesome-webfont.ttf" />
     <Content Include="Content\font\fontawesome-webfont.eot" />
     <Content Include="Content\font\FontAwesome.otf" />
+    <Content Include="hibernate.cfg.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Web.connections.config" />
     <None Include="Properties\PublishProfiles\yorganize - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\yorganize - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\backbone.js" />
+    <Content Include="Scripts\backbone.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\html5shim.js" />
@@ -302,11 +349,16 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo.web.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -338,14 +390,27 @@
     <Content Include="Views\Blog\Partial\_Comments.cshtml" />
     <Content Include="Views\Video\Index.cshtml" />
     <Content Include="Views\Video\Partial\_Sidebar.cshtml" />
+    <Content Include="Views\Blog\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Content\icons\" />
     <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yorganize.Business\Yorganize.Business.csproj">
+      <Project>{78415f2f-45bc-4bc5-9643-f7a3deb03261}</Project>
+      <Name>Yorganize.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yorganize.Showcase.Business\Yorganize.Showcase.Business.csproj">
+      <Project>{e38a47ca-97a8-4f3e-bac9-4eaf874be97c}</Project>
+      <Name>Yorganize.Showcase.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yorganize.Showcase.Domain\Yorganize.Showcase.Domain.csproj">
+      <Project>{e8ae9d8f-7604-49f7-8ab3-9ad95544b3bd}</Project>
+      <Name>Yorganize.Showcase.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

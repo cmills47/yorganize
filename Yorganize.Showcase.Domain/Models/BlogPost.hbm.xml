@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Yorganize.Showcase.Domain.Models" assembly="Yorganize.Showcase.Domain" auto-import="false">
+
+  <class name="BlogPost" table="BlogPost">
+
+    <id name="ID" column="BlogPostId">
+      <generator class="guid"></generator>
+    </id>
+
+    <property name="Title" />
+    <property name="Slug" />
+    <property name="Header" />
+    <property name="Content" column="[Content]" />
+    <property name="ImageUrl" />
+    <property name="ThumbnailUrl" />
+    <property name="Created" />
+
+    <!--<many-to-one name="Author" column="MemberId" />-->
+
+  </class>
+
+</hibernate-mapping>

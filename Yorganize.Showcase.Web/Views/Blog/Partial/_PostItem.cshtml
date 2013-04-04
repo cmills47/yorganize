@@ -1,22 +1,28 @@
-﻿<div class="media row">
-    <a class="span2" href="@Url.Action("Post")">
-        <img src="~/Content/images/slides/feature comparison.png" alt="Picture of frog by Ben Fredericson" class="media-object img-polaroid" />
+﻿@model Yorganize.Showcase.Web.Models.BlogPostItemModel
+<div class="media row">
+    <a class="span2" href="@Url.Action("Post", new { id = @Model.Slug })">
+        @if (!string.IsNullOrEmpty(Model.ThumbnailUrl))
+        {
+            <img src="@Url.Content(@Model.ThumbnailUrl)" alt="Post thumbnail" class="media-object img-polaroid" />
+        }
     </a>
     <div class="media-body span6">
         <!-- Meta details -->
         <ul class="inline meta muted">
-            <li><i class="icon-calendar"></i><span class="visible-desktop">Created:</span> Sat 12th Jan 2013</li>
-            <li><i class="icon-user"></i><span class="visible-desktop">By</span> <a href="#">Tom</a></li>
+            <li><i class="icon-calendar"></i><span class="visible-desktop">Created:</span>@Model.Created.ToShortDateString() &nbsp; @Model.Created.ToShortTimeString()</li>
+            <li><i class="icon-user"></i><span class="visible-desktop">By</span> <a href="#">Yorganize</a></li>
             @*<li><i class="icon-tags"></i><span class="visible-desktop">Tags:</span> <a href="#">general</a></li>*@
         </ul>
-        <h4 class="title media-heading"><a href="@Url.Action("Post")">EGTD App Comparison - Core Features</a></h4>
+        <h4 class="title media-heading"><a href="@Url.Action("Post", new { id = @Model.Slug })">@Model.Title</a></h4>
 
         <p>
-            There are a number of GTD Apps out there, and the purpose of this post is to describe the functionality they offer as it relates to a full GTD system. The main platforms for GTD systems at present are iOS and websites.  There are several Windows 8 apps as well that can be used to implement GTD, but aside from Yorganize they are either not GTD-focused or their interface is much more suitable for basic todo lists and the interface is difficult to use for typical GTD workflows.
+            @Model.Excerpt
         </p>
 
-        <ul class="inline links">
-            <li><a href="@Url.Action("Post")" class="btn btn-mini"><i class="icon-circle-arrow-right"></i>Read more</a></li>
+        <ul class="inline">
+            <li><a href="@Url.Action("Post", new { id = @Model.Slug })" class="btn btn-mini">Read more</a></li>
+            <li><a href="@Url.Action("Post", new { id = @Model.Slug, edit = true })" class="btn btn-mini">Edit post</a></li>
+            <li><a href="#" class="btn btn-mini">Remove</a></li>
             @*<li><a href="blog-post.htm#comments" class="btn btn-mini"><i class="icon-comment"></i>30 Comments</a></li>*@
         </ul>
     </div>

@@ -1,26 +1,27 @@
-﻿@{
+﻿@model List<Yorganize.Showcase.Web.Models.BlogPostItemModel>
+@{
     ViewBag.Title = "Blog";
     Layout = "~/Views/Shared/_Home.cshtml";
 }
+
 @section header{
     <div id="highlighted">
         <div class="container">
             <div class="row-fluid header">
-                <h2 class="page-title"><span>Blog</span> <small>Sometimes words do speak louder than actions</small></h2>
+                <h2 class="page-title"><span>Blog</span>  </h2>
+                <a href="@Url.Action("Post")" class="btn btn-mini back-link">Create post</a>
             </div>
         </div>
     </div>
 }
 <div class="row">
     <!--Blog Roll Content-->
-    <div class="span8 blog-list">
-
-        @for (int i = 0; i < 3; i++)
+    <div id="blog-container" class="span8 blog-list">
+        @foreach (var item in Model)
         {
             <!-- Blog post -->
-            @Html.Partial("Partial/_PostItem")
+            @Html.Partial("Partial/_PostItem", item)
         }
-
         <!--Insert pagination here... -->
     </div>
 
@@ -28,3 +29,4 @@
     @Html.Partial("Partial/_Sidebar")
 
 </div>
+

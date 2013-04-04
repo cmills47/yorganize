@@ -1,14 +1,16 @@
-﻿@{
+﻿@model Yorganize.Showcase.Web.Models.BlogPostModel
+@{
     ViewBag.Title = "Post";
     Layout = "~/Views/Shared/_Home.cshtml";
 }
+
 
 @section header{
     <div id="highlighted">
         <div class="container">
             <div class="row-fluid header">
-                <h2 class="page-title"><span>Blog</span> <small>Sometimes words do speak louder than actions</small></h2>
-                <a href="@Url.Action("Index")" class="btn btn-mini back-link"><i class="icon-arrow-left"></i>Back to Blog</a>
+                <h2 class="page-title"><span>Blog</span> <small>@Model.Title</small></h2>
+                <a href="@Url.Action("Index")" class="btn btn-mini back-link">Back to Blog</a>
             </div>
         </div>
     </div>
@@ -22,22 +24,30 @@
         <!--Main blog post-->
         <div class="media">
             <div class="media-body">
-                <h3 class="title media-heading">GTD App Comparison - Core Features</h3>
+                <h3 class="title media-heading">@Model.Title</h3>
                 <!-- Meta details -->
                 <ul class="inline meta muted">
-                    <li><i class="icon-calendar"></i><span class="visible-desktop">Created:</span> Sun 6th Jan 2013</li>
-                    <li><i class="icon-user"></i><span class="visible-desktop">By</span> <a href="#">Tom</a></li>
-                    @*<li><i class="icon-tags"></i><span class="visible-desktop">Tags:</span> <a href="#">culture</a></li>*@
+                    <li><i class="icon-calendar"></i><span class="visible-desktop">Created:</span>@Model.Created.ToShortDateString() &nbsp; @Model.Created.ToShortTimeString()</li>
+                    <li><i class="icon-user"></i><span class="visible-desktop">By</span> <a href="#">@Model.Author</a></li>
                 </ul>
-                <p class="lead">Montes cursus, turpis scelerisque adipiscing vel in. Ultrices platea ridiculus nascetur vut aliquet odio vel placerat! A, ultricies augue turpis scelerisque, porta diam ac!</p>
-                <img src="~/Content/images/slides/feature comparison.png" alt="Picture of frog by Ben Fredericson" class="media-object" />
-                <br />
-                <p>There are a number of GTD Apps out there, and the purpose of this post is to describe the functionality they offer as it relates to a full GTD system.</p>
-                <p>The main platforms for GTD systems at present are iOS and websites.  There are several Windows 8 apps as well that can be used to implement GTD, but aside from Yorganize they are either not GTD-focused or their interface is much more suitable for basic todo lists and the interface is difficult to use for typical GTD workflows.</p>
-                <p>In the iOS world, OmniFocus and Things are the most prominent apps.</p>
-                <p>OmniFocus implements every basic aspect of a GTD system, ranging from Collection with the Inbox to a special Review mode.  It does so with a relatively simple interface that requires a little bit of learning but works very efficiently once used to it.  It offers a lot of customization options while these features don't get in the way much for lighter users.</p>
-                <p>Things for iPad, on the other hand, is a very easy-to-use app with little learning required, and it's a beautiful app as well.  For those who want to be very organized and end up with hundreds of actions in their system at a given point in time it may be challenging due to the lack of grouping mechanisms (e.g. nested projects, contexts).  However, for those who don't need these features Things for iPad should generally be easier to use.</p>
-                <p>In the next post, we'll discuss the main web apps to implement GTD: Toodledo and Remember the Milk.</p>
+
+                <!-- Header -->
+                @if (!string.IsNullOrEmpty(Model.Header))
+                {
+                    <p class="lead">@Model.Header</p>
+                    <br />
+                }
+
+                <!-- Image -->
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Url.Content(Model.ImageUrl)" class="media-object" />
+                    <br />
+                }
+
+                <!-- Content -->
+                @Html.Raw(Model.Content)
             </div>
         </div>
 
