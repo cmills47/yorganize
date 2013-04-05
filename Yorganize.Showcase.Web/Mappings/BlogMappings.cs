@@ -16,6 +16,7 @@ namespace Yorganize.Showcase.Web.Mappings
 
             Mapper
                 .CreateMap<BlogPost, BlogPostItemModel>()
+                .ForMember(m=>m.ThumbnailUrl, o=>o.MapFrom(s=>s.ImageUrl))
                 .ForMember(m => m.Excerpt, o => o.MapFrom(s => s.Content))
                 .ForMember(m => m.Excerpt, o => o.AddFormatter(new ExcerptFormatter()));
 
@@ -34,7 +35,7 @@ namespace Yorganize.Showcase.Web.Mappings
                 const string pattern = @"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>";
                 value = HttpUtility.HtmlDecode(value);
                 string formatted = Regex.Replace(value, pattern, string.Empty);
-                var maxlen = System.Math.Min(435, formatted.Length);
+                var maxlen = System.Math.Min(255, formatted.Length);
                 return formatted.Substring(0, maxlen) + " ...";
             }
         }

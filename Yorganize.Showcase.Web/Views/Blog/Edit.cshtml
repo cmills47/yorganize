@@ -13,7 +13,29 @@
     <script src="~/Scripts/kendo.web.min.js"></script>
     <script src="~/Scripts/blog/editor.js"></script>
     <script src="~/Scripts/blog/form.js"></script>
-    <script src="~/Scripts/blog/upload.js"></script>
+    <!-- Enable image upload on existing posts-->
+    @if (!Model.IsNew)
+    {
+        <script src="~/Scripts/blog/upload.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // create upload control for post image
+                $("#files").kendoUpload({
+                    async: {
+                        saveUrl: '@Url.Action("UploadImage")',
+                        // removeUrl: "remove",
+                        autoUpload: true
+                    },
+                    multiple: false,
+                    showFileList: false,
+                    complete: onUploadComplete,
+                    error: onUploadError,
+                    success: onUploadSuccess,
+                    upload: onUpload
+                });
+            });
+        </script>
+    }
 }
 
 @section header{
@@ -23,6 +45,12 @@
                 <h2 class="page-title"><span>Blog</span></h2>
                 <a href="@Url.Action("Index")" class="btn btn-mini back-link">Back to Blog</a>
                 <a class="back-link">&nbsp;</a>
+                <!--Show view post on existing posts-->
+                @if (!Model.IsNew)
+                {
+                    <a href="@Url.Action("Post", new { id = Model.Slug })" class="btn btn-mini back-link">View post</a>
+                    <a class="back-link">&nbsp;</a>
+                }
                 <a href="#" id="form-submit" class="btn btn-mini back-link">Save changes</a>
             </div>
         </div>
@@ -45,27 +73,39 @@
                     <h4>Header</h4>
                     @Html.TextAreaFor(m => m.Header, new { placeholder = "Post header", @class = "span8", rows = 5 })
 
-                    <!-- Image -->
-                    <h4>Featured image</h4>
-                    <div class="span4">
-                        <div class="row">
-                            @if (!string.IsNullOrEmpty(@Model.ImageUrl))
-                            {
-                                <img src="@Url.Content(Model.ImageUrl)" class="media-object img-polaroid" />
-                            }
+                    <!-- If post exists (not new) -->
+                    @if (!Model.IsNew)
+                    {
+                        <!-- Image -->
+                        <h4>Featured image</h4>
+                        <div class="span4">
+                            <div class="row">
+                                @if (!string.IsNullOrEmpty(@Model.ImageUrl))
+                                {
+                                    <img src="@Url.Content(Model.ImageUrl)" class="media-object img-polaroid" />
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div class="span3">
-                        Please select a featured image.
-                        <input name="files" id="files" type="file" />
-                        <br />
+                        <div class="span3">
+                            Please select a featured image...
+                            <i id="spinner" class="icon-cog icon-spin icon-2x hidden"></i>
+                            <input name="files" id="files" type="file" accept="image/*" />
+                            <br />
+                            <div class="span3">
+                                <div class="row">
+                                    @Html.HiddenFor(m => m.ImageUrl, new { id = "featured-image" })
+                                    <img id="preview-image" src="" alt="Preview" class="media-object img-polaroid hidden" style="width: 100%;" />
+                                </div>
+                                <!-- Preview image -->
 
-                        @if (!string.IsNullOrEmpty(@Model.ImageUrl))
-                        {
-                            <img src="@Url.Content(Model.ImageUrl)" class="media-object img-polaroid" />
-                        }
-                    </div>
+                            </div>
 
+                        </div>
+                    }
+                    else // If post is new hide the upload controls -->
+                    {
+                        <p class="lead">Please save the post first to set a featured image.</p>
+                    }
                     <!-- Content -->
                     <div class="span8">
                         <div class="row">

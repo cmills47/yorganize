@@ -3,7 +3,7 @@
     <a class="span2" href="@Url.Action("Post", new { id = @Model.Slug })">
         @if (!string.IsNullOrEmpty(Model.ThumbnailUrl))
         {
-            <img src="@Url.Content(@Model.ThumbnailUrl)" alt="Post thumbnail" class="media-object img-polaroid" />
+            <img src="@Url.Content(@Model.ThumbnailUrl)" alt="Post thumbnail" class="media-object img-polaroid" style="max-height: 120px" />
         }
     </a>
     <div class="media-body span6">

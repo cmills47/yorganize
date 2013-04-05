@@ -17,6 +17,11 @@ namespace Yorganize.Showcase.Web.Models
             set;
         }
 
+        public bool IsNew
+        {
+            get { return ID == Guid.Empty; }
+        }
+
         [Required]
         [Display(Name = "Title")]
         public string Title { get; set; }

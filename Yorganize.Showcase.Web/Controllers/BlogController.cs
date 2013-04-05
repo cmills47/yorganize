@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using YOrganize.Showcase.Web.Infrastructure;
 using Yorganize.Business.Exceptions;
+using Yorganize.Business.Providers.Storage;
 using Yorganize.Business.Repository;
 using Yorganize.Showcase.Domain.Models;
 using System.Collections.Generic;
@@ -25,7 +28,7 @@ namespace Yorganize.Showcase.Web.Controllers
             _blogPostRepository.BeginTransaction();
 
             var q = from post in _blogPostRepository.All()
-                    orderby post.Created descending 
+                    orderby post.Created descending
                     select post;
 
             var posts = q.ToList();
@@ -37,6 +40,12 @@ namespace Yorganize.Showcase.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Create or edit a post
+        /// </summary>
+        /// <param name="id">The 'Slug' of the post</param>
+        /// <param name="edit">If true, open in edit mode</param>
+        /// <returns></returns>
         public ActionResult Post(string id, bool edit = false)
         {
             BlogPostModel model;
@@ -94,7 +103,7 @@ namespace Yorganize.Showcase.Web.Controllers
             }
 
             Alert("The post has been saved.", "alert-success");
-            return RedirectToAction("Post", new { id = post.Slug });
+            return RedirectToAction("Post", new { id = post.Slug, edit = true });
         }
 
         public ActionResult RemovePost(Guid id)
@@ -118,6 +127,24 @@ namespace Yorganize.Showcase.Web.Controllers
 
             Alert("The post has been removed", "alert-success");
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult UploadImage(Guid postID, IEnumerable<HttpPostedFileBase> files)
+        {
+            var filesList = files as IList<HttpPostedFileBase> ?? files.ToList();
+
+            if (filesList.Count() != 1)
+                throw new BusinessException("Oops, something has gone wrong with your file!");
+
+            var file = filesList.First();
+
+            //TODO: check file content type
+            string path = string.Format("showcase/blog/posts/images/{0}{1}", postID, System.IO.Path.GetExtension(file.FileName));
+            StorageProviderManager.Provider.UploadFile(file.InputStream, path);
+            var Uri = StorageProviderManager.Provider.GetFileUri(path);
+
+            return new JsonNetResult(Uri.AbsoluteUri);
         }
 
     }

@@ -27,7 +27,7 @@ namespace Yorganize.Tests
         [Test]
         public void DownloadFile()
         {
-            var stream = _provider.DownloadFile("showcase/blog/posts/images/logo.png");
+         //   var stream = _provider.DownloadFile("showcase/blog/posts/images/logo.png");
         }
     }
 }
