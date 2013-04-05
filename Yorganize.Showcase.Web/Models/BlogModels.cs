@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Yorganize.Showcase.Web.Models
 {
@@ -16,6 +17,8 @@ namespace Yorganize.Showcase.Web.Models
             set;
         }
 
+        [Required]
+        [Display(Name = "Title")]
         public string Title { get; set; }
         public string Slug { get; set; }
         public string Header { get; set; }

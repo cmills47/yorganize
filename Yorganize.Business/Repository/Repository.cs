@@ -68,8 +68,16 @@ namespace Yorganize.Business.Repository
         public void Save(T entity)
         {
             BeginTransaction();
-            _session.SaveOrUpdate(entity);
-            CommitTransaction();
+            try
+            {
+                _session.SaveOrUpdate(entity);
+                CommitTransaction();
+            }
+            catch (Exception)
+            {
+                RollbackTransaction();
+                throw;
+            }
         }
 
         public void Delete(T entity)

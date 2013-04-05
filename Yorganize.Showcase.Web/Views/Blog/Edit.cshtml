@@ -14,7 +14,10 @@
     <script>
         $(document).ready(function () {
             // create Editor from textarea HTML element with default set of tools
-            $("#editor").kendoEditor();
+            $("#editor").kendoEditor({
+                encoded: true
+            });
+            // create upload control for post image
             $("#files").kendoUpload({
                 async: {
                     saveUrl: "save",
@@ -23,6 +26,8 @@
                 },
                 multiple: false
             });
+            // bind save button to form submit
+            $('#form-submit').click(function () { $("form#form-edit-post").submit(); });
         });
     </script>
 }
@@ -31,64 +36,66 @@
     <div id="highlighted">
         <div class="container">
             <div class="row-fluid header">
-                <h2 class="page-title"><span>Blog</span> <small>@Model.Title</small></h2>
+                <h2 class="page-title"><span>Blog</span></h2>
                 <a href="@Url.Action("Index")" class="btn btn-mini back-link">Back to Blog</a>
                 <a class="back-link">&nbsp;</a>
-                <a href="@Url.Action("Index")" class="btn btn-mini back-link">Save changes</a>
+                <a href="#" id="form-submit" class="btn btn-mini back-link">Save changes</a>
             </div>
         </div>
     </div>
 }
 
 <div class="row">
+    @using (Html.BeginForm("SavePost", "Blog", FormMethod.Post, new { id = "form-edit-post" }))
+    {
+        <input type="hidden" value="@Model.ID" id="ID" name="ID" />
+        <!--Blog Roll Content-->
+        <div class="span8 blog-post">
 
-    <!--Blog Roll Content-->
-    <div class="span8 blog-post">
+            <!--Main blog post-->
+            <div class="media">
+                <div class="media-body">
+                    <h4>Title</h4>
+                    @Html.TextBoxFor(m => m.Title, new { placeholder = "Post title", @class = "span8" })
 
-        <!--Main blog post-->
-        <div class="media">
-            <div class="media-body">
-                <h4>Title</h4>
-                @Html.TextBoxFor(m => m.Title, new { placeholder = "Post title", @class = "span8" })
+                    <h4>Header</h4>
+                    @Html.TextAreaFor(m => m.Header, new { placeholder = "Post header", @class = "span8", rows = 5 })
 
-                <h4>Header</h4>
-                @Html.TextAreaFor(m => m.Header, new { placeholder = "Post header", @class = "span8", rows = 5 })
+                    <!-- Image -->
+                    <h4>Post image</h4>
+                    <div class="span4">
+                        <div class="row">
+                            @if (!string.IsNullOrEmpty(@Model.ImageUrl))
+                            {
+                                <img src="@Url.Content(Model.ImageUrl)" class="media-object img-polaroid" />
+                            }
+                        </div>
+                    </div>
+                    <div class="span3">
+                        Please select an image for this post
+                        <input name="files" id="files" type="file" />
+                        <br />
 
-                <!-- Image -->
-                <h4>Post image</h4>
-                <div class="span4">
-                    <div class="row">
                         @if (!string.IsNullOrEmpty(@Model.ImageUrl))
                         {
                             <img src="@Url.Content(Model.ImageUrl)" class="media-object img-polaroid" />
                         }
                     </div>
-                </div>
-                <div class="span3">
-                    Please select an image for this post
-                    <input name="files" id="files" type="file" />
-                    <br />
 
-                    @if (!string.IsNullOrEmpty(@Model.ImageUrl))
-                    {
-                        <img src="@Url.Content(Model.ImageUrl)" class="media-object img-polaroid" />
-                    }
-                </div>
-
-                <!-- Content -->
-                <div class="span8">
-                    <div class="row">
-                        <h4>Content</h4>
-                        @Html.TextAreaFor(m => m.Content, new { rows = 30, id = "editor", style = "height:440px;width:770px;" })
+                    <!-- Content -->
+                    <div class="span8">
+                        <div class="row">
+                            <h4>Content</h4>
+                            @Html.TextAreaFor(m => m.Content, new { rows = 30, id = "editor", style = "height:440px;width:770px;" })
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!--Comments-->
+            @*@Html.Partial("Partial/_Comments")*@
         </div>
-
-        <!--Comments-->
-        @*@Html.Partial("Partial/_Comments")*@
-    </div>
-
+    }
     <!--Sidebar-->
     @Html.Partial("Partial/_Sidebar")
 

@@ -4,13 +4,14 @@
     Layout = "~/Views/Shared/_Home.cshtml";
 }
 
-
 @section header{
     <div id="highlighted">
         <div class="container">
             <div class="row-fluid header">
-                <h2 class="page-title"><span>Blog</span> <small>@Model.Title</small></h2>
+                <h2 class="page-title"><span>Blog</span></h2>
                 <a href="@Url.Action("Index")" class="btn btn-mini back-link">Back to Blog</a>
+                 <a class="back-link">&nbsp;</a>
+                <a href="@Url.Action("Post", new { id = @Model.Slug, edit = true })" class="btn btn-mini back-link">Edit post</a>
             </div>
         </div>
     </div>
@@ -47,7 +48,7 @@
                 }
 
                 <!-- Content -->
-                @Html.Raw(Model.Content)
+                  @Html.Raw(HttpUtility.HtmlDecode(Model.Content))
             </div>
         </div>
 

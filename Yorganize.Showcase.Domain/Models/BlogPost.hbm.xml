@@ -13,8 +13,9 @@
     <property name="Content" column="[Content]" />
     <property name="ImageUrl" />
     <property name="ThumbnailUrl" />
-    <property name="Created" />
-
+    <property name="Created" insert="false" update="false"/>
+    <property name="Author" />
+    
     <!--<many-to-one name="Author" column="MemberId" />-->
 
   </class>

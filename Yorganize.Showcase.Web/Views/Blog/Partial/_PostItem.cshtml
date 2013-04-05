@@ -16,7 +16,7 @@
         <h4 class="title media-heading"><a href="@Url.Action("Post", new { id = @Model.Slug })">@Model.Title</a></h4>
 
         <p>
-            @Model.Excerpt
+            @Html.Raw(HttpUtility.HtmlDecode(Model.Excerpt))
         </p>
 
         <ul class="inline">

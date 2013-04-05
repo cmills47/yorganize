@@ -8,7 +8,10 @@
     [ImageUrl]     VARCHAR (256)    NULL,
     [ThumbnailUrl] VARCHAR (256)    NULL,
     [Created]      DATETIME         CONSTRAINT [DF_BlogPost_Created] DEFAULT (getdate()) NOT NULL,
+    [Author]       NVARCHAR (50)    NULL,
     CONSTRAINT [PK_BlogPost] PRIMARY KEY CLUSTERED ([BlogPostId] ASC),
     CONSTRAINT [UK_BlogPost_Slug] UNIQUE NONCLUSTERED ([Slug] ASC)
 );
+
+
 

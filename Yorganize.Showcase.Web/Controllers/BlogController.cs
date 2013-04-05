@@ -74,5 +74,20 @@ namespace Yorganize.Showcase.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult SavePost(BlogPostModel model)
+        {
+            var post = new BlogPost()
+                           {
+                               Author = User.Identity.Name
+                           };
+
+            Mapper.Map(model, post);
+
+            _blogPostRepository.Save(post);
+
+            return RedirectToAction("Post", new { id = post.Slug });
+        }
+
     }
 }

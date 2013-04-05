@@ -21,6 +21,6 @@ namespace Yorganize.Showcase.Domain.Models
 
         public virtual DateTime Created { get; set; }
 
-        public virtual Member Author { get; set; }
+        public virtual string Author { get; set; }
     }
 }
