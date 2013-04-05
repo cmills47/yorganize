@@ -24,7 +24,6 @@ namespace Yorganize.Showcase.Web.Mappings
                 .ForMember(m => m.Created, o => o.Ignore())
                 .ForMember(m => m.Slug, o => o.MapFrom(s => s.Title))
                 .ForMember(m => m.Slug, o => o.AddFormatter(new SlugFormatter()));
-
         }
 
         private class ExcerptFormatter : ValueFormatter<string>

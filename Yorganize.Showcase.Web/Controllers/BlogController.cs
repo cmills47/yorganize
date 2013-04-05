@@ -7,10 +7,11 @@ using Yorganize.Showcase.Domain.Models;
 using System.Collections.Generic;
 using Yorganize.Showcase.Web.Models;
 using AutoMapper;
+using System.Transactions;
 
 namespace Yorganize.Showcase.Web.Controllers
 {
-    public class BlogController : Controller
+    public class BlogController : BaseController
     {
         private readonly IKeyedRepository<Guid, BlogPost> _blogPostRepository;
 
@@ -24,6 +25,7 @@ namespace Yorganize.Showcase.Web.Controllers
             _blogPostRepository.BeginTransaction();
 
             var q = from post in _blogPostRepository.All()
+                    orderby post.Created descending 
                     select post;
 
             var posts = q.ToList();
@@ -43,12 +45,10 @@ namespace Yorganize.Showcase.Web.Controllers
             {
                 if (!Request.IsAuthenticated)
                     throw new BusinessException("You are not authorized to create new posts.");
+
                 // create new post
                 model = new BlogPostModel()
                             {
-                                Title = "please fill in the title",
-                                Header = "please fill in the header information",
-                                Content = "<br/>&nbsp;please fill in the post content",
                                 Author = User.Identity.Name
                             };
 
@@ -75,18 +75,49 @@ namespace Yorganize.Showcase.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult SavePost(BlogPostModel model)
         {
-            var post = new BlogPost()
-                           {
-                               Author = User.Identity.Name
-                           };
+            var post = new BlogPost();
 
             Mapper.Map(model, post);
 
-            _blogPostRepository.Save(post);
+            if (string.IsNullOrEmpty(post.Author))
+                post.Author = User.Identity.Name;
+            try
+            {
+                _blogPostRepository.Save(post);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessException("There is already a post with the same title.", ex);
+            }
 
+            Alert("The post has been saved.", "alert-success");
             return RedirectToAction("Post", new { id = post.Slug });
+        }
+
+        public ActionResult RemovePost(Guid id)
+        {
+            if (!Request.IsAuthenticated)
+                throw new BusinessException("You are not authorized to remove this post.");
+
+            using (TransactionScope ts = new TransactionScope())
+            {
+                _blogPostRepository.BeginTransaction();
+                var post = _blogPostRepository.FindByID(id);
+                _blogPostRepository.CommitTransaction();
+
+                if (post == null)
+                    throw new BusinessException("Failed to retrieve post or post has already been removed.");
+
+                _blogPostRepository.Delete(post);
+
+                ts.Complete();
+            }
+
+            Alert("The post has been removed", "alert-success");
+            return RedirectToAction("Index");
         }
 
     }

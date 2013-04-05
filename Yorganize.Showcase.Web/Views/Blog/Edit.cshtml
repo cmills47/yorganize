@@ -11,25 +11,9 @@
 
 @section scripts{
     <script src="~/Scripts/kendo.web.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // create Editor from textarea HTML element with default set of tools
-            $("#editor").kendoEditor({
-                encoded: true
-            });
-            // create upload control for post image
-            $("#files").kendoUpload({
-                async: {
-                    saveUrl: "save",
-                    removeUrl: "remove",
-                    autoUpload: true
-                },
-                multiple: false
-            });
-            // bind save button to form submit
-            $('#form-submit').click(function () { $("form#form-edit-post").submit(); });
-        });
-    </script>
+    <script src="~/Scripts/blog/editor.js"></script>
+    <script src="~/Scripts/blog/form.js"></script>
+    <script src="~/Scripts/blog/upload.js"></script>
 }
 
 @section header{
@@ -62,7 +46,7 @@
                     @Html.TextAreaFor(m => m.Header, new { placeholder = "Post header", @class = "span8", rows = 5 })
 
                     <!-- Image -->
-                    <h4>Post image</h4>
+                    <h4>Featured image</h4>
                     <div class="span4">
                         <div class="row">
                             @if (!string.IsNullOrEmpty(@Model.ImageUrl))
@@ -72,7 +56,7 @@
                         </div>
                     </div>
                     <div class="span3">
-                        Please select an image for this post
+                        Please select a featured image.
                         <input name="files" id="files" type="file" />
                         <br />
 

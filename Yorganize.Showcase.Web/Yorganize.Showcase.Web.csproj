@@ -198,6 +198,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\VideoController.cs" />
@@ -331,6 +332,9 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\backbone.min.js" />
+    <Content Include="Scripts\blog\editor.js" />
+    <Content Include="Scripts\blog\form.js" />
+    <Content Include="Scripts\blog\upload.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\html5shim.js" />
@@ -392,6 +396,7 @@
     <Content Include="Views\Video\Index.cshtml" />
     <Content Include="Views\Video\Partial\_Sidebar.cshtml" />
     <Content Include="Views\Blog\Edit.cshtml" />
+    <Content Include="Views\Shared\Partial\_Message.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />
