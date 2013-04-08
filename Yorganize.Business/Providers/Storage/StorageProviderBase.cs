@@ -14,7 +14,8 @@ namespace Yorganize.Business.Providers.Storage
         // files
         public abstract void UploadFile(System.IO.Stream source, string path);
         public abstract System.IO.Stream DownloadFile(string path);
-        public abstract uint DeleteFiles(IEnumerable<string> paths);
+        public abstract bool DeleteFile(Uri uri);
+        public abstract uint DeleteFiles(IEnumerable<Uri> uris);
 
         // url and shared access signiatures
         public abstract Uri GetFileUri(string path);

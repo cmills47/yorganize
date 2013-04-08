@@ -47,6 +47,12 @@ namespace Yorganize.Showcase.Web.Models
         public DateTime Created { get; set; }
         public string Author { get; set; }
         public string ThumbnailUrl { get; set; }
+    }
 
+    public class BlogArchiveModel
+    {
+        public string Month { get; set; }
+        public uint Year { get; set; }
+        public uint Posts { get; set; }
     }
 }

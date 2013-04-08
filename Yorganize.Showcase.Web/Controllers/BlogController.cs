@@ -87,7 +87,13 @@ namespace Yorganize.Showcase.Web.Controllers
         [Authorize]
         public ActionResult SavePost(BlogPostModel model)
         {
-            var post = new BlogPost();
+            var post = model.ID == Guid.Empty ? new BlogPost() : _blogPostRepository.FindByID(model.ID);
+
+            if (post == null)
+                throw new BusinessException(string.Format("Could not find post {0}", model.Slug));
+
+            // delete featured image path - if a featured image was set and now has been removed
+            var deleteFeaturedImage = string.IsNullOrEmpty(model.ImageUrl) && !string.IsNullOrEmpty(post.ImageUrl) ? post.ImageUrl : null;
 
             Mapper.Map(model, post);
 
@@ -95,7 +101,14 @@ namespace Yorganize.Showcase.Web.Controllers
                 post.Author = User.Identity.Name;
             try
             {
-                _blogPostRepository.Save(post);
+                using (TransactionScope ts = new TransactionScope())
+                {
+                    _blogPostRepository.Save(post);
+                    if (!string.IsNullOrEmpty(deleteFeaturedImage))
+                        StorageProviderManager.Provider.DeleteFile(new Uri(deleteFeaturedImage));
+
+                    ts.Complete();
+                }
             }
             catch (Exception ex)
             {
@@ -120,7 +133,12 @@ namespace Yorganize.Showcase.Web.Controllers
                 if (post == null)
                     throw new BusinessException("Failed to retrieve post or post has already been removed.");
 
+                var deleteFeaturedImage = post.ImageUrl;
+
                 _blogPostRepository.Delete(post);
+
+                if (!string.IsNullOrEmpty(deleteFeaturedImage))
+                    StorageProviderManager.Provider.DeleteFile(new Uri(deleteFeaturedImage));
 
                 ts.Complete();
             }
@@ -130,6 +148,7 @@ namespace Yorganize.Showcase.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult UploadImage(Guid postID, IEnumerable<HttpPostedFileBase> files)
         {
             var filesList = files as IList<HttpPostedFileBase> ?? files.ToList();
@@ -140,11 +159,16 @@ namespace Yorganize.Showcase.Web.Controllers
             var file = filesList.First();
 
             //TODO: check file content type
-            string path = string.Format("showcase/blog/posts/images/{0}{1}", postID, System.IO.Path.GetExtension(file.FileName));
+            string path = string.Format("showcase/blog/posts/images/{0}", postID);
             StorageProviderManager.Provider.UploadFile(file.InputStream, path);
             var Uri = StorageProviderManager.Provider.GetFileUri(path);
 
             return new JsonNetResult(Uri.AbsoluteUri);
+        }
+
+        public ActionResult Sidebar()
+        {
+            return PartialView("Partial/_Sidebar");
         }
 
     }

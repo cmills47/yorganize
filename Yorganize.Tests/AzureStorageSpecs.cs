@@ -1,14 +1,9 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Yorganize.Business.Providers.Storage;
 
-namespace Yorganize.Tests
+namespace Yorganize.Showcase.Tests
 {
     [TestFixture]
     public class AzureStorageSpecs

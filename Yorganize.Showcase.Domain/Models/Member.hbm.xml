@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Yorganize.Showcase.Domain.Models" assembly="Yorganize.Showcase.Domain" auto-import="false">
+
+  <class name="Member" table="Member">
+
+    <id name="ID" column="MemberId">
+      <generator class="guid"></generator>
+    </id>
+
+    <property name="LiveId" />
+
+  </class>
+
+</hibernate-mapping>

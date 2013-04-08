@@ -119,17 +119,21 @@ namespace Yorganize.Business.Providers.Storage
             return stream;
         }
 
-        public override uint DeleteFiles(IEnumerable<string> paths)
+        public override bool DeleteFile(Uri uri)
+        {
+            CloudBlobClient client = StorageAccount.CreateCloudBlobClient();
+            var blob = client.GetBlobReferenceFromServer(uri);
+
+            return blob.DeleteIfExists();
+        }
+
+        public override uint DeleteFiles(IEnumerable<Uri> uris)
         {
             uint deleted = 0;
-            CloudBlobClient client = StorageAccount.CreateCloudBlobClient();
 
-            foreach (var path in paths)
-            {
-                var blob = client.GetBlobReferenceFromServer(new Uri(path));
-                if (blob.DeleteIfExists())
+            foreach (var uri in uris)
+                if (DeleteFile(uri))
                     deleted++;
-            }
 
             return deleted;
         }

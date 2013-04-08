@@ -7,8 +7,8 @@
     <ProjectGuid>{65BBE02C-7190-4DD2-A97C-D6A882CD8090}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yorganize.Tests</RootNamespace>
-    <AssemblyName>Yorganize.Tests</AssemblyName>
+    <RootNamespace>Yorganize.Showcase.Tests</RootNamespace>
+    <AssemblyName>Yorganize.Showcase.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
@@ -47,12 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureStorageSpecs.cs" />
+    <Compile Include="BlogPostSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SetUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -65,6 +71,10 @@
       <Project>{78415f2f-45bc-4bc5-9643-f7a3deb03261}</Project>
       <Name>Yorganize.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Yorganize.Showcase.Domain\Yorganize.Showcase.Domain.csproj">
+      <Project>{e8ae9d8f-7604-49f7-8ab3-9ad95544b3bd}</Project>
+      <Name>Yorganize.Showcase.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
@@ -74,6 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\yorganize_png.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="hibernate.cfg.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

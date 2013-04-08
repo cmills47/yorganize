@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Showcase.Web", "Y
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Yorganize.Showcase.Database", "YOrganize.Showcase.Database\Yorganize.Showcase.Database.sqlproj", "{D7EB0FEE-6A6B-40FC-A319-4A3ABB2352C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Tests", "YOrganize.Tests\Yorganize.Tests.csproj", "{65BBE02C-7190-4DD2-A97C-D6A882CD8090}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Showcase.Tests", "YOrganize.Tests\Yorganize.Showcase.Tests.csproj", "{65BBE02C-7190-4DD2-A97C-D6A882CD8090}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Business", "Yorganize.Business\Yorganize.Business.csproj", "{78415F2F-45BC-4BC5-9643-F7A3DEB03261}"
 EndProject

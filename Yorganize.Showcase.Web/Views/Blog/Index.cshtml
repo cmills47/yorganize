@@ -23,17 +23,20 @@
         <div class="container">
             <div class="row-fluid header">
                 <h2 class="page-title"><span>Blog</span>  </h2>
-                <a href="@Url.Action("Post")" class="btn btn-mini back-link">Create post</a>
+                @if (Request.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Post")" class="btn btn-mini back-link">Create post</a>
+                }
             </div>
         </div>
     </div>
 }
 
 <div class="row">
-    
+
     <!--Blog Roll Content-->
     <div id="blog-container" class="span8 blog-list">
-        @if (Model == null || Model.Count == 0)  
+        @if (Model == null || Model.Count == 0)
         {
             // Show message instead of posts if no posts available
             <div class="media row">
@@ -45,14 +48,14 @@
 
             foreach (var item in Model)
             {
-                <!-- Blog post -->
-                @Html.Partial("Partial/_PostItem", item)
+            <!-- Blog post -->
+            @Html.Partial("Partial/_PostItem", item)
             }
         }
         <!--Insert pagination here... -->
     </div>
 
     <!--Sidebar-->
-    @Html.Partial("Partial/_Sidebar")
+    @Html.Action("Sidebar")
 
 </div>

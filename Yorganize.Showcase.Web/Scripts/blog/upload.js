@@ -1,7 +1,7 @@
 ﻿
 function onUpload(e) {
     e.data = { 'postID': $('#ID').val() };
-    $('#spinner').removeClass("hidden");
+    $('#spinner-upload').removeClass("hidden");
     $('#preview-image').addClass("hidden");
     e.sender.disable();
     console.log("uploading ", e);
@@ -20,7 +20,17 @@ function onUploadSuccess(e) {
 
 function onUploadComplete(e) {
     e.sender.enable();
-    $('#spinner').addClass("hidden");
+    $('#spinner-upload').addClass("hidden");
     $('#preview-image').removeClass("hidden");
     console.log("complete ", e);
+}
+
+function onFeaturedImageRemove() {
+    if (confirm("Are you sure you want to remove the featured image?")) {
+        $('#featured-image').val("");
+        $('#featured-image-preview').remove();
+        $('#remove-featured-image').remove();
+    }
+
+    return false;
 }

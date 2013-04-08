@@ -21,9 +21,12 @@
 
         <ul class="inline">
             <li><a href="@Url.Action("Post", new { id = @Model.Slug })" class="btn btn-mini">Read more</a></li>
-            <li><a href="@Url.Action("Post", new { id = @Model.Slug, edit = true })" class="btn btn-mini">Edit post</a></li>
-            <li><a href="@Url.Action("RemovePost", new { id = @Model.ID })" class="btn btn-mini" data-action="remove-post">Remove</a></li>
-            @*<li><a href="blog-post.htm#comments" class="btn btn-mini"><i class="icon-comment"></i>30 Comments</a></li>*@
+            
+            @if (Request.IsAuthenticated)
+            {
+                <li><a href="@Url.Action("Post", new { id = @Model.Slug, edit = true })" class="btn btn-mini">Edit post</a></li>
+                <li><a href="@Url.Action("RemovePost", new { id = @Model.ID })" class="btn btn-mini" data-action="remove-post">Remove</a></li>
+            }
         </ul>
     </div>
 </div>

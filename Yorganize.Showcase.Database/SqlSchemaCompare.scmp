@@ -2,15 +2,15 @@
 <SchemaComparison>
   <Version>10</Version>
   <SourceModelProvider>
+    <ConnectionBasedModelProvider>
+      <ConnectionString>Data Source=.\SQLEXPRESS;Initial Catalog=yorganize_showcase;Integrated Security=True;Pooling=False</ConnectionString>
+    </ConnectionBasedModelProvider>
+  </SourceModelProvider>
+  <TargetModelProvider>
     <ProjectBasedModelProvider>
       <ProjectGuid>{d7eb0fee-6a6b-40fc-a319-4a3abb2352c0}</ProjectGuid>
       <Name>Yorganize.Showcase.Database</Name>
     </ProjectBasedModelProvider>
-  </SourceModelProvider>
-  <TargetModelProvider>
-    <ConnectionBasedModelProvider>
-      <ConnectionString>Data Source=ptln9leqkc.database.windows.net;Initial Catalog=yorganize_showcase;User ID=yorgadmin@ptln9leqkc;Pooling=False</ConnectionString>
-    </ConnectionBasedModelProvider>
   </TargetModelProvider>
   <SchemaCompareSettingsService>
     <SchemaCompareSettingsService>
@@ -390,6 +390,46 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlAssemblyFile</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlApplicationRole</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlAssembly</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlAsymmetricKey</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlBrokerPriority</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlCertificate</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRole</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlFilegroup</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPermissionStatement</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlRoleMembership</Name>
+        <Value>ExcludedType</Value>
+      </PropertyElementName>
+      <PropertyElementName>
+        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlUser</Name>
         <Value>ExcludedType</Value>
       </PropertyElementName>
     </ConfigurationOptionsElement>
