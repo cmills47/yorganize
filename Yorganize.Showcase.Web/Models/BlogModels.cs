@@ -51,8 +51,9 @@ namespace Yorganize.Showcase.Web.Models
 
     public class BlogArchiveModel
     {
-        public string Month { get; set; }
-        public uint Year { get; set; }
-        public uint Posts { get; set; }
+        public string MonthName { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public int Posts { get; set; }
     }
 }

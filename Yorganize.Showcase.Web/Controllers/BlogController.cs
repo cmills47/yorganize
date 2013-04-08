@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using Yorganize.Showcase.Web.Models;
 using AutoMapper;
 using System.Transactions;
+using System.ServiceModel.Syndication;
+using Yorganize.Showcase.Web.Infrastructure;
 
 namespace Yorganize.Showcase.Web.Controllers
 {
@@ -23,13 +25,27 @@ namespace Yorganize.Showcase.Web.Controllers
             _blogPostRepository = blogPostRepository;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? year, int? month)
         {
+            DateTime? startDate = default(DateTime?), endDate = default(DateTime?);
+
+            if (year.HasValue && month.HasValue)
+            {
+
+                startDate = new DateTime(year.Value, month.Value, 1);
+                endDate = startDate.Value.AddMonths(1);
+            }
+
             _blogPostRepository.BeginTransaction();
 
-            var q = from post in _blogPostRepository.All()
-                    orderby post.Created descending
-                    select post;
+            var q = startDate.HasValue ?
+                from post in _blogPostRepository.All()
+                where post.Created >= startDate.Value && post.Created <= endDate.Value
+                orderby post.Created descending
+                select post :
+                from post in _blogPostRepository.All()
+                orderby post.Created descending
+                select post;
 
             var posts = q.ToList();
 
@@ -168,7 +184,52 @@ namespace Yorganize.Showcase.Web.Controllers
 
         public ActionResult Sidebar()
         {
-            return PartialView("Partial/_Sidebar");
+            _blogPostRepository.BeginTransaction();
+
+            var q = from post in _blogPostRepository.All()
+                    group post by new
+                    {
+                        post.Created.Year,
+                        post.Created.Month
+                    }
+                        into g
+                        select new { g.Key, Count = g.Count() };
+
+            var result = q.ToList();
+
+            _blogPostRepository.CommitTransaction();
+
+            var model = result.Select(item => new BlogArchiveModel()
+                                                  {
+                                                      Year = item.Key.Year,
+                                                      Month = item.Key.Month,
+                                                      MonthName = System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(item.Key.Month),
+                                                      Posts = item.Count
+                                                  }).ToList();
+
+            return PartialView("Partial/_Sidebar", model);
+        }
+
+        public ActionResult Rss()
+        {
+            _blogPostRepository.BeginTransaction();
+
+            var q = from post in _blogPostRepository.All()
+                    orderby post.Created descending
+                    select post;
+
+            var posts = q.ToList();
+
+            _blogPostRepository.CommitTransaction();
+
+            List<SyndicationItem> items = new List<SyndicationItem>();
+
+            Mapper.Map(posts, items);
+
+            var result = new RssResult("Yorganize blog", "Description", items);
+            
+            return result;
+
         }
 
     }

@@ -1,26 +1,17 @@
-﻿<div class="span4 sidebar sidebar-right">
+﻿@model List<Yorganize.Showcase.Web.Models.BlogArchiveModel>
+<div class="span4 sidebar sidebar-right">
     <div class="inner">
         <div class="block">
-            @* <h3 class="block-title sub-title"><span>Tags</span></h3>
-               <div class="tags">
-                    <span><a href="#">culture</a>  (16)</span>, 
-                                    <span><a href="#">general</a>  (34)</span>, 
-                                    <span><a href="#">coding</a>  (92)</span>, 
-                                    <span><a href="#">design</a>  (28)</span>, 
-                </div>*@
+            <a href="@Url.Action("Rss")" class="btn btn-warning"><i class="icon-rss"></i>Subscribe via RSS feed</a>
         </div>
         <div class="block">
             <h3 class="block-title sub-title"><span>Archive</span></h3>
             <ul class="big-list tags">
-                <li><a href="#">November 2012</a>  (9)</li>
-                <li><a href="#">October 2012</a>  (91)</li>
-                <li><a href="#">September 2012</a>  (71)</li>
-                <li><a href="#">August 2012</a>  (9)</li>
-                <li><a href="#">July 2012</a>  (19)</li>
+                @foreach (var item in Model)
+                {
+                    <li><a href="@Url.Action("Index", new { year = item.Year, month = item.Month })">@item.MonthName&nbsp;@item.Year</a>  (@item.Posts)</li>
+                }
             </ul>
-        </div>
-        <div class="block">
-            <a href="#" class="btn btn-warning"><i class="icon-rss"></i>Subscribe via RSS feed</a>
         </div>
     </div>
 </div>

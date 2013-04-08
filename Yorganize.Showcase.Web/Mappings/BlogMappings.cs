@@ -1,8 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Web;
 using AutoMapper;
 using Yorganize.Showcase.Domain.Models;
 using Yorganize.Showcase.Web.Models;
+using System.ServiceModel.Syndication;
 
 namespace Yorganize.Showcase.Web.Mappings
 {
@@ -16,9 +18,22 @@ namespace Yorganize.Showcase.Web.Mappings
 
             Mapper
                 .CreateMap<BlogPost, BlogPostItemModel>()
-                .ForMember(m=>m.ThumbnailUrl, o=>o.MapFrom(s=>s.ImageUrl))
+                .ForMember(m => m.ThumbnailUrl, o => o.MapFrom(s => s.ImageUrl))
                 .ForMember(m => m.Excerpt, o => o.MapFrom(s => s.Content))
                 .ForMember(m => m.Excerpt, o => o.AddFormatter(new ExcerptFormatter()));
+
+            Mapper
+                .CreateMap<BlogPost, SyndicationItem>()
+                .ForMember(m => m.Title, o => o.ResolveUsing<TextSyndicateContentResolver>().FromMember(s => s.Title))
+
+                .ForMember(m => m.Summary, o => o.ResolveUsing<HtmlSyndicateContentResolver>().FromMember(s => s.Content))
+
+                .ForMember(m => m.Content, o => o.ResolveUsing<HtmlSyndicateContentResolver>().FromMember(s => s.Content))
+
+                .ForMember(m=>m.Id, o=>o.MapFrom(s=>s.Title))
+                .ForMember(m=>m.Id, o=>o.AddFormatter(new SlugFormatter()))
+
+                .ForMember(m => m.PublishDate, o => o.MapFrom(s => s.Created));
 
             Mapper
                 .CreateMap<BlogPostModel, BlogPost>()
@@ -31,10 +46,18 @@ namespace Yorganize.Showcase.Web.Mappings
         {
             protected override string FormatValueCore(string value)
             {
+                return GetExcerpt(value);
+            }
+
+            public static string GetExcerpt(string source)
+            {
+                if (string.IsNullOrEmpty(source))
+                    return string.Empty;
+
                 //const string pattern = @"<(.|\n)*?>";
                 const string pattern = @"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>";
-                value = HttpUtility.HtmlDecode(value);
-                string formatted = Regex.Replace(value, pattern, string.Empty);
+                source = HttpUtility.HtmlDecode(source);
+                string formatted = Regex.Replace(source, pattern, string.Empty);
                 var maxlen = System.Math.Min(255, formatted.Length);
                 return formatted.Substring(0, maxlen) + " ...";
             }
@@ -63,11 +86,29 @@ namespace Yorganize.Showcase.Web.Mappings
             }
         }
 
-        private class RawHtmlFormatter: ValueFormatter<string>
+        private class RawHtmlFormatter : ValueFormatter<string>
         {
             protected override string FormatValueCore(string value)
             {
                 return HttpUtility.HtmlDecode(value);
+            }
+        }
+
+        private class HtmlSyndicateContentResolver : ValueResolver<string, SyndicationContent>
+        {
+
+            protected override SyndicationContent ResolveCore(string source)
+            {
+                return SyndicationContent.CreateHtmlContent(HttpUtility.HtmlDecode(source));
+            }
+        }
+
+        private class TextSyndicateContentResolver : ValueResolver<string, SyndicationContent>
+        {
+
+            protected override SyndicationContent ResolveCore(string source)
+            {
+                return SyndicationContent.CreatePlaintextContent(ExcerptFormatter.GetExcerpt(source));
             }
         }
     }
