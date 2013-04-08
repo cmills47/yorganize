@@ -212,8 +212,10 @@
     <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\RssResult.cs" />
     <Compile Include="Mappings\BlogMappings.cs" />
+    <Compile Include="Mappings\VideoMappings.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BlogModels.cs" />
+    <Compile Include="Models\VideoModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -366,6 +368,10 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\Video\categories.js" />
+    <Content Include="Scripts\Video\player.js" />
+    <Content Include="Scripts\Video\router.js" />
+    <Content Include="Scripts\Video\videos.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -403,6 +409,8 @@
     <Content Include="Views\Blog\Edit.cshtml" />
     <Content Include="Views\Shared\Partial\_Message.cshtml" />
     <Content Include="Views\Blog\Partial\_FeaturedImage.cshtml" />
+    <Content Include="Views\Video\Partial\_Player.cshtml" />
+    <Content Include="Views\Video\Partial\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />

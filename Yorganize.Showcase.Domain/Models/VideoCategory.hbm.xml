@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Yorganize.Showcase.Domain.Models" assembly="Yorganize.Showcase.Domain" auto-import="false">
+
+  <class name="VideoCategory" table="VideoCategory">
+
+    <id name="ID" column="VideoCategoryId">
+      <generator class="identity"></generator>
+    </id>
+
+    <property name="Name" />
+
+  </class>
+
+</hibernate-mapping>

@@ -49,6 +49,9 @@
   <ItemGroup>
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\Video.cs" />
+    <Compile Include="Models\VideoCategory.cs" />
+    <Compile Include="Models\VideoSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\MemberRepository.cs" />
   </ItemGroup>
@@ -68,6 +71,21 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Models\Member.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Models\VideoSource.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Models\Video.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Models\VideoCategory.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
