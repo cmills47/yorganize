@@ -1,9 +1,5 @@
 ﻿<div class="row">
-    <h4 class="bordered-top-large" id="team">Videos in category <i class="icon-double-angle-right"></i>Projects</h4>
-    <ul class="thumbnails block projects" id="quicksand">
-        @for (int i = 0; i < 6; i++)
-        {
-            @Html.Partial("Partial/_Video");
-        }
+    <h4 class="bordered-top-large" id="team">Videos in category <i class="icon-double-angle-right"></i>&nbsp;<%=Category%></h4>
+    <ul id="videos" class="thumbnails block projects" id="quicksand">
     </ul>
 </div>

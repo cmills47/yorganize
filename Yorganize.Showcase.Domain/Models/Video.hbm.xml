@@ -9,7 +9,10 @@
 
     <property name="Title" />
     <property name="Description" />
-
+    <property name="Order" column="[Order]" />
+    <property name="SourceMP4Url" />
+    <property name="SourceOGGUrl" />
+    <property name="SourceWEBMUrl" />
     <many-to-one name="Category" column="VideoCategoryId" />
 
   </class>

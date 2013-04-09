@@ -1,0 +1,21 @@
+﻿<form>
+    <h3 class="block-title sub-title"><span><% if(ID){%>Edit<%}else{%>Upload<%}%> Video</span> </h3>
+
+    <fieldset>
+        <label>Title</label>
+        <input type="text" placeholder="Video title…" value="<%=Title%>">
+
+        <label>Description</label>
+        <textarea rows="3" placeholder="Video description…"><%=Description%></textarea>
+
+        <label class="_popover" data-placement="left" data-title="title" data-content="description"> <i class="icon-film btn-success"></i> MP4 source</label>
+        <input type="file" />
+        <label> <i class="icon-film"></i> OGG source</label>
+        <input type="file" />
+        <label> <i class="icon-film"></i> WEB M source</label>
+        <input type="file" />
+        <br />
+        Uploading... <i class="icon-cog icon-spin"></i>
+        <button type="submit" class="btn btn-small pull-right">Upload</button>
+    </fieldset>
+</form>

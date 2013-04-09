@@ -73,9 +73,6 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -231,6 +228,10 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\icons\favicon.ico" />
+    <Content Include="Content\icons\MP4.png" />
+    <Content Include="Content\icons\OGG.png" />
+    <Content Include="Content\icons\OGG1_b.png" />
+    <Content Include="Content\icons\WEBM.png" />
     <Content Include="Content\images\bg_noise-2.png" />
     <Content Include="Content\images\bg_noise-5.png" />
     <Content Include="Content\images\clients\amazon.png" />
@@ -339,6 +340,8 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\backbone.min.js" />
+    <Content Include="Scripts\backbone.wreqr.js" />
+    <Content Include="Scripts\backbone.wreqr.min.js" />
     <Content Include="Scripts\Blog\editor.js" />
     <Content Include="Scripts\Blog\form.js" />
     <Content Include="Scripts\Blog\upload.js" />
@@ -362,12 +365,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\kendo.web.min.js" />
-    <Content Include="Scripts\knockout-2.2.0.debug.js" />
-    <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\utils.js" />
     <Content Include="Scripts\Video\categories.js" />
     <Content Include="Scripts\Video\player.js" />
     <Content Include="Scripts\Video\router.js" />
@@ -411,6 +413,10 @@
     <Content Include="Views\Blog\Partial\_FeaturedImage.cshtml" />
     <Content Include="Views\Video\Partial\_Player.cshtml" />
     <Content Include="Views\Video\Partial\_List.cshtml" />
+    <Content Include="Views\Video\Partial\_Video.cshtml" />
+    <Content Include="Views\Video\Partial\_Category.cshtml" />
+    <Content Include="Views\Video\Partial\_EditVideo.cshtml" />
+    <Content Include="Views\Video\Partial\_Categories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />

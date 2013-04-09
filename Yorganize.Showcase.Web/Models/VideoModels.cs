@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Yorganize.Showcase.Web.Models
 {
@@ -7,20 +8,22 @@ namespace Yorganize.Showcase.Web.Models
         public Guid ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string SourceMP4Url { get; set; }
+        public string SourceOGGUrl { get; set; }
+        public string SourceWEBMUrl { get; set; }
+        
         public VideoCategoryModel Category { get; set; }
-    }
-
-    public class VideoSourceModel
-    {
-        public int ID { get; set; }
-        public string Format { get; set; }
-        public string Url { get; set; }
-        public VideoModel Video { get; set; }
     }
 
     public class VideoCategoryModel
     {
-        public Guid ID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
+    }
+
+    public class VideoListModel
+    {
+        public string Category { get; set; }
+        public List<VideoModel> Videos { get; set; }
     }
 }

@@ -3,9 +3,25 @@
     Layout = "~/Views/Shared/_Home.cshtml";
 }
 
+@section styles{
+    <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/kendo.bootstrap.min.css" rel="stylesheet" />
+}
+
 @section head{
     <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
     <script src="http://vjs.zencdn.net/c/video.js"></script>
+}
+
+@section scripts{
+    <script src="~/Scripts/underscore.min.js"></script>
+    <script src="~/Scripts/backbone.min.js"></script>
+    <script src="~/Scripts/backbone.wreqr.min.js"></script>
+    <script src="~/Scripts/kendo.web.min.js"></script>
+    <script src="~/Scripts/Video/categories.js"></script>
+    <script src="~/Scripts/Video/videos.js"></script>
+    <script src="~/Scripts/Video/player.js"></script>
+    <script src="~/Scripts/Video/router.js"></script>
 }
 
 @section header{
@@ -23,9 +39,38 @@
         <!-- Video Player -->
         @Html.Partial("Partial/_Player")
         <!-- Video list -->
-        @Html.Partial("Partial/_List")
+        <div id="video-list"></div>
     </div>
+    <div class="span3 sidebar sidebar-right">
+    <div class="inner">
+        <div id="categories-region" class="block">
+           
+        </div>
+        <div id="edit-video" class="block">
+        </div>
+    </div>
+</div>
+
     <!-- Sidebar -->
     @Html.Partial("Partial/_Sidebar")
+    
 
 </div>
+
+<!-- Templates -->
+<script id="categories-template" type="text/html">
+    @Html.Partial("Partial/_Categories")
+</script>
+<script id="category-template" type="text/html">
+    @Html.Partial("Partial/_Category")
+</script>
+<script id="video-list-template" type="text/html">
+    @Html.Partial("Partial/_List")
+</script>
+<script id="video-template" type="text/html">
+    @Html.Partial("Partial/_Video")
+</script>
+
+<script id="edit-video-template" type="text/html">
+    @Html.Partial("Partial/_EditVideo")
+</script>
