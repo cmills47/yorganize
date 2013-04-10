@@ -86,3 +86,10 @@ function warningMessage(message) {
 function errorMessage(message) {
     showMessage('.ajax-message', message, 'alert alert-error');
 }
+
+function validateForm($form) {
+    $form.removeData("validator");
+    $.validator.unobtrusive.parse($form);
+
+    return $form;
+}

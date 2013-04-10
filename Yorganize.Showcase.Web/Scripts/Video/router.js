@@ -8,7 +8,6 @@ var VideoRouter = Backbone.Router.extend({
 
     load_data: function (category) {
 
-        console.log("loading data for", category);
         // fetch models and collections
         this.categoriesView = new CategoriesView({ el: '#categories-region' });
 
@@ -22,11 +21,8 @@ var VideoRouter = Backbone.Router.extend({
         });
 
         addEventHandlers(this.vent);
-        
-        return true;
-    },
 
-    set_urls: function (/*params*/) {
+        return true;
     },
 
     routes: {
@@ -36,16 +32,25 @@ var VideoRouter = Backbone.Router.extend({
 
     index: function (category) {
 
-        // this.set_urls();
         this.data_loaded = this.data_loaded || this.load_data(category);
 
         if (!this.data_loaded)
             return;
 
-        this.categoriesView.setActive(category);
-
         // create views 
+        this.playerView = new VideoPlayerView({ el: '#video-player' });
+        
+
         this.videosView = new VideosView({ el: '#video-list' });
+
+        if (!category) {
+            this.videosView.render();
+            return;
+        }
+
+        // set category data
+
+        this.categoriesView.setActive(category);
         this.videosView.model.set({ Category: category }, { silent: true });
         this.videosView.model.fetch({
             wait: true,
@@ -55,14 +60,14 @@ var VideoRouter = Backbone.Router.extend({
                     videosView.render();
             }
         });
-    },
+    }
 
 });
 
 function addEventHandlers(vent) {
     // display upload view for new video
-    vent.on("video:upload", function () {
-        var content = new EditVideoView().render().el;
+    vent.on("video:upload", function (categoryID) {
+        var content = new EditVideoView({ model: new VideoModel({ CategoryID: categoryID }) }).render().el;
         $('#edit-video').hide().html(content).fadeIn("slow");
     });
 
@@ -70,6 +75,12 @@ function addEventHandlers(vent) {
     vent.on("video:edit", function (video) {
         var content = new EditVideoView({ model: video }).render().el;
         $('#edit-video').hide().html(content).fadeIn("slow");
+    });
+    
+    // play video
+    vent.on("video:play", function (video) {
+        console.log("playing", video);
+        window.router.playerView.model.set(video.toJSON());
     });
 }
 

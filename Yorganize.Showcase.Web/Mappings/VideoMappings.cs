@@ -13,6 +13,20 @@ namespace Yorganize.Showcase.Web.Mappings
 
             Mapper
                 .CreateMap<Video, VideoModel>();
+
+            Mapper
+                .CreateMap<VideoModel, Video>()
+                .ForMember(m => m.Category, o => o.ResolveUsing<VideoCategoryResolver>().FromMember(s=>s.CategoryID));
+
+        }
+
+        private class VideoCategoryResolver : ValueResolver<int, VideoCategory>
+        {
+
+            protected override VideoCategory ResolveCore(int source)
+            {
+                return new VideoCategory() { ID = source };
+            }
         }
     }
 }

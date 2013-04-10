@@ -6,22 +6,25 @@
 @section styles{
     <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/kendo.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/flowplayer/all-skins.css" rel="stylesheet" />
 }
 
 @section head{
-    <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
-    <script src="http://vjs.zencdn.net/c/video.js"></script>
+   
 }
 
 @section scripts{
+      <script src="~/Scripts/flowplayer.min.js"></script>
     <script src="~/Scripts/underscore.min.js"></script>
     <script src="~/Scripts/backbone.min.js"></script>
     <script src="~/Scripts/backbone.wreqr.min.js"></script>
     <script src="~/Scripts/kendo.web.min.js"></script>
+    <script src="~/Scripts/jquery.form.js"></script>
     <script src="~/Scripts/Video/categories.js"></script>
     <script src="~/Scripts/Video/videos.js"></script>
     <script src="~/Scripts/Video/player.js"></script>
     <script src="~/Scripts/Video/router.js"></script>
+   
 }
 
 @section header{
@@ -37,24 +40,22 @@
 <div class="row">
     <div class="span9">
         <!-- Video Player -->
-        @Html.Partial("Partial/_Player")
+        <div id="video-player">
+        </div>
         <!-- Video list -->
         <div id="video-list"></div>
     </div>
     <div class="span3 sidebar sidebar-right">
-    <div class="inner">
-        <div id="categories-region" class="block">
-           
-        </div>
-        <div id="edit-video" class="block">
+        <div class="inner">
+            <div id="categories-region" class="block">
+            </div>
+            <div id="edit-video" class="block">
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Sidebar -->
     @Html.Partial("Partial/_Sidebar")
-    
-
 </div>
 
 <!-- Templates -->
@@ -70,7 +71,9 @@
 <script id="video-template" type="text/html">
     @Html.Partial("Partial/_Video")
 </script>
-
+<script id="video-player-template" type="text/html">
+    @Html.Partial("Partial/_Player")
+</script>
 <script id="edit-video-template" type="text/html">
     @Html.Partial("Partial/_EditVideo")
 </script>

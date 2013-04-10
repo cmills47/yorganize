@@ -1,15 +1,20 @@
 ﻿<div class="row">
     <div class="span9">
-
-        <h3>How to create a project</h3>
-        <p>This video demonstrates how to create projects and folders and structure them in a simple hierarchy...</p>
-        <div class="bordered-top-medium">
-            <video id="my_video_1" class="video-js vjs-default-skin" controls
-                preload="auto" width="640" height="264" poster="~/content/images/clients/html5.png"
-                data-setup="{}">
-                <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4'>
-                <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm'>
-            </video>
+        <h3><%=(ID==null)? "No video selected": Title%></h3>
+        <p><%=Description%></p>
+        <div id="flowplayer" class=" bordered-top-medium flowplayer minimalist">
+                <video id="video-player-object" autoplay="true" controls preload="auto" width="640" height="264">
+                    <% if(SourceMP4Url) {%>
+                    <source src="<%=SourceMP4Url%>" type='video/mp4'>
+                    <%}%>
+                    <% if(SourceOGGUrl) {%>
+                    <source src="<%=SourceOGGUrl%>" type='video/ogg'>
+                    <%}%>
+                    <% if(SourceWEBMUrl) {%>
+                    <source src="<%=SourceWEBMUrl%>" type='video/webm'>
+                    <%}%>
+                    Your browser does not support this video type.
+                </video>
         </div>
     </div>
 </div>

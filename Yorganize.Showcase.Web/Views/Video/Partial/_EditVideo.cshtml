@@ -1,21 +1,31 @@
-﻿<form>
+﻿@model Yorganize.Showcase.Web.Models.VideoModel
+@using (Html.BeginForm("SaveVideo", "Video", FormMethod.Post, new { ecntype = "multipart/form-data" }
+
+))
+{
+    <input type="hidden" id="ID" name="ID" value="<%=ID%>" />
+    <input type="hidden" id="CategoryID" name="CategoryID" value="<%=CategoryID%>" />
+    
     <h3 class="block-title sub-title"><span><% if(ID){%>Edit<%}else{%>Upload<%}%> Video</span> </h3>
 
     <fieldset>
         <label>Title</label>
-        <input type="text" placeholder="Video title…" value="<%=Title%>">
+        <input type="text" id="Title" name="Title" value="<%=Title%>" placeholder="Video title…" required />
 
         <label>Description</label>
-        <textarea rows="3" placeholder="Video description…"><%=Description%></textarea>
+        <textarea id="Description" name="Description" placeholder="Video description…" data-val="true" data-val-required="Description is required"><%=Description%></textarea>
 
-        <label class="_popover" data-placement="left" data-title="title" data-content="description"> <i class="icon-film btn-success"></i> MP4 source</label>
-        <input type="file" />
-        <label> <i class="icon-film"></i> OGG source</label>
-        <input type="file" />
-        <label> <i class="icon-film"></i> WEB M source</label>
-        <input type="file" />
+        <label class="_tooltip" data-title="no source selected" title="<%=SourceMP4Url%>"><i class="icon-film btn-success"></i>MP4 source</label>
+        <input type="file" name="sourceMP4" id="mp4-file-upload" accept=".mp4" />
         <br />
-        Uploading... <i class="icon-cog icon-spin"></i>
-        <button type="submit" class="btn btn-small pull-right">Upload</button>
+        <label class="_tooltip" data-title="no source selected" title="<%=SourceOGGUrl%>"><i class="icon-film btn-success"></i>OGG source</label>
+        <input type="file" name="sourceOGG" id="ogg-file-upload" accept=".ogv" />
+        <br />
+        <label class="_tooltip" data-title="no source selected" title="<%=SourceWEBMUrl%>"><i class="icon-film btn-success"></i>WEBM source</label>
+        <input type="file" name="sourceWEBM" id="webm-file-upload" accept=".webm" />
+
+        <br />
+        <div>Uploading... <i class="icon-cog icon-spin"></i></div>
+        <button id="submit" type="submit" class="btn btn-small pull-right">Upload</button>
     </fieldset>
-</form>
+}

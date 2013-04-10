@@ -74,8 +74,15 @@ CategoriesView = Backbone.View.extend({
         });
     },
     
-    showUploadView: function(e) {
-        window.router.vent.trigger("video:upload");
+    getActive: function () { //TODO with filter
+       
+        return this.collection.findWhere({ isActive: true });
+    },
+    
+    showUploadView: function (e) {
+        var activeCategory = this.getActive();
+        if (activeCategory)
+            window.router.vent.trigger("video:upload", activeCategory.id);
         e.preventDefault();
     }
 });

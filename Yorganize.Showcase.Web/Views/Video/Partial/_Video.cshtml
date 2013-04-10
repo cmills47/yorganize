@@ -1,13 +1,11 @@
 ﻿<li class="span3" data-id="id-0" data-type="projects">
     <div class="row">
         <div class="span3" style="padding-top: 5px;">
-            
-            <img class="btn disabled" width="35px" src="~/Content/icons/OGG1_db.png" />
-            <img class="btn disabled" width="35px" src="~/Content/icons/OGG1_b.png" />
-            <img class="btn disabled btn-success" width="35px" src="~/Content/icons/WEBM.png" />
-            <a id="edit" href="#" class="btn" style="height: 29px; padding-top: 7px" ><i class="icon-cog icon-2x"></i></a>
-                   
-            <h4 class="title"><a href="#"><%=Title%></a></h4> 
+            @*<a id="edit" href="#" class="btn" style="height: 29px; padding-top: 7px" ><i class="icon-cog icon-2x"></i></a>*@
+            <a id="edit" href="#" class="btn btn-primary" ><i class="icon-play-circle"></i> play</a>
+            <a id="edit" href="#" class="btn btn-warning" ><i class="icon-cog"></i> edit</a>
+            <a id="delete" href="#" class="btn btn-danger" ><i class="icon-remove-circle"></i> remove</a>
+            <h4 class="title"><a id="play-video" href="#"><%=Title%></a></h4> 
             <p class="muted"><%=Description%></p>
         </div>
     </div>
