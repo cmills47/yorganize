@@ -1,12 +1,33 @@
 ﻿CategoryModel = Backbone.Model.extend({
     defaults: {
+        ID: null,
         Name: "",
         isActive: false,
         isEditing: false
     },
 
     idAttribute: "ID",
-   
+
+    methodToUrl: {
+        "read": "",
+        "create": "Video/CreateCategory",
+        "update": "Video/UpdateCategory",
+        "delete": "Video/RemoveCategory",
+    },
+
+    sync: function (method, model, options) {
+        options = options || {};
+        options.url = model.methodToUrl[method.toLowerCase()];
+
+        switch (method) {
+            case 'delete':
+                options.url += '/' + this.id;
+                break;
+        }
+
+        Backbone.sync(method, model, options);
+    }
+
 });
 
 CategoriesCollection = Backbone.Collection.extend({
@@ -23,9 +44,11 @@ CategoryView = Backbone.View.extend({
     },
 
     events: {
-        "click a": "navigate",
+        "click .category-navigate": "navigate",
         "click #save": "save",
-        "click #cancel": "cancel"
+        "click #cancel": "cancel",
+        "click #edit": "edit",
+        "click #remove": "removeCategory"
     },
 
     render: function () {
@@ -44,23 +67,40 @@ CategoryView = Backbone.View.extend({
         window.router.navigate("category/" + this.model.get("Name"), true);
         e.preventDefault();
     },
-    
+
     save: function (e) {
-        this.model.set({ isEditing: false }, {silent: false});
+
+        this.model.save({ Name: this.$el.find('#category-name').val() },
+            {
+                wait: true,
+                success: function (model) {
+                    console.log(model);
+                    model.set({ isEditing: false });
+                }
+            });
         e.preventDefault();
     },
-    
+
     cancel: function (e) {
         console.log("cancel");
         this.model.destroy();
         e.preventDefault();
     },
-    
-    destroyView: function() {
+
+    edit: function (e) {
+        this.model.set({ isEditing: true });
+        e.preventDefault();
+    },
+
+    removeCategory: function (e) {
+        this.model.destroy();
+    },
+
+    destroyView: function () {
         this.remove();
     }
-    
-    
+
+
 });
 
 CategoriesView = Backbone.View.extend({

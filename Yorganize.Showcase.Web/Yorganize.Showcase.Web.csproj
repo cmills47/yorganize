@@ -442,6 +442,7 @@
     <Content Include="Views\Video\Partial\_Categories_Guest.cshtml" />
     <Content Include="Views\Video\Partial\_Category_Guest.cshtml" />
     <Content Include="Views\Video\Partial\_Video_Guest.cshtml" />
+    <Content Include="Views\Video\Partial\_EditCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />

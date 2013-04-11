@@ -12,6 +12,9 @@ namespace Yorganize.Showcase.Web.Mappings
                 .CreateMap<VideoCategory, VideoCategoryModel>();
 
             Mapper
+                .CreateMap<VideoCategoryModel, VideoCategory>();
+
+            Mapper
                 .CreateMap<Video, VideoModel>();
 
             Mapper

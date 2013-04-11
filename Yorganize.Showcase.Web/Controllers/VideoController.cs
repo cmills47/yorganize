@@ -166,11 +166,58 @@ namespace Yorganize.Showcase.Web.Controllers
             return new JsonNetResult("success");
         }
 
+        [HttpPost]
+        [Authorize]
         public ActionResult CreateCategory(VideoCategoryModel model)
         {
-            
+            var category = Mapper.Map<VideoCategoryModel, VideoCategory>(model);
+            _categoryRepository.Insert(category);
+            Mapper.Map(category, model);
+
             return new JsonNetResult(model);
         }
+
+        [HttpPut]
+        [Authorize]
+        public ActionResult UpdateCategory(VideoCategoryModel model)
+        {
+            var category = Mapper.Map<VideoCategoryModel, VideoCategory>(model);
+            try
+            {
+                _categoryRepository.Update(category);
+            }
+            catch (Exception ex)
+            {
+             throw new BusinessException("Failed to update category.", ex);    
+            }
+
+            Mapper.Map(category, model);
+
+            return new JsonNetResult(model);
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public ActionResult RemoveCategory(int id)
+        {
+            var category = _categoryRepository.FindByID(id);
+
+            if (category == null)
+                throw new BusinessException("Category not found. It might have been already removed.");
+
+            try
+            {
+                _categoryRepository.Delete(category);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessException("Failed to remove the category. Please remove all the videos first.", ex);
+            }
+
+            return new JsonNetResult("success");
+        }
+
+
 
     }
 }
