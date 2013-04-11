@@ -2,15 +2,15 @@
 <SchemaComparison>
   <Version>10</Version>
   <SourceModelProvider>
-    <ConnectionBasedModelProvider>
-      <ConnectionString>Data Source=.\SQLEXPRESS;Initial Catalog=yorganize_showcase;Integrated Security=True;Pooling=False</ConnectionString>
-    </ConnectionBasedModelProvider>
-  </SourceModelProvider>
-  <TargetModelProvider>
     <ProjectBasedModelProvider>
       <ProjectGuid>{d7eb0fee-6a6b-40fc-a319-4a3abb2352c0}</ProjectGuid>
       <Name>Yorganize.Showcase.Database</Name>
     </ProjectBasedModelProvider>
+  </SourceModelProvider>
+  <TargetModelProvider>
+    <ConnectionBasedModelProvider>
+      <ConnectionString>Data Source=ptln9leqkc.database.windows.net;Initial Catalog=yorganize_showcase;Persist Security Info=True;User ID=yorgadmin@ptln9leqkc;Pooling=False</ConnectionString>
+    </ConnectionBasedModelProvider>
   </TargetModelProvider>
   <SchemaCompareSettingsService>
     <SchemaCompareSettingsService>

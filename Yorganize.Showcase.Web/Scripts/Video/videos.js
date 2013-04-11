@@ -11,12 +11,32 @@ VideoModel = Backbone.Model.extend({
         SourceWEBMUrl: ""
     },
 
-    idAttribute: "ID"
+    idAttribute: "ID",
+    
+    methodToUrl: {
+        "read": "",
+        "create": "",
+        "update": "",
+        "delete": "Video/RemoveVideo",
+    },
+
+    sync: function (method, model, options) {
+        options = options || {};
+        options.url = model.methodToUrl[method.toLowerCase()];
+
+        switch (method) {
+            case 'delete':
+                options.url += '/' + this.id;
+                break;
+        }
+
+        Backbone.sync(method, model, options);
+    }
 });
 
 VideoListModel = Backbone.Model.extend({
     defaults: {
-        Category: "no category specified"
+        Category: "No category selected"
     },
 
     url: function () {
@@ -26,6 +46,10 @@ VideoListModel = Backbone.Model.extend({
     parse: function (response) {
         response.Videos = new VideosCollection(response.Videos);
         return response;
+    },
+    
+    videos: function() {
+        return this.get("Videos");
     }
 }),
 
@@ -40,11 +64,13 @@ VideoView = Backbone.View.extend({
         this.template = $('#video-template').html();
         if (!this.model) this.model = new VideoModel();
         this.model.bind("change", this.render, this);
+        this.model.bind("destroy", this.destroyView, this);
     },
 
     events: {
-        "click #edit": "edit",
-        "click #play-video": "play"
+        "click #edit": "editVideo",
+        "click #remove": "removeVideo",
+        "click #play-video": "playVideo",
     },
 
     render: function () {
@@ -54,14 +80,25 @@ VideoView = Backbone.View.extend({
         return this;
     },
 
-    edit: function (e) {
+    editVideo: function (e) {
         window.router.vent.trigger("video:edit", this.model);
         e.preventDefault();
     },
+    
+    removeVideo: function(e) {
+        if (confirm("Are you sure you want to remove this video?"))
+            this.model.destroy();
+        e.preventDefault();
+    },
 
-    play: function (e) {
+    playVideo: function (e) {
         window.router.vent.trigger("video:play", this.model);
         e.preventDefault();
+    },
+    
+    destroyView: function(e) {
+        this.remove();
+        successMessage("Video has been removed.");
     }
 
 });
@@ -79,14 +116,22 @@ VideosView = Backbone.View.extend({
 
         // render videos
         var $container = $('#videos');
-        var videos = this.model.get("Videos");
+        
+        var videos = this.model.videos();
         if (videos && videos.length > 0)
             videos.each(function (video) {
                 var videoView = new VideoView({ model: video, parent: this });
                 $container.append(videoView.render().el);
             });
         else
-            this.$el.append("<h4 class='muted'>There are no videos in this category. </h4>");
+            this.$el.append("<h3 class='muted'>There are no videos in this category. </h3>");
+    },
+
+    // adds a new video or updates an existing video model
+    update: function (model) {
+        var videos = this.model.videos();
+        videos.add(model, { merge: true });
+        this.render();
     }
 });
 
@@ -100,16 +145,19 @@ VideoPlayerView = Backbone.View.extend({
     render: function () {
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
-
-        console.log("render...");
+        
         if (this.model.get("ID")) {
-            console.log(this.model.id);
-            $("#flowplayer").flowplayer({
+            var $player = $("#flowplayer");
+            $player.flowplayer({
                 // configuration for this player
-                splash: false
-            });
-        }
+                autoPlay: true,
 
+                // video will be buffered when splash screen is visible
+                autoBuffering: true
+            });
+
+            //$api = flowplayer($player);
+        }
         return this;
     }
 });
@@ -119,6 +167,10 @@ EditVideoView = Backbone.View.extend({
         this.template = $('#edit-video-template').html();
         if (!this.model) this.model = new VideoModel();
         this.model.bind("change", this.render, this);
+    },
+
+    events: {
+        "click #cancel": "cancel",
     },
 
     render: function () {
@@ -135,9 +187,9 @@ EditVideoView = Backbone.View.extend({
             multiple: false
             //showFileList: false,
         });
-        
+
         this.$el.tooltip({
-        selector: "[class*=tooltip]"
+            selector: "[class*=tooltip]"
         });
 
         // bind upload form
@@ -157,39 +209,41 @@ EditVideoView = Backbone.View.extend({
     },
 
     beginRequest: function (formData, jqForm, options) {
-        this.view = options.view;
-
-
-        //$('#loader').show();
+        var view = options.view;
+        view.showProgress();
+        
         return true;
     },
 
     showResponse: function (response, statusText, xhr, $form) {
 
-        console.log("success:", response, statusText);
-        /*
-        $('#loader').hide();
+        // update status
+        successMessage("Video sucessfuly uploaded/updated.");
 
-        if (!response.valid) {
-            this.view.display_error(response.message);
-            return false;
-        }
+        // remove this view
+        this.view.remove();
 
         // update model
-        this.view.model.set(response.model);
+        if (statusText == "success")
+            window.router.vent.trigger("video:updated", response);
 
-        // display message - do not display message before setting the model because it will be erase by the render
-        this.view.display_message(response.message);
-        */
         return true;
     },
 
     errorRequest: function (response) {
-        /*
-        this.view.display_error(response.statusText);
-        $('#loader').hide();
-        */
+        console.log("error:", response);
         return false;
+    },
+
+    cancel: function (e) {
+        this.remove();
+        e.preventDefault();
+    },
+
+    showProgress: function () {
+        
+        this.$('#edit-form').hide();
+        this.$('#progress').show();
     }
 
 });

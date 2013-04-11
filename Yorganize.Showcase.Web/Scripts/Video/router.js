@@ -39,7 +39,6 @@ var VideoRouter = Backbone.Router.extend({
 
         // create views 
         this.playerView = new VideoPlayerView({ el: '#video-player' });
-        
 
         this.videosView = new VideosView({ el: '#video-list' });
 
@@ -65,6 +64,10 @@ var VideoRouter = Backbone.Router.extend({
 });
 
 function addEventHandlers(vent) {
+    vent.on("category:add", function () {
+        router.categoriesView.collection.add(new CategoryModel({ Name: "category", isActive: false, isEditing: true }));
+    });
+
     // display upload view for new video
     vent.on("video:upload", function (categoryID) {
         var content = new EditVideoView({ model: new VideoModel({ CategoryID: categoryID }) }).render().el;
@@ -76,11 +79,16 @@ function addEventHandlers(vent) {
         var content = new EditVideoView({ model: video }).render().el;
         $('#edit-video').hide().html(content).fadeIn("slow");
     });
-    
+
     // play video
     vent.on("video:play", function (video) {
-        console.log("playing", video);
+        // console.log("playing", video);
         window.router.playerView.model.set(video.toJSON());
+    });
+
+    // video uploaded/updated
+    vent.on("video:updated", function (video) {
+        window.router.videosView.update(video);
     });
 }
 

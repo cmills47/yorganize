@@ -2,19 +2,27 @@
     <div class="span9">
         <h3><%=(ID==null)? "No video selected": Title%></h3>
         <p><%=Description%></p>
-        <div id="flowplayer" class=" bordered-top-medium flowplayer minimalist">
-                <video id="video-player-object" autoplay="true" controls preload="auto" width="640" height="264">
-                    <% if(SourceMP4Url) {%>
-                    <source src="<%=SourceMP4Url%>" type='video/mp4'>
-                    <%}%>
-                    <% if(SourceOGGUrl) {%>
-                    <source src="<%=SourceOGGUrl%>" type='video/ogg'>
-                    <%}%>
+        <% if (SourceMP4Url || SourceOGGUrl || SourceWEBMUrl) { %>
+            <div id="flowplayer" class=" bordered-top-medium flowplayer minimalist">
+                <video id="video-player-object" autoplay="true" controls width="640" height="264">
                     <% if(SourceWEBMUrl) {%>
-                    <source src="<%=SourceWEBMUrl%>" type='video/webm'>
+                        <source src="<%=SourceWEBMUrl%>" type='video/webm'>
                     <%}%>
-                    Your browser does not support this video type.
+                     <% if(SourceOGGUrl) {%>
+                        <source src="<%=SourceOGGUrl%>" type='video/ogg'>
+                    <%}%>
+                    <% if(SourceMP4Url) {%>
+                        <source src="<%=SourceMP4Url%>" type='video/mp4'>
+                    <%}%>
+                   
+                  
+                    <p>Sorry, your browser does not support this video type.</p>
                 </video>
-        </div>
+            </div>
+        <% } else { %>
+            <div class=" bordered-top-medium ">
+                <h4 class="muted">This video has no source.</h4>
+            </div>
+        <% } %>
     </div>
 </div>

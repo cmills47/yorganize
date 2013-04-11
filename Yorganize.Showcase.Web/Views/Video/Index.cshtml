@@ -41,6 +41,7 @@
     <div class="span9">
         <!-- Video Player -->
         <div id="video-player">
+            <h3 class="muted">Please select a video from the list to play.</h3>
         </div>
         <!-- Video list -->
         <div id="video-list"></div>
@@ -60,16 +61,19 @@
 
 <!-- Templates -->
 <script id="categories-template" type="text/html">
-    @Html.Partial("Partial/_Categories")
+    @(Request.IsAuthenticated ? Html.Partial("Partial/_Categories") : Html.Partial("Partial/_Categories_Guest"))
 </script>
 <script id="category-template" type="text/html">
-    @Html.Partial("Partial/_Category")
+    @(Request.IsAuthenticated ? Html.Partial("Partial/_Category") : Html.Partial("Partial/_Category_Guest"))
+</script>
+<script id="edit-category-template" type="text/html">
+    @Html.Partial("Partial/_EditCategory")
 </script>
 <script id="video-list-template" type="text/html">
     @Html.Partial("Partial/_List")
 </script>
 <script id="video-template" type="text/html">
-    @Html.Partial("Partial/_Video")
+     @(Request.IsAuthenticated ? Html.Partial("Partial/_Video") : Html.Partial("Partial/_Video_Guest"))
 </script>
 <script id="video-player-template" type="text/html">
     @Html.Partial("Partial/_Player")

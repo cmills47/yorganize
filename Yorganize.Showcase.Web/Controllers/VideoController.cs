@@ -52,7 +52,7 @@ namespace Yorganize.Showcase.Web.Controllers
         }
 
         [HttpPost]
-        //[Authorize] TODO: uncomment this in production
+        [Authorize]
         public ActionResult SaveVideo(VideoModel model, HttpPostedFileBase sourceMP4, HttpPostedFileBase sourceOGG, HttpPostedFileBase sourceWEBM)
         {
             bool isNew = model.ID == Guid.Empty;
@@ -118,6 +118,58 @@ namespace Yorganize.Showcase.Web.Controllers
             StorageProviderManager.Provider.UploadFile(file.InputStream, path);
 
             return StorageProviderManager.Provider.GetFileUri(path);
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public ActionResult RemoveVideo(Guid id)
+        {
+            var video = _videoRepository.FindByID(id);
+
+            if (video == null)
+                throw new BusinessException("Video not found, it might have been already removed.");
+
+            using (var ts = new TransactionScope())
+            {
+                try
+                {
+                    // delete the video sources
+                    if (!string.IsNullOrEmpty(video.SourceMP4Url))
+                        StorageProviderManager.Provider.DeleteFile(new Uri(video.SourceMP4Url));
+
+                    if (!string.IsNullOrEmpty(video.SourceOGGUrl))
+                        StorageProviderManager.Provider.DeleteFile(new Uri(video.SourceOGGUrl));
+
+                    if (!string.IsNullOrEmpty(video.SourceWEBMUrl))
+                        StorageProviderManager.Provider.DeleteFile(new Uri(video.SourceWEBMUrl));
+
+                }
+                catch (Exception ex)
+                {
+                    throw new BusinessException("Failed to remove video sources.", ex);
+                }
+
+                try
+                {
+                    // delete the video from the database
+                    _videoRepository.Delete(video);
+                }
+                catch (Exception ex)
+                {
+                    // TODO: remove the sources from storage if new
+                    throw new BusinessException("Failed to remove video information.", ex);
+                }
+
+                ts.Complete();
+            }
+
+            return new JsonNetResult("success");
+        }
+
+        public ActionResult CreateCategory(VideoCategoryModel model)
+        {
+            
+            return new JsonNetResult(model);
         }
 
     }
