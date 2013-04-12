@@ -352,9 +352,7 @@
     <Content Include="Configuration\Web.connections.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Properties\PublishProfiles\yorganize - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\yorganize - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\yorganize - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\yorganize - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\backbone.js" />

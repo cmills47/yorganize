@@ -83,6 +83,7 @@ function addEventHandlers(vent) {
     // play video
     vent.on("video:play", function (video) {
         // console.log("playing", video);
+
         window.router.playerView.model.set(video.toJSON());
     });
 

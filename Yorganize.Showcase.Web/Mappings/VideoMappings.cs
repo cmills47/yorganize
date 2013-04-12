@@ -30,10 +30,10 @@ namespace Yorganize.Showcase.Web.Mappings
                             dst.SourceMP4Url = src.SourceMP4Url;
 
                         if (!string.IsNullOrEmpty(src.SourceOGGUrl))
-                            dst.SourceMP4Url = src.SourceOGGUrl;
+                            dst.SourceOGGUrl = src.SourceOGGUrl;
 
                         if (!string.IsNullOrEmpty(src.SourceWEBMUrl))
-                            dst.SourceMP4Url = src.SourceWEBMUrl;
+                            dst.SourceWEBMUrl = src.SourceWEBMUrl;
                     });
 
         }

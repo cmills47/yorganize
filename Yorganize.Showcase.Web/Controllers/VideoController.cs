@@ -68,6 +68,7 @@ namespace Yorganize.Showcase.Web.Controllers
 
             int oldOrder = video.Order;
             int newOrder = model.Order;
+
             Mapper.Map(model, video);
 
             if (isNew)
