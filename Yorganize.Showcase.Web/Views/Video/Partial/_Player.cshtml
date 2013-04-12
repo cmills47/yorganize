@@ -2,27 +2,36 @@
     <div class="span9">
         <h3><%=(ID==null)? "No video selected": Title%></h3>
         <p><%=Description%></p>
-        <% if (SourceMP4Url || SourceOGGUrl || SourceWEBMUrl) { %>
-            <div id="flowplayer" class=" bordered-top-medium flowplayer minimalist">
-                <video id="video-player-object" autoplay="true" controls width="640" height="264">
-                    <% if(SourceWEBMUrl) {%>
-                        <source src="<%=SourceWEBMUrl%>" type='video/webm'>
-                    <%}%>
-                     <% if(SourceOGGUrl) {%>
-                        <source src="<%=SourceOGGUrl%>" type='video/ogg'>
-                    <%}%>
-                    <% if(SourceMP4Url) {%>
-                        <source src="<%=SourceMP4Url%>" type='video/mp4'>
-                    <%}%>
-                   
-                  
-                    <p>Sorry, your browser does not support this video type.</p>
-                </video>
-            </div>
-        <% } else { %>
-            <div class=" bordered-top-medium ">
-                <h4 class="muted">This video has no source.</h4>
-            </div>
-        <% } %>
+
+        <div id="flowplayer" class=" bordered-top-medium flowplayer playful">
+            <% if (SourceMP4Url || SourceOGGUrl || SourceWEBMUrl) { %>
+            <video id="video-player-object" class="video-js vjs-default-skin" width="640" height="264" controls preload="auto">
+                <% if(SourceMP4Url) {%>
+                <source src="<%=SourceMP4Url%>" type='video/mp4'>
+                <%}%>
+               
+                <% if(SourceOGGUrl) {%>
+                <source src="<%=SourceOGGUrl%>" type='video/ogg'>
+                <%}%>
+                <% if(SourceWEBMUrl) {%>
+                <source src="<%=SourceWEBMUrl%>" type='video/webm'>
+                <%}%>
+                @*
+                <object width="640" height="264" type="application/x-shockwave-flash" data="<%=SourceMP4Url%>">
+                    <!-- Firefox uses the `data` attribute above, IE/Safari uses the param below -->
+                    <param name="movie" value="<%=SourceMP4Url%>" />
+                    <param name="flashvars" value="controlbar=over&amp;image=__POSTER__.JPG&amp;file=__VIDEO__.MP4" />
+                    <!-- fallback image. note the title field below, put the title of the video there -->
+                    <img src="__VIDEO__.JPG" width="640" height="360" alt="__TITLE__"
+                        title="No video playback capabilities, please download the video below" />
+                </object>*@
+                <p>
+                    Your browser can’t play HTML5 video.
+                </p>
+            </video>
+            <% } else { %>
+                <p>This video has no source.</p>
+            <% } %>
+        </div>
     </div>
 </div>

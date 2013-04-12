@@ -10,6 +10,7 @@ namespace Yorganize.Showcase.Web.Models
 
         [Required]
         public string Title { get; set; }
+        public int Order { get; set; }
 
         [Required]
         public string Description { get; set; }

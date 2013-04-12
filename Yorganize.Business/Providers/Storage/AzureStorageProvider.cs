@@ -88,7 +88,7 @@ namespace Yorganize.Business.Providers.Storage
 
         #region Files
 
-        public override void UploadFile(Stream source, string path)
+        public override void UploadFile(Stream source, string path, string contentType = null)
         {
             string containerName, blobName;
             GetStorageContainerAndBlobNames(path, out containerName, out blobName);
@@ -98,9 +98,13 @@ namespace Yorganize.Business.Providers.Storage
             CloudBlobContainer container = client.GetContainerReference(containerName);
             container.CreateIfNotExists();
             var blob = container.GetBlockBlobReference(blobName);
+            
+            if(!string.IsNullOrEmpty(contentType))
+                blob.Properties.ContentType = contentType;
 
             source.Seek(0, SeekOrigin.Begin);
             blob.UploadFromStream(source);
+          
         }
 
         public override Stream DownloadFile(string path)

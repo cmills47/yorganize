@@ -6,15 +6,17 @@
 @section styles{
     <link href="~/Content/kendo/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/kendo.bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/flowplayer/all-skins.css" rel="stylesheet" />
+    @*    <link href="~/Content/flowplayer/all-skins.css" rel="stylesheet" />*@
 }
 
 @section head{
-   
+    <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+    @*<script src="http://vjs.zencdn.net/c/video.js"></script>*@
 }
 
 @section scripts{
-      <script src="~/Scripts/flowplayer.min.js"></script>
+    @*<script src="~/Scripts/flowplayer.min.js"></script>*@
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
     <script src="~/Scripts/underscore.min.js"></script>
     <script src="~/Scripts/backbone.min.js"></script>
     <script src="~/Scripts/backbone.wreqr.min.js"></script>
@@ -24,7 +26,6 @@
     <script src="~/Scripts/Video/videos.js"></script>
     <script src="~/Scripts/Video/player.js"></script>
     <script src="~/Scripts/Video/router.js"></script>
-   
 }
 
 @section header{
@@ -70,10 +71,10 @@
     @Html.Partial("Partial/_EditCategory")
 </script>
 <script id="video-list-template" type="text/html">
-    @Html.Partial("Partial/_List")
+    @(Request.IsAuthenticated ? Html.Partial("Partial/_List") : Html.Partial("Partial/_List_Guest"))
 </script>
 <script id="video-template" type="text/html">
-     @(Request.IsAuthenticated ? Html.Partial("Partial/_Video") : Html.Partial("Partial/_Video_Guest"))
+    @(Request.IsAuthenticated ? Html.Partial("Partial/_Video") : Html.Partial("Partial/_Video_Guest"))
 </script>
 <script id="video-player-template" type="text/html">
     @Html.Partial("Partial/_Player")

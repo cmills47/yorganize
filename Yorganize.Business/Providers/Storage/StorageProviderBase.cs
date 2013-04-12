@@ -12,7 +12,7 @@ namespace Yorganize.Business.Providers.Storage
         public abstract void RemoveEventFromQueue(string queue, IQueueMessage message);
 
         // files
-        public abstract void UploadFile(System.IO.Stream source, string path);
+        public abstract void UploadFile(System.IO.Stream source, string path, string contentType = null);
         public abstract System.IO.Stream DownloadFile(string path);
         public abstract bool DeleteFile(Uri uri);
         public abstract uint DeleteFiles(IEnumerable<Uri> uris);

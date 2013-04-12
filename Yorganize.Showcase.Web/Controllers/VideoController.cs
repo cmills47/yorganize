@@ -41,7 +41,11 @@ namespace Yorganize.Showcase.Web.Controllers
 
         public ActionResult GetVideoList(string category)
         {
-            var videos = _videoRepository.All().Where(video => video.Category.Name == category).ToList();
+            var videos = _videoRepository.All().
+                Where(video => video.Category.Name == category)
+                .OrderBy(video => video.Order)
+                .ToList();
+
             var videoModels = Mapper.Map<List<Video>, List<VideoModel>>(videos);
 
             return new JsonNetResult(new VideoListModel()
@@ -62,6 +66,8 @@ namespace Yorganize.Showcase.Web.Controllers
             if (video == null)
                 throw new BusinessException("Video not found, it might have been removed.");
 
+            int oldOrder = video.Order;
+            int newOrder = model.Order;
             Mapper.Map(model, video);
 
             if (isNew)
@@ -69,6 +75,7 @@ namespace Yorganize.Showcase.Web.Controllers
 
             using (var ts = new TransactionScope())
             {
+                // upload / update the video sources
                 try
                 {
                     if (sourceMP4 != null)
@@ -86,14 +93,58 @@ namespace Yorganize.Showcase.Web.Controllers
                     throw new BusinessException("Failed to upload video sources.", ex);
                 }
 
+                // update the database
                 try
                 {
-                    // update the database
-
                     if (isNew)
+                    {
+                        // get max order for the category
+                        var maxOrder = _videoRepository.All().Count(v => v.Category.ID == video.Category.ID);
+
+                        // set order and insert
+                        video.Order = maxOrder + 1;
                         _videoRepository.Insert(video);
+                    }
                     else
+                    {
+                        // compare current order with new order
+                        dynamic unordered = null;
+
+                        // if order has changed, update order for items in between
+                        _videoRepository.BeginTransaction();
+                        if (newOrder < oldOrder) // order decreased
+                        {
+                            unordered = _videoRepository.FilterBy(
+                                v =>
+                                    v.ID != video.ID &&
+                                    v.Category.ID == video.Category.ID &&
+                                    v.Order >= newOrder && v.Order < oldOrder
+                                );
+
+                            if (unordered != null)
+                                foreach (var uitem in unordered)
+                                    uitem.Order++;
+                        }
+                        else if (newOrder > oldOrder) // order increased
+                        {
+                            unordered = _videoRepository.FilterBy(
+                                v =>
+                                    v.ID != video.ID &&
+                                    v.Category.ID == video.Category.ID &&
+                                    v.Order > oldOrder && v.Order <= newOrder
+                                );
+
+                            if (unordered != null)
+                                foreach (var uitem in unordered)
+                                    uitem.Order--;
+                        }
+                        _videoRepository.CommitTransaction();
+
+                        if (unordered != null)
+                            _videoRepository.Update(unordered);
+
                         _videoRepository.Update(video);
+                    }
 
                     ts.Complete();
                 }
@@ -109,13 +160,19 @@ namespace Yorganize.Showcase.Web.Controllers
             return new JsonNetResult(model);
         }
 
+        [HttpPut]
+        public ActionResult UpdateVideo(VideoModel model)
+        {
+            return SaveVideo(model, null, null, null);
+        }
+
         private Uri UploadVideoSource(Guid videoID, HttpPostedFileBase file)
         {
             if (file == null)
                 return null;
 
             string path = string.Format("showcase/video/{0}{1}", videoID, System.IO.Path.GetExtension(file.FileName));
-            StorageProviderManager.Provider.UploadFile(file.InputStream, path);
+            StorageProviderManager.Provider.UploadFile(file.InputStream, path, file.ContentType);
 
             return StorageProviderManager.Provider.GetFileUri(path);
         }
@@ -151,6 +208,20 @@ namespace Yorganize.Showcase.Web.Controllers
 
                 try
                 {
+                    // update siblings order
+                    _videoRepository.BeginTransaction();
+                    var unordered = _videoRepository.FilterBy(v =>
+                          v.Category.ID == video.Category.ID && v.Order > video.Order);
+
+                    if (unordered != null)
+                        foreach (var uitem in unordered)
+                            uitem.Order--;
+
+                    _videoRepository.CommitTransaction();
+
+                    if (unordered != null)
+                        _videoRepository.Update(unordered);
+
                     // delete the video from the database
                     _videoRepository.Delete(video);
                 }
@@ -188,7 +259,7 @@ namespace Yorganize.Showcase.Web.Controllers
             }
             catch (Exception ex)
             {
-             throw new BusinessException("Failed to update category.", ex);    
+                throw new BusinessException("Failed to update category.", ex);
             }
 
             Mapper.Map(category, model);
@@ -217,7 +288,11 @@ namespace Yorganize.Showcase.Web.Controllers
             return new JsonNetResult("success");
         }
 
-
+        [Authorize]
+        public ActionResult UpdateVideoOrder()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }
