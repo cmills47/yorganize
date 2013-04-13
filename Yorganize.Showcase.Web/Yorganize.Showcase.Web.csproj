@@ -445,9 +445,7 @@
     <Content Include="Views\Video\Partial\_EditCategory.cshtml" />
     <Content Include="Views\Video\Partial\_List_Guest.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Filters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

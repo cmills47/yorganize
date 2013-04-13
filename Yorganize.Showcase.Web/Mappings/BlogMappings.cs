@@ -14,24 +14,25 @@ namespace Yorganize.Showcase.Web.Mappings
         {
             Mapper
                 .CreateMap<BlogPost, BlogPostModel>()
-                .ForMember(m => m.Content, o => o.AddFormatter(new RawHtmlFormatter()));
+                .ForMember(m => m.Content, o => o.AddFormatter(new RawHtmlFormatter()))
+                .ForMember(m => m.ThumbnailUrl, o => o.MapFrom(s => s.ImageUrl))
+                .ForMember(m => m.ThumbnailUrl, o => o.AddFormatter<ThumbnailUrlNoCacheFormatter>());
+
 
             Mapper
                 .CreateMap<BlogPost, BlogPostItemModel>()
                 .ForMember(m => m.ThumbnailUrl, o => o.MapFrom(s => s.ImageUrl))
+                .ForMember(m => m.ThumbnailUrl, o => o.AddFormatter<ThumbnailUrlNoCacheFormatter>())
                 .ForMember(m => m.Excerpt, o => o.MapFrom(s => s.Content))
                 .ForMember(m => m.Excerpt, o => o.AddFormatter(new ExcerptFormatter()));
 
             Mapper
                 .CreateMap<BlogPost, SyndicationItem>()
                 .ForMember(m => m.Title, o => o.ResolveUsing<TextSyndicateContentResolver>().FromMember(s => s.Title))
-
                 .ForMember(m => m.Summary, o => o.ResolveUsing<HtmlSyndicateContentResolver>().FromMember(s => s.Content))
-
                 .ForMember(m => m.Content, o => o.ResolveUsing<HtmlSyndicateContentResolver>().FromMember(s => s.Content))
-
-                .ForMember(m=>m.Id, o=>o.MapFrom(s=>s.Title))
-                .ForMember(m=>m.Id, o=>o.AddFormatter(new SlugFormatter()))
+                .ForMember(m => m.Id, o => o.MapFrom(s => s.Title))
+                .ForMember(m => m.Id, o => o.AddFormatter(new SlugFormatter()))
 
                 .ForMember(m => m.PublishDate, o => o.MapFrom(s => s.Created));
 
@@ -109,6 +110,17 @@ namespace Yorganize.Showcase.Web.Mappings
             protected override SyndicationContent ResolveCore(string source)
             {
                 return SyndicationContent.CreatePlaintextContent(ExcerptFormatter.GetExcerpt(source));
+            }
+        }
+
+        private class ThumbnailUrlNoCacheFormatter : ValueFormatter<string>
+        {
+
+            protected override string FormatValueCore(string value)
+            {
+                return string.IsNullOrEmpty(value)
+                           ? value
+                           : string.Format("{0}?{1}", value, DateTime.Now.TimeOfDay.TotalSeconds);
             }
         }
     }

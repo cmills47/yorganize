@@ -31,6 +31,7 @@ namespace Yorganize.Showcase.Web.Models
         public DateTime Created { get; set; }
         public string Author { get; set; }
         public string ImageUrl { get; set; }
+        public string ThumbnailUrl { get; set; }
     }
 
     public class BlogPostItemModel

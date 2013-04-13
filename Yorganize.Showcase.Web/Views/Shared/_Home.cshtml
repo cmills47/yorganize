@@ -7,7 +7,16 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Yorganize</title>
+    <title>
+        @if (ViewBag.Title == null)
+        {
+            @:"Yorganize"
+        }
+        else
+        {
+            @Html.Raw(ViewBag.Title);
+        }
+    </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -47,7 +56,7 @@
     <link href='http://fonts.googleapis.com/css?family=Monda:400,700' rel='stylesheet' type='text/css'>
     <script src="~/scripts/jquery-1.9.1.min.js"></script>
     @*<script src="http://code.jquery.com/jquery-migrate-1.1.1.js"></script>*@
-     <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
     @RenderSection("head", false)
 </head>
 

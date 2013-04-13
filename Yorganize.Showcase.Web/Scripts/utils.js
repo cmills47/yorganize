@@ -34,11 +34,13 @@ $(document).ready(function () {
     $(document).ajaxError(handleAjaxError);
 });
 
-function handleAjaxError(evt, request, settings, exception) {
+function handleAjaxError(evt, response, settings, exception) {
+
+    
 
     var message = '';
 
-    switch (request.status) {
+    switch (response.status) {
         case 200:
             return;
         case 404:
@@ -48,12 +50,12 @@ function handleAjaxError(evt, request, settings, exception) {
             message = exception;
     }
 
-    var title = request.responseText.match(/<title>(.+)<\/title>/);
+    var title = response.responseText.match(/<title>(.+)<\/title>/);
     if (title && title[1] != null)
         message = title[1];
 
     showMessage($("div.ajax-message"), message, "alert alert-error");
-    // console.log(' details: ' + request.responseText); // TODO: REMOVE THIS FROM PRODUCTION!
+    console.log(' details: ' + response.responseText); // TODO: REMOVE THIS FROM PRODUCTION!
 }
 
 function showMessage(selector, message, css) {

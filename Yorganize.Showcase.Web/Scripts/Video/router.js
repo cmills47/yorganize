@@ -54,7 +54,7 @@ var VideoRouter = Backbone.Router.extend({
         this.videosView.model.set({ Category: category }, { silent: true });
         this.videosView.model.fetch({
             wait: true,
-
+            data: { cache: true },
             error: function (model, request, options) {
                 if (request.status == 200 && request.responseText == "") // request ok, but no model returned
                     videosView.render();

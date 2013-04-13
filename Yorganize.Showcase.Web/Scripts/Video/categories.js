@@ -70,13 +70,13 @@ CategoryView = Backbone.View.extend({
     },
 
     save: function (e) {
-
+        var self = this;
         this.model.save({ Name: this.$el.find('#category-name').val() },
             {
                 wait: true,
                 success: function (model) {
-                    console.log(model);
                     model.set({ isEditing: false });
+                    self.navigate();
                 }
             });
         e.preventDefault();
@@ -132,12 +132,19 @@ CategoriesView = Backbone.View.extend({
     },
 
     setActive: function (category) {
+        var found = false;
         _.each(this.collection.models, function (model) {
-            if (model.get("Name") == category)
+            if (model.get("Name") == category) {
+                found = true;
                 model.set({ isActive: true });
-            else
+                // show upload button
+                this.$('#upload-video').show();
+            } else
                 model.set({ isActive: false });
-        });
+        }, this);
+
+        if (!found)
+            this.$('#upload-video').hide(); // category does not exist
     },
 
     getActive: function () { //TODO with filter

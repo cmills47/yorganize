@@ -21,7 +21,7 @@
         <div class="row">
             @if (!string.IsNullOrEmpty(@Model.ImageUrl))
             {
-                <img id="featured-image-preview" src="@Url.Content(Model.ImageUrl)" class="media-object img-polaroid" />
+                <img id="featured-image-preview" src="@Url.Content(Model.ThumbnailUrl)" class="media-object img-polaroid" />
             }
         </div>
     </div>

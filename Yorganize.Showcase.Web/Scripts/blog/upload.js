@@ -12,17 +12,16 @@ function onUploadError(e) {
 }
 
 function onUploadSuccess(e) {
-    $('#preview-image').attr("src", e.response);
+    var url = e.response + "?" + new Date().getTime();
+    console.log(url);
+    $('#preview-image').attr("src", url);
     $('#featured-image').val(e.response);
-    
-    console.log("success ", e);
 }
 
 function onUploadComplete(e) {
     e.sender.enable();
     $('#spinner-upload').addClass("hidden");
     $('#preview-image').removeClass("hidden");
-    console.log("complete ", e);
 }
 
 function onFeaturedImageRemove() {

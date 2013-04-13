@@ -25,6 +25,7 @@ namespace Yorganize.Showcase.Web.Controllers
             _blogPostRepository = blogPostRepository;
         }
 
+       [OutputCache(NoStore = true, Duration = 0 )]
         public ActionResult Index(int? year, int? month)
         {
             DateTime? startDate = default(DateTime?), endDate = default(DateTime?);
@@ -61,7 +62,6 @@ namespace Yorganize.Showcase.Web.Controllers
         /// </summary>
         /// <param name="id">The 'Slug' of the post</param>
         /// <param name="edit">If true, open in edit mode</param>
-        /// <returns></returns>
         public ActionResult Post(string id, bool edit = false)
         {
             BlogPostModel model;
@@ -140,7 +140,7 @@ namespace Yorganize.Showcase.Web.Controllers
             if (!Request.IsAuthenticated)
                 throw new BusinessException("You are not authorized to remove this post.");
 
-            using (TransactionScope ts = new TransactionScope())
+            using (var ts = new TransactionScope())
             {
                 _blogPostRepository.BeginTransaction();
                 var post = _blogPostRepository.FindByID(id);
@@ -222,12 +222,12 @@ namespace Yorganize.Showcase.Web.Controllers
 
             _blogPostRepository.CommitTransaction();
 
-            List<SyndicationItem> items = new List<SyndicationItem>();
+            var items = new List<SyndicationItem>();
 
             Mapper.Map(posts, items);
 
             var result = new RssResult("Yorganize blog", "Description", items);
-            
+
             return result;
 
         }

@@ -1,7 +1,7 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = (Model.Exception.GetType() == typeof(Yorganize.Business.Exceptions.BusinessException)) ? Model.Exception.Message : "An error occurred while processing your request.";
 }
 
 <br />

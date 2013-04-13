@@ -16,7 +16,6 @@ namespace Yorganize.Showcase.Web.Controllers
 {
     public class VideoController : Controller
     {
-
         private readonly IKeyedRepository<Guid, Video> _videoRepository;
         private readonly IKeyedRepository<int, VideoCategory> _categoryRepository;
 
@@ -39,6 +38,7 @@ namespace Yorganize.Showcase.Web.Controllers
             return new JsonNetResult(models);
         }
 
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult GetVideoList(string category)
         {
             var videos = _videoRepository.All().
