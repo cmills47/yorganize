@@ -65,7 +65,8 @@ CategoryView = Backbone.View.extend({
 
     navigate: function (e) {
         window.router.navigate("category/" + this.model.get("Name"), true);
-        e.preventDefault();
+        if (e)
+            e.preventDefault();
     },
 
     save: function (e) {
@@ -99,8 +100,6 @@ CategoryView = Backbone.View.extend({
     destroyView: function () {
         this.remove();
     }
-
-
 });
 
 CategoriesView = Backbone.View.extend({
@@ -126,7 +125,10 @@ CategoriesView = Backbone.View.extend({
         this.collection.each(function (category) {
             var categoryView = new CategoryView({ model: category, parent: this });
             $container.append(categoryView.render().el);
-        });
+
+            if (!this.defaultView) // store first category view as default
+                this.defaultView = categoryView;
+        }, this);
     },
 
     setActive: function (category) {
@@ -153,5 +155,11 @@ CategoriesView = Backbone.View.extend({
     addCategory: function (e) {
         window.router.vent.trigger("category:add");
         e.preventDefault();
+    },
+
+    // navigate to default category if exists
+    navigateDefault: function () {
+        if (this.defaultView)
+            this.defaultView.navigate();
     }
 });

@@ -5,6 +5,7 @@
 {
     <input type="hidden" id="ID" name="ID" value="<%=ID%>" />
     <input type="hidden" id="CategoryID" name="CategoryID" value="<%=CategoryID%>" />
+    <input type="hidden" id="Order" name="Order" value="<%=Order%>" />
     
     <h3 class="block-title sub-title"><span><% if(ID){%>Edit<%}else{%>Upload<%}%> Video</span> </h3>
 
@@ -15,13 +16,13 @@
         <label>Description</label>
         <textarea id="Description" name="Description" placeholder="Video description…" data-val="true" data-val-required="Description is required"><%=Description%></textarea>
 
-        <label class="_tooltip" data-title="no source selected" title="<%=SourceMP4Url%>"><i class="icon-film btn-success"></i>MP4 source</label>
+        <label class="_tooltip" data-title="no source selected" title="<%=SourceMP4Url%>"><i class="icon-film <% if(SourceMP4Url) {%> btn-success<%}%>"></i>MP4 source</label>
         <input type="file" name="sourceMP4" id="mp4-file-upload" accept=".mp4" />
         <br />
-        <label class="_tooltip" data-title="no source selected" title="<%=SourceOGGUrl%>"><i class="icon-film btn-success"></i>OGG source</label>
+        <label class="_tooltip" data-title="no source selected" title="<%=SourceOGGUrl%>"><i class="icon-film <% if(SourceOGGUrl) {%> btn-success<%}%>"></i>OGG source</label>
         <input type="file" name="sourceOGG" id="ogg-file-upload" accept=".ogv" />
         <br />
-        <label class="_tooltip" data-title="no source selected" title="<%=SourceWEBMUrl%>"><i class="icon-film btn-success"></i>WEBM source</label>
+        <label class="_tooltip" data-title="no source selected" title="<%=SourceWEBMUrl%>"><i class="icon-film <% if(SourceWEBMUrl) {%> btn-success<%}%>"></i>WEBM source</label>
         <input type="file" name="sourceWEBM" id="webm-file-upload" accept=".webm" />
 
         <br />

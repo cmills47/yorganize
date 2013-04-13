@@ -17,6 +17,8 @@ var VideoRouter = Backbone.Router.extend({
 
                 if (category)
                     window.router.categoriesView.setActive(category);
+                else
+                    window.router.categoriesView.navigateDefault();
             }
         });
 
@@ -39,7 +41,6 @@ var VideoRouter = Backbone.Router.extend({
 
         // create views 
         this.playerView = new VideoPlayerView({ el: '#video-player' });
-
         this.videosView = new VideosView({ el: '#video-list' });
 
         if (!category) {
@@ -82,8 +83,6 @@ function addEventHandlers(vent) {
 
     // play video
     vent.on("video:play", function (video) {
-        // console.log("playing", video);
-
         window.router.playerView.model.set(video.toJSON());
     });
 

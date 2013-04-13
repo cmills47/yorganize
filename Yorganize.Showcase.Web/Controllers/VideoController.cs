@@ -204,7 +204,8 @@ namespace Yorganize.Showcase.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    throw new BusinessException("Failed to remove video sources.", ex);
+                    //TODO: log exception
+                    throw new BusinessException("Failed to remove video sources.");
                 }
 
                 try
