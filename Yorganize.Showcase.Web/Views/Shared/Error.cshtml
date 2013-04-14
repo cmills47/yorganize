@@ -10,12 +10,16 @@
 <br />
 <hgroup class="title">
 
-    <h4 class="error">An error occurred while processing your request.</h4>
-    @if (Model.Exception.GetType() == typeof(Yorganize.Business.Exceptions.BusinessException))
+    
+    @if (Model.Exception.GetType() == typeof (Yorganize.Business.Exceptions.BusinessException))
     {
-        <h3>
+        <h4 class="error">
             @Model.Exception.Message
-        </h3>
+        </h4>
+    }
+    else
+    {
+        <h4 class="error">An error occurred while processing your request.</h4>
     }
 
 </hgroup>

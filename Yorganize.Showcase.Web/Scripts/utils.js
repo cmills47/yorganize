@@ -36,9 +36,7 @@ $(document).ready(function () {
 
 function handleAjaxError(evt, response, settings, exception) {
 
-    
-
-    var message = '';
+    var message = 'Unknown error';
 
     switch (response.status) {
         case 200:
@@ -50,12 +48,16 @@ function handleAjaxError(evt, response, settings, exception) {
             message = exception;
     }
 
-    var title = response.responseText.match(/<title>(.+)<\/title>/);
-    if (title && title[1] != null)
-        message = title[1];
+    var $html = $.parseHTML(response.responseText);
+    $html.filter(function (u) {
+        if (u.tagName == "TITLE") {
+            message = u.text;
+            return;
+        }
+    });
 
     showMessage($("div.ajax-message"), message, "alert alert-error");
-    console.log(' details: ' + response.responseText); // TODO: REMOVE THIS FROM PRODUCTION!
+    //   console.log(' details: ' + response.responseText); // TODO: REMOVE THIS FROM PRODUCTION!
 }
 
 function showMessage(selector, message, css) {

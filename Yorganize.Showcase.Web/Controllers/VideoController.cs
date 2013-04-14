@@ -30,6 +30,7 @@ namespace Yorganize.Showcase.Web.Controllers
             return View();
         }
 
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult GetVideoCategories()
         {
             var categories = _categoryRepository.All().ToList();
@@ -76,6 +77,16 @@ namespace Yorganize.Showcase.Web.Controllers
 
             using (var ts = new TransactionScope())
             {
+                if (isNew) // create video if new
+                    try
+                    {
+                        _videoRepository.Insert(video);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new BusinessException("Failded to create video. Another video with the same title might already exist in this category.", ex);
+                    }
+
                 // upload / update the video sources
                 try
                 {
@@ -91,12 +102,14 @@ namespace Yorganize.Showcase.Web.Controllers
                 }
                 catch (Exception ex)
                 {
+                    //todo: remove uploaded sources
                     throw new BusinessException("Failed to upload video sources.", ex);
                 }
 
                 // update the database
                 try
                 {
+                    // update order
                     if (isNew)
                     {
                         // get max order for the category
@@ -104,7 +117,8 @@ namespace Yorganize.Showcase.Web.Controllers
 
                         // set order and insert
                         video.Order = maxOrder + 1;
-                        _videoRepository.Insert(video);
+                        _videoRepository.Update(video);
+
                     }
                     else
                     {

@@ -2,64 +2,81 @@
 var VideoRouter = Backbone.Router.extend({
 
     initialize: function (options) {
-        this.data_loaded = false;
+        this.categories_loaded = this.videos_loaded = false;
+
+        // create views 
+        this.playerView = new VideoPlayerView({ el: '#video-player' });
+        this.categoriesView = new CategoriesView({ el: '#categories-region' });
+        this.videosView = new VideosView({ el: '#video-list' });
+
         this.vent = new Backbone.Wreqr.EventAggregator();
+        addEventHandlers(this.vent);
     },
 
-    load_data: function (category) {
-
-        // fetch models and collections
-        this.categoriesView = new CategoriesView({ el: '#categories-region' });
-
+    load_categories: function (category) {
         this.categoriesView.collection.fetch({
             reset: true,
+            data: { cache: false },
             success: function () {
-
                 if (category)
                     window.router.categoriesView.setActive(category);
                 else
-                    window.router.categoriesView.navigateDefault();
+                    window.router.categoriesView.navigateDefault(); // navigate to default category
             }
         });
 
-        addEventHandlers(this.vent);
+        return true;
+    },
+
+    load_videos: function (video) {
+
+        // fetch videos for current category
+        this.videosView.model.fetch({
+            wait: true,
+            data: { cache: false },
+            view: this.videosView,
+            error: function (model, request, options) {
+                if (request.status == 200 && request.responseText == "") // request ok, but no model returned
+                    videosView.render();
+            },
+            success: function (model, request, options) {
+                // find video and trigger play
+                if (video)
+                    options.view.play(video);
+                else
+                    window.router.videosView.navigateDefault(); // navigate to default video
+            }
+        });
 
         return true;
     },
 
     routes: {
         "": "index",
-        "category/:category": "index"
+        "category/:category": "index",
+        "category/:category/video/:video": "index"
     },
 
-    index: function (category) {
+    index: function (category, video) {
 
-        this.data_loaded = this.data_loaded || this.load_data(category);
+        // load categories
+        this.categories_loaded = this.categories_loaded || this.load_categories(category);
 
-        if (!this.data_loaded)
+        if (!this.categories_loaded)
             return;
 
-        // create views 
-        this.playerView = new VideoPlayerView({ el: '#video-player' });
-        this.videosView = new VideosView({ el: '#video-list' });
-
-        if (!category) {
+        if (!category) { // render empty videos view if no category specified and return
             this.videosView.render();
             return;
         }
 
         // set category data
-
         this.categoriesView.setActive(category);
         this.videosView.model.set({ Category: category }, { silent: true });
-        this.videosView.model.fetch({
-            wait: true,
-            data: { cache: true },
-            error: function (model, request, options) {
-                if (request.status == 200 && request.responseText == "") // request ok, but no model returned
-                    videosView.render();
-            }
-        });
+
+        // load videos
+        this.videos_loaded = this.load_videos(video);
+
     }
 
 });

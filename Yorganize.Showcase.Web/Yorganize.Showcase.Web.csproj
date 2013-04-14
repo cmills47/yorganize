@@ -393,7 +393,6 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\utils.js" />
     <Content Include="Scripts\Video\categories.js" />
-    <Content Include="Scripts\Video\player.js" />
     <Content Include="Scripts\Video\router.js" />
     <Content Include="Scripts\Video\videos.js" />
     <Content Include="Web.config">

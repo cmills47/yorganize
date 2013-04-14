@@ -1,9 +1,11 @@
-﻿// MODELS
+﻿
+// MODELS
 
 VideoModel = Backbone.Model.extend({
     defaults: {
         ID: null,
         Title: "",
+        Slug: "",
         Order: 0,
         CategoryID: 0,
         Description: "",
@@ -78,7 +80,7 @@ VideoView = Backbone.View.extend({
     events: {
         "click #edit": "editVideo",
         "click #remove": "removeVideo",
-        "click #play-video": "playVideo",
+        "click #play-video": "navigate",
         "click #move": "moveVideo"
     },
 
@@ -111,10 +113,12 @@ VideoView = Backbone.View.extend({
 
         e.preventDefault();
     },
-
-    playVideo: function (e) {
-        window.router.vent.trigger("video:play", this.model);
-        e.preventDefault();
+    
+    navigate: function(e) {
+        var route = "category/" + this.parent.model.get("Category") + "/video/" + this.model.get("Slug");
+        window.router.navigate(route, true);
+        if (e)
+            e.preventDefault();
     },
 
     destroyView: function (e) {
@@ -133,6 +137,7 @@ VideosView = Backbone.View.extend({
     },
 
     render: function () {
+        this.defaultView = null;
         var $content = _.template(this.template, { Category: this.model.get("Category") });
         this.$el.html($content);
 
@@ -144,7 +149,10 @@ VideosView = Backbone.View.extend({
             videos.each(function (video) {
                 var videoView = new VideoView({ model: video, parent: self });
                 $container.append(videoView.render().el);
-            });
+                
+                if (!this.defaultView) // store first video view as default
+                    this.defaultView = videoView;
+            }, this);
         else
             this.$el.append("<h3 class='muted'>There are no videos in this category. </h3>");
 
@@ -198,6 +206,19 @@ VideosView = Backbone.View.extend({
         model.save();
     },
 
+    play: function (slug) {
+        var videos = this.model.videos();
+        var video = videos.findWhere({ Slug: slug });
+        if (video)
+            window.router.vent.trigger("video:play", video);
+    },
+    
+    // navigate to default category if exists
+    navigateDefault: function () {
+        if (this.defaultView)
+            this.defaultView.navigate();
+    },
+
     videoRemoved: function (model) {
         // update order 
         var videos = this.model.videos();
@@ -222,30 +243,6 @@ VideoPlayerView = Backbone.View.extend({
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
 
-
-        /*
-        var $player = $("#flowplayer");
-        $player.flowplayer({
-            // configuration for this player
-            autoPlay: true,
-
-            // video will be buffered when splash screen is visible
-            autoBuffering: true
-        });
-
-        //$api = flowplayer($player);
-        */
-        /*
-        if (this.model.hasSources())
-        _V_("video-player-object").ready(function () {
-
-            var myPlayer = this;
-
-            // EXAMPLE: Start playing the video.
-            myPlayer.play();
-
-        });
-    */
         return this;
     }
 });
@@ -285,7 +282,7 @@ EditVideoView = Backbone.View.extend({
             dataType: 'json',
             beforeSubmit: this.beginRequest,
             success: this.showResponse,
-            // error: this.errorRequest,
+            error: this.errorRequest,
             clearForm: false,
             view: this
         };
@@ -304,7 +301,6 @@ EditVideoView = Backbone.View.extend({
     },
 
     showResponse: function (response, statusText, xhr, $form) {
-
         // update status
         successMessage("Video sucessfuly uploaded/updated.");
 
@@ -318,8 +314,8 @@ EditVideoView = Backbone.View.extend({
         return true;
     },
 
-    errorRequest: function (response) {
-        console.log("error:", response);
+    errorRequest: function (response, statusText) {
+        this.view.remove();
         return false;
     },
 
@@ -329,7 +325,6 @@ EditVideoView = Backbone.View.extend({
     },
 
     showProgress: function () {
-
         this.$('#edit-form').hide();
         this.$('#progress').show();
     }

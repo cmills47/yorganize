@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.RegularExpressions;
+using AutoMapper;
 using Yorganize.Showcase.Domain.Models;
 using Yorganize.Showcase.Web.Models;
 
@@ -15,7 +16,9 @@ namespace Yorganize.Showcase.Web.Mappings
                 .CreateMap<VideoCategoryModel, VideoCategory>();
 
             Mapper
-                .CreateMap<Video, VideoModel>();
+                .CreateMap<Video, VideoModel>()
+                .ForMember(m => m.Slug, o => o.MapFrom(s => s.Title))
+                .ForMember(m => m.Slug, o => o.AddFormatter<SlugFormatter>());
 
             Mapper
                 .CreateMap<VideoModel, Video>()
@@ -46,5 +49,27 @@ namespace Yorganize.Showcase.Web.Mappings
             }
         }
 
+        private class SlugFormatter : ValueFormatter<string>
+        {
+            protected override string FormatValueCore(string value)
+            {
+                string str = RemoveAccent(value).ToLower();
+                // invalid chars           
+                str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+                // convert multiple spaces into one space   
+                str = Regex.Replace(str, @"\s+", " ").Trim();
+                // cut and trim 
+                str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
+                str = Regex.Replace(str, @"\s", "-"); // hyphens   
+
+                return str;
+            }
+
+            private static string RemoveAccent(string txt)
+            {
+                byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(txt);
+                return System.Text.Encoding.ASCII.GetString(bytes);
+            }
+        }
     }
 }

@@ -8,8 +8,11 @@
     [SourceOGGUrl]    VARCHAR (256)    NULL,
     [SourceWEBMUrl]   VARCHAR (256)    NULL,
     CONSTRAINT [PK_Video] PRIMARY KEY CLUSTERED ([VideoId] ASC),
-    CONSTRAINT [FK_Video_VideoCategory] FOREIGN KEY ([VideoCategoryId]) REFERENCES [dbo].[VideoCategory] ([VideoCategoryId])
+    CONSTRAINT [FK_Video_VideoCategory] FOREIGN KEY ([VideoCategoryId]) REFERENCES [dbo].[VideoCategory] ([VideoCategoryId]),
+    CONSTRAINT [UK_Video_Category_Title] UNIQUE NONCLUSTERED ([VideoCategoryId] ASC, [Title] ASC)
 );
+
+
 
 
 

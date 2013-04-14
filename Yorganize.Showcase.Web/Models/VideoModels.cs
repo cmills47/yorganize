@@ -10,6 +10,7 @@ namespace Yorganize.Showcase.Web.Models
 
         [Required]
         public string Title { get; set; }
+        public string Slug { get; set; }
         public int Order { get; set; }
 
         [Required]
@@ -17,7 +18,7 @@ namespace Yorganize.Showcase.Web.Models
         public string SourceMP4Url { get; set; }
         public string SourceOGGUrl { get; set; }
         public string SourceWEBMUrl { get; set; }
-        
+
         public int CategoryID { get; set; }
     }
 

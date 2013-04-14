@@ -1,4 +1,7 @@
-﻿CategoryModel = Backbone.Model.extend({
+﻿
+// MODELS
+
+CategoryModel = Backbone.Model.extend({
     defaults: {
         ID: null,
         Name: "",
@@ -35,6 +38,8 @@ CategoriesCollection = Backbone.Collection.extend({
     url: "Video/GetVideoCategories"
 });
 
+// VIEWS
+
 CategoryView = Backbone.View.extend({
     tagName: "li",
 
@@ -64,7 +69,8 @@ CategoryView = Backbone.View.extend({
     },
 
     navigate: function (e) {
-        window.router.navigate("category/" + this.model.get("Name"), true);
+        var route = "category/" + this.model.get("Name");
+        window.router.navigate(route, true);
         if (e)
             e.preventDefault();
     },
@@ -83,7 +89,6 @@ CategoryView = Backbone.View.extend({
     },
 
     cancel: function (e) {
-        console.log("cancel");
         this.model.destroy();
         e.preventDefault();
     },
