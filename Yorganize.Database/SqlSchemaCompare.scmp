@@ -477,10 +477,6 @@
         <Value>ExcludedType</Value>
       </PropertyElementName>
       <PropertyElementName>
-        <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlSelectiveXmlIndex</Name>
-        <Value>ExcludedType</Value>
-      </PropertyElementName>
-      <PropertyElementName>
         <Name>Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlSequence</Name>
         <Value>ExcludedType</Value>
       </PropertyElementName>

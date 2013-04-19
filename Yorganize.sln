@@ -7,11 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Showcase.Web", "Y
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Yorganize.Showcase.Database", "YOrganize.Showcase.Database\Yorganize.Showcase.Database.sqlproj", "{D7EB0FEE-6A6B-40FC-A319-4A3ABB2352C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Showcase.Tests", "YOrganize.Tests\Yorganize.Showcase.Tests.csproj", "{65BBE02C-7190-4DD2-A97C-D6A882CD8090}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Business", "Yorganize.Business\Yorganize.Business.csproj", "{78415F2F-45BC-4BC5-9643-F7A3DEB03261}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Showcase.Business", "Yorganize.Showcase.Business\Yorganize.Showcase.Business.csproj", "{E38A47CA-97A8-4F3E-BAC9-4EAF874BE97C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Domain", "Yorganize.Domain\Yorganize.Domain.csproj", "{2BD8D9FC-5B5F-412D-8246-31440F8599F7}"
 EndProject
@@ -23,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E4F41C
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yorganize.Web", "Yorganize.Web\Yorganize.Web.csproj", "{243F3BF1-B7E4-43E9-B9F7-47ECF0D82333}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,18 +41,10 @@ Global
 		{D7EB0FEE-6A6B-40FC-A319-4A3ABB2352C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7EB0FEE-6A6B-40FC-A319-4A3ABB2352C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7EB0FEE-6A6B-40FC-A319-4A3ABB2352C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65BBE02C-7190-4DD2-A97C-D6A882CD8090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65BBE02C-7190-4DD2-A97C-D6A882CD8090}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65BBE02C-7190-4DD2-A97C-D6A882CD8090}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65BBE02C-7190-4DD2-A97C-D6A882CD8090}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78415F2F-45BC-4BC5-9643-F7A3DEB03261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78415F2F-45BC-4BC5-9643-F7A3DEB03261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78415F2F-45BC-4BC5-9643-F7A3DEB03261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78415F2F-45BC-4BC5-9643-F7A3DEB03261}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E38A47CA-97A8-4F3E-BAC9-4EAF874BE97C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E38A47CA-97A8-4F3E-BAC9-4EAF874BE97C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E38A47CA-97A8-4F3E-BAC9-4EAF874BE97C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E38A47CA-97A8-4F3E-BAC9-4EAF874BE97C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2BD8D9FC-5B5F-412D-8246-31440F8599F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2BD8D9FC-5B5F-412D-8246-31440F8599F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BD8D9FC-5B5F-412D-8246-31440F8599F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +53,10 @@ Global
 		{E8AE9D8F-7604-49F7-8AB3-9AD95544B3BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8AE9D8F-7604-49F7-8AB3-9AD95544B3BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8AE9D8F-7604-49F7-8AB3-9AD95544B3BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{243F3BF1-B7E4-43E9-B9F7-47ECF0D82333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{243F3BF1-B7E4-43E9-B9F7-47ECF0D82333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{243F3BF1-B7E4-43E9-B9F7-47ECF0D82333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{243F3BF1-B7E4-43E9-B9F7-47ECF0D82333}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

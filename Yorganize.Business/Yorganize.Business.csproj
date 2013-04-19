@@ -89,6 +89,7 @@
     <Compile Include="Exceptions\ExceptionType.cs" />
     <Compile Include="Modules\NHibernateRepositoryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\Membership\LiveIdMemberShipProvider.cs" />
     <Compile Include="Providers\NHibernateSession\IUnitOfWork.cs" />
     <Compile Include="Providers\NHibernateSession\NHibernateSessionProvider.cs" />
     <Compile Include="Providers\NHibernateSession\UnitOfWork.cs" />

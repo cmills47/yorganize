@@ -1,0 +1,91 @@
+﻿.b-bar-item {
+    background: no-repeat;
+    /*background-color: #008000;*/
+    background-size: contain;
+    height: 97px;
+    width: 97px;
+    border: #424244 3px solid;
+}
+
+    .b-bar-item:hover {
+        border: #00bfff 3px solid;
+    }
+
+.b-bar-separator {
+    margin: 20px 0 0 0;
+    height: 60px;
+    width: 3px;
+    background-color: white;
+}
+
+.b-projects {
+    background-image: url(icons/top/projects.png);
+}
+
+
+.b-contexts {
+    background-image: url(icons/top/context.png);
+}
+
+
+.b-flagged {
+    background-image: url(icons/top/export.png);
+}
+
+
+.b-next-action {
+    background-image: url(icons/top/nxtaction.png);
+}
+
+
+.b-current {
+    background-image: url(icons/top/tv.png);
+}
+
+#top-bar .inner {
+    background-color: #424244;
+}
+
+#bottom-bar .inner {
+    background-color: #424244;
+    margin-bottom: 10px;
+}
+
+header {
+    border-top-width: 5px;
+}
+
+#bottom-bar-trigger {
+    height: 5px;
+    background-color: rgb(27, 161, 226);
+}
+
+
+.row-input {
+    border: 1px solid #1789c1;
+    margin-left: -11px;
+    margin-right: 11px;
+    margin-bottom: 8px;
+}
+
+
+.row-input input {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.row-input a span {
+    line-height: 28px;
+}
+
+.timatter .action {
+    line-height: 16px;
+    margin: 0 0 10px 0;
+    min-height: 15px ;
+}
+
+.attachment-icon {
+    margin-bottom: 3px;
+}

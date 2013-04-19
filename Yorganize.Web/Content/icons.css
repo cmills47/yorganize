@@ -1,0 +1,209 @@
+﻿
+._icon-mini {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 18px;
+}
+
+._icon-small {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 24px;
+}
+
+._icon-medium {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 30px;
+}
+
+._icon-large {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
+}
+
+._icon-xlarge {
+    width: 100px;
+    height: 100px;
+    line-height: 90px;
+    font-size: 80px;
+}
+
+._icon-background-circle {
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+    border-radius: 500px;
+}
+
+._icon-background-circle-double {
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+    border-radius: 500px;
+    border: 3px solid #e7f1f7;
+    box-shadow: 0 0 0 2px #377ca8;
+}
+
+._icon-rounded {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+._icon-inverse {
+    background-color: #377ca8;
+    color: #ffffff;
+    text-align: center;
+}
+
+._icon-inverse-50 {
+    background-color: rgba(55, 124, 168, 0.5);
+    color: #ffffff;
+    text-align: center;
+}
+
+._icon-inverse-80 {
+    background-color: rgba(55, 124, 168, 0.8);
+    color: #ffffff;
+    text-align: center;
+}
+
+._icon-success {
+    background: #7fbf4d;
+}
+
+body .icon-mini,
+li .icon-mini {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 18px;
+}
+
+body .icon-small,
+li .icon-small {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 24px;
+}
+
+body .icon-medium,
+li .icon-medium {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 30px;
+}
+
+body .icon-large,
+li .icon-large {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
+}
+
+body .icon-xlarge,
+li .icon-xlarge {
+    width: 100px;
+    height: 100px;
+    line-height: 90px;
+    font-size: 80px;
+}
+
+body .icon-background-circle,
+li .icon-background-circle {
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+    border-radius: 500px;
+}
+
+body .icon-background-circle-double,
+li .icon-background-circle-double {
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+    border-radius: 500px;
+    border: 3px solid #e7f1f7;
+    box-shadow: 0 0 0 2px #377ca8;
+}
+
+body .icon-rounded,
+li .icon-rounded {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+body .icon-inverse,
+li .icon-inverse {
+    background-color: #377ca8;
+    color: #ffffff;
+    text-align: center;
+}
+
+body .icon-inverse-50,
+li .icon-inverse-50 {
+    background-color: rgba(55, 124, 168, 0.5);
+    color: #ffffff;
+    text-align: center;
+}
+
+body .icon-inverse-80,
+li .icon-inverse-80 {
+    background-color: rgba(55, 124, 168, 0.8);
+    color: #ffffff;
+    text-align: center;
+}
+
+body .icon-success,
+li .icon-success {
+    background: #7fbf4d;
+}
+
+    body .icon-mini:before,
+    li .icon-mini:before,
+    body .icon-small:before,
+    li .icon-small:before,
+    body .icon-medium:before,
+    li .icon-medium:before,
+    body .icon-large:before,
+    li .icon-large:before,
+    body .icon-xlarge:before,
+    li .icon-xlarge:before,
+    body .icon-background-circle:before,
+    li .icon-background-circle:before,
+    body .icon-background-circle-double:before,
+    li .icon-background-circle-double:before,
+    body .icon-rounded:before,
+    li .icon-rounded:before,
+    body .icon-inverse:before,
+    li .icon-inverse:before,
+    body .icon-inverse-50:before,
+    li .icon-inverse-50:before,
+    body .icon-inverse-80:before,
+    li .icon-inverse-80:before,
+    body .icon-success:before,
+    li .icon-success:before {
+        width: auto;
+        font-size: inherit;
+    }
+
+a:hover .icon-inverse,
+a:hover .icon-inverse-50,
+a:hover .icon-inverse-80 {
+    text-decoration: none;
+}
+
+a:hover .icon-inverse {
+    background: #74add1;
+}
+
+a:hover .icon-inverse-50,
+a:hover .icon-inverse-80 {
+    background: #377ca8;
+}

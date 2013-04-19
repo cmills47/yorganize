@@ -1,0 +1,140 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Metro Mania</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <!-- Stylesheets -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
+    <link href="~/content/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link href="~/Content/icons.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+    <link href="~/Content/icheck/square/blue.css" rel="stylesheet" />
+
+    <!-- Theme -->
+    <link href="~/Content/theme.css" rel="stylesheet">
+    <link href="~/content/lblue.css" rel="stylesheet">
+    <link href="~/Content/custom.css" rel="stylesheet" />
+
+
+    <!-- HTML5 Support for IE -->
+    <!--[if lt IE 9]>
+        <script src="~/Scripts/html5shim.js"></script>
+    <![endif]-->
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/Content/icons/favicon.ico">
+</head>
+
+<body>
+
+    <!-- Header Starts -->
+    <header>
+        @Html.Partial("Partial/_TopBar")
+        @Html.Partial("Partial/_Header")
+    </header>
+    <hr />
+    @* @Html.Partial("Partial/_Navigation")*@
+
+
+
+    <div class="content">
+        @RenderBody()
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        @Html.Partial("Partial/_BottomBar")
+        @Html.Partial("Partial/_Footer")
+    </footer>
+
+
+    <!-- JS -->
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.icheck.min.js"></script>
+
+    @*<script src="js/jquery.isotope.js"></script>*@
+    <!-- Isotope for gallery -->
+    @*<script src="js/jquery.prettyPhoto.js"></script>*@
+    <!-- prettyPhoto for images -->
+    @*<script src="js/jquery.cslider.js"></script>*@
+    <!-- Parallax slider -->
+    @*<script src="js/modernizr.custom.28468.js"></script>*@
+    @*<script src="js/filter.js"></script>*@
+    <!-- Filter for support page -->
+    @*<script src="js/cycle.js"></script>*@
+    <!-- Cycle slider -->
+    @*<script src="js/jquery.flexslider-min.js"></script>*@
+    <!-- Flex slider -->
+    @*<script src="js/jquery.tweet.js"></script>*@
+    <!-- jQuery Twitter -->
+    @*<script src="js/easing.js"></script>*@
+    <!-- Easing -->
+    @*<script src="js/custom.js"></script>*@
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.top-bar-toggle')
+                .each(function (key, item) {
+                    $(item).click(function () {
+                        $('#top-bar').toggle();
+                    });
+                });
+
+            //$('#selectable').selectable();
+            
+            // bottom bar trigger
+            $('#bottom-bar-trigger').mouseenter(function() {
+                $('#bottom-bar').show();
+            });
+            
+            // checkboxes
+            $('input[type=checkbox]').iCheck({
+                labelHover: false,
+                cursor: true,
+                checkboxClass: 'icheckbox_square-blue',
+            });
+
+            var $files = $('#edit-files');
+            var $details = $('#edit-details');
+
+            $('#edit-details-trigger').click(function() {
+                $files.hide();
+                $details.show();
+            });
+
+            $('#edit-files-trigger').click(function() {
+                $details.hide();
+                $files.show();
+            });
+
+        });
+
+        $(document).mouseup(function (e) {
+            // hide top-bar when click outside
+            var topbar = $('#top-bar');
+            var bottombar = $('#bottom-bar');
+
+            if (topbar.has(e.target).length === 0 && bottombar.has(e.target).length === 0) {
+                topbar.hide();
+                bottombar.hide();
+            }
+        });
+        
+     
+    </script>
+</body>
+</html>

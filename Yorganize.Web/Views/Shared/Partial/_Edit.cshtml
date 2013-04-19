@@ -1,0 +1,22 @@
+﻿<div class="span4">
+    <div class="time">
+        <div class="span12 tidate b-blue">
+            <div class="span11">Edit Project</div>
+         
+            <div class="span1">
+                <i class="icon-folder-close"></i>
+                <i class="icon-trash"></i>
+            </div>
+        </div>
+        <div class="timatter">
+
+            <h5 class="muted span2"><a href="#" id="edit-details-trigger">DETAILS</a></h5>
+            <h5 class="span2"><a href="#" id="edit-files-trigger">FILES</a></h5>
+
+            <div class="clearfix"></div>
+            @Html.Partial("Partial/_EditDetails")
+            @Html.Partial("Partial/_EditFiles")
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

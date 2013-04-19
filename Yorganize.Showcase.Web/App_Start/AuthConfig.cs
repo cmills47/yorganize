@@ -11,6 +11,11 @@ namespace Yorganize.Showcase.Web.App_Start
             OAuthWebSecurity.RegisterMicrosoftClient(
                 clientId: "00000000400F0D53",
                 clientSecret: "eu8W8zp5BkAfDVOPIfRhv17IWidIwGjp");
+
+            // Production
+            //OAuthWebSecurity.RegisterMicrosoftClient(
+            //   clientId: "00000000480CEF36",
+            //   clientSecret: "ZCoAXAcvS6GvoM/V1+A89kxXrGildT3j");
 #endif
 
 #if (!DEBUG)

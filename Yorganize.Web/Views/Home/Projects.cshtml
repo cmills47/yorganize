@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Projects";
+    Layout = "~/Views/Shared/Layouts/_Home.cshtml";
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        @Html.Partial("Partial/_Breadcrumb")
+    </div>
+
+    <div class="row-fluid">
+        @Html.Partial("Partial/_Projects")
+        @Html.Partial("Partial/_Edit")
+        @Html.Partial("Partial/_Actions")
+    </div>
+</div>
+
+
+<!-- Timeline ends -->
