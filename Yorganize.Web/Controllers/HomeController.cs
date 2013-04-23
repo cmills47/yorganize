@@ -13,6 +13,11 @@ namespace Yorganize.Web.Controllers
             return View();
         }
 
+        public ActionResult Error()
+        {
+            return View();
+        }
+
         public ActionResult Projects()
         {
             return View();

@@ -5,7 +5,9 @@
     [ParentFolderId] UNIQUEIDENTIFIER NULL,
     [MemberId]       UNIQUEIDENTIFIER NOT NULL,
     PRIMARY KEY CLUSTERED ([FolderId] ASC),
-    FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
-    FOREIGN KEY ([ParentFolderId]) REFERENCES [dbo].[Folder] ([FolderId])
+    FOREIGN KEY ([ParentFolderId]) REFERENCES [dbo].[Folder] ([FolderId]),
+    CONSTRAINT [FK__Folder__MemberId__5FB337D6] FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId])
 );
+
+
 

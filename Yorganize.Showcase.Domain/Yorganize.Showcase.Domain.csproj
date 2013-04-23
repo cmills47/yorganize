@@ -54,7 +54,6 @@
     <Compile Include="Models\Video.cs" />
     <Compile Include="Models\VideoCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\MemberRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Yorganize.Business\Yorganize.Business.csproj">
@@ -84,6 +83,9 @@
     <EmbeddedResource Include="Models\VideoCategory.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

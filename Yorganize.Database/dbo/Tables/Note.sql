@@ -7,10 +7,13 @@
     [ProjectId]    UNIQUEIDENTIFIER NULL,
     [ActionId]     UNIQUEIDENTIFIER NULL,
     [NotePosition] INT              NULL,
+    [Name]         NVARCHAR (64)    NULL,
     PRIMARY KEY CLUSTERED ([NoteId] ASC),
     CHECK ([Type]='Image' OR [Type]='Text' OR [Type]=NULL),
-    FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
+    CONSTRAINT [FK__Note__MemberId__6477ECF3] FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
     CONSTRAINT [FK_Note_0] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([ProjectId]),
     CONSTRAINT [FK_Note_1] FOREIGN KEY ([ActionId]) REFERENCES [dbo].[Action] ([ActionId])
 );
+
+
 

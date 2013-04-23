@@ -73,7 +73,7 @@ hr {
 }
 
 .border {
-    background: url("../img/dots.png") repeat;
+    background: url("images/dots.png") repeat;
     height: 5px;
     margin: 30px 0px !important;
 }

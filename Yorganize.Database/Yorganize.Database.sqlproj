@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{e60757eb-a100-4c5c-87bd-f0784b0d9362}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureDatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -20,7 +20,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <SqlServerVerification>True</SqlServerVerification>
+    <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
@@ -62,36 +62,34 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
-    <Folder Include="dbo\Stored Procedures\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="dbo\Tables\Tag.sql" />
-    <Build Include="dbo\Tables\SortMethod.sql" />
-    <Build Include="dbo\Tables\Rate.sql" />
-    <Build Include="dbo\Tables\ProjectTag.sql" />
-    <Build Include="dbo\Tables\ProjectContext.sql" />
-    <Build Include="dbo\Tables\Project.sql" />
-    <Build Include="dbo\Tables\Note.sql" />
-    <Build Include="dbo\Tables\MemberNotificationStatus.sql" />
-    <Build Include="dbo\Tables\Member.sql" />
-    <Build Include="dbo\Tables\GroupMethod.sql" />
-    <Build Include="dbo\Tables\Folder.sql" />
-    <Build Include="dbo\Tables\Flag.sql" />
-    <Build Include="dbo\Tables\FilterMethod.sql" />
-    <Build Include="dbo\Tables\CustomViewUIState.sql" />
-    <Build Include="dbo\Tables\CustomViewFilter.sql" />
-    <Build Include="dbo\Tables\CustomView.sql" />
-    <Build Include="dbo\Tables\Context.sql" />
-    <Build Include="dbo\Tables\ChecklistTag.sql" />
-    <Build Include="dbo\Tables\ChecklistContext.sql" />
-    <Build Include="dbo\Tables\Checklist.sql" />
-    <Build Include="dbo\Tables\Attachment.sql" />
-    <Build Include="dbo\Tables\AdminNotification.sql" />
-    <Build Include="dbo\Tables\ActionTag.sql" />
-    <Build Include="dbo\Tables\ActionContext.sql" />
-    <Build Include="dbo\Tables\Action.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare.scmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\ChecklistTag.sql" />
+    <Build Include="dbo\Tables\Rate.sql" />
+    <Build Include="dbo\Tables\AdminNotification.sql" />
+    <Build Include="dbo\Tables\FilterMethod.sql" />
+    <Build Include="dbo\Tables\GroupMethod.sql" />
+    <Build Include="dbo\Tables\SortMethod.sql" />
+    <Build Include="dbo\Tables\CustomView.sql" />
+    <Build Include="dbo\Tables\Member.sql" />
+    <Build Include="dbo\Tables\Tag.sql" />
+    <Build Include="dbo\Tables\Folder.sql" />
+    <Build Include="dbo\Tables\CustomViewFilter.sql" />
+    <Build Include="dbo\Tables\Note.sql" />
+    <Build Include="dbo\Tables\Attachment.sql" />
+    <Build Include="dbo\Tables\Flag.sql" />
+    <Build Include="dbo\Tables\Context.sql" />
+    <Build Include="dbo\Tables\Project.sql" />
+    <Build Include="dbo\Tables\CustomViewUIState.sql" />
+    <Build Include="dbo\Tables\ProjectContext.sql" />
+    <Build Include="dbo\Tables\ProjectTag.sql" />
+    <Build Include="dbo\Tables\Action.sql" />
+    <Build Include="dbo\Tables\ActionContext.sql" />
+    <Build Include="dbo\Tables\ActionTag.sql" />
+    <Build Include="dbo\Tables\Checklist.sql" />
+    <Build Include="dbo\Tables\ChecklistContext.sql" />
   </ItemGroup>
 </Project>

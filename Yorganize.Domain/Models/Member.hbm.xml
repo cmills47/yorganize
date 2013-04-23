@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Yorganize.Domain.Models" assembly="Yorganize.Domain" auto-import="false">
+
+  <class name="Member" table="Member">
+
+    <id name="ID" column="MemberId">
+      <generator class="guid"></generator>
+    </id>
+
+    <property name="LiveId" />
+
+    <property name="FirstName" />
+    <property name="LastName" />
+    <property name="Locale" />
+    <property name="PreferredEmail" />
+    
+    <property name="AccountEmail" />
+    <property name="PersonalEmail" />
+    <property name="BusinessEmail" />
+    
+    <property name="AccessToken" />
+    <property name="AuthenticationToken" />
+    <property name="RefreshToken" />
+    
+    <property name="YorganizeEmail" />
+
+  </class>
+
+</hibernate-mapping>

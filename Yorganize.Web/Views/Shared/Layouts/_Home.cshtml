@@ -7,7 +7,16 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Metro Mania</title>
+    <title>
+        @if (ViewBag.Title == null)
+        {
+            @:"Yorganize"
+        }
+        else
+        {
+            @Html.Raw(ViewBag.Title);
+        }
+    </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -41,12 +50,15 @@
 
     <!-- Header Starts -->
     <header>
-        @Html.Partial("Partial/_TopBar")
+        @if (Request.IsAuthenticated)
+        {
+            @Html.Partial("Partial/_TopBar")
+        }
         @Html.Partial("Partial/_Header")
     </header>
     <hr />
     @* @Html.Partial("Partial/_Navigation")*@
-
+    @Html.Partial("Partial/_Message")
 
 
     <div class="content">
@@ -61,12 +73,24 @@
 
 
     <!-- JS -->
+
     <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.icheck.min.js"></script>
+    <script src="~/Scripts/utils.js"></script>
 
-    @*<script src="js/jquery.isotope.js"></script>*@
+    @if (TempData["command"] != null && TempData["command"].ToString() == "prepare-profile")
+    {
+@*  <script src="//js.live.net/v5.0/wl.js"></script>
+        <script src="~/Scripts/account/prepare-profile.js"></script>
+        *@
+        <script src="~/Scripts/account/prepare-profile-folder.js"></script>
+        
+    }
+
+@*<script src="js/jquery.isotope.js"></script>*@
     <!-- Isotope for gallery -->
     @*<script src="js/jquery.prettyPhoto.js"></script>*@
     <!-- prettyPhoto for images -->
@@ -87,20 +111,46 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.top-bar-toggle')
-                .each(function (key, item) {
-                    $(item).click(function () {
-                        $('#top-bar').toggle();
-                    });
-                });
-
-            //$('#selectable').selectable();
-            
-            // bottom bar trigger
-            $('#bottom-bar-trigger').mouseenter(function() {
-                $('#bottom-bar').show();
+            // top bar trigger
+            $('#top-bar-trigger').mouseenter(function () {
+                $('#top-bar-trigger').popover("hide");
+                $('#top-bar').show();
             });
-            
+
+            $('#top-bar-trigger').popover({
+                placement: "bottom",
+                trigger: "manual",
+                title: "Views bar",
+                content: "Hover this zone to diplay the views.",
+                container: "#top-bar-trigger"
+            });
+
+            $('#top-bar-trigger').popover("show");
+
+            // bottom bar trigger
+            $('#bottom-bar-trigger').mouseenter(function () {
+                $('#bottom-bar').show();
+                $('#bottom-bar-trigger').popover("hide");
+            });
+
+            $('#bottom-bar-trigger').popover({
+                placement: "top",
+                trigger: "manual",
+                title: "Actions bar",
+                content: "Hover this zone to diplay the actions bar.",
+                container: "#bottom-bar-trigger"
+            });
+
+            $('#bottom-bar-trigger').popover("show");
+
+            // cog menu trigger
+            $('#cog-menu').popover({
+                placement: "bottom",
+                html: true, // todo: get content from template
+                content: '<i class="icon-cogs"></i> Settings'
+            });
+
+
             // checkboxes
             $('input[type=checkbox]').iCheck({
                 labelHover: false,
@@ -111,12 +161,12 @@
             var $files = $('#edit-files');
             var $details = $('#edit-details');
 
-            $('#edit-details-trigger').click(function() {
+            $('#edit-details-trigger').click(function () {
                 $files.hide();
                 $details.show();
             });
 
-            $('#edit-files-trigger').click(function() {
+            $('#edit-files-trigger').click(function () {
                 $details.hide();
                 $files.show();
             });
@@ -133,8 +183,8 @@
                 bottombar.hide();
             }
         });
-        
-     
+
+
     </script>
 </body>
 </html>

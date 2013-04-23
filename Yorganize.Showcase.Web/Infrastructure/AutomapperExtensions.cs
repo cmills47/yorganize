@@ -3,7 +3,7 @@ using AutoMapper;
 
 namespace YOrganize.Showcase.Web.Infrastructure
 {
-    public static class AutomapperExtensions
+    public static class AutoMapperExtensions
     {
         public static IMappingExpression<TSource, TDestination> IgnoreAllNonExisting<TSource, TDestination>(this IMappingExpression<TSource, TDestination> expression)
         {

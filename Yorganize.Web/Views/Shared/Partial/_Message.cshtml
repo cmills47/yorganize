@@ -1,0 +1,8 @@
+﻿<div class="ajax-message">
+</div>
+@if (TempData["message"] != null)
+{
+    <div class="alert @TempData["alert-type"]">
+        @TempData["message"]
+    </div>
+}

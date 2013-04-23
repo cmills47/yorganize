@@ -48,11 +48,16 @@
 
 #bottom-bar .inner {
     background-color: #424244;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
 }
 
 header {
-    border-top-width: 5px;
+    border: 0;
+}
+
+#top-bar-trigger {
+    height: 5px;
+    background-color: rgb(27, 161, 226);
 }
 
 #bottom-bar-trigger {
@@ -80,6 +85,23 @@ header {
     line-height: 28px;
 }
 
+.tidate .tisub {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.tidate .tisub .remaining {
+    color: ghostwhite
+}
+
+.tidate .tisub .due {
+    color: orange
+}
+
+.tidate .tisub .overdue {
+    color: orangered
+}
+
 .timatter .action {
     line-height: 16px;
     margin: 0 0 10px 0;
@@ -88,4 +110,8 @@ header {
 
 .attachment-icon {
     margin-bottom: 3px;
+}
+
+.timatter {
+    border: #00bfff 1px solid;
 }
