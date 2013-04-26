@@ -50,14 +50,14 @@
 
     <!-- Header Starts -->
     <header>
-        @if (Request.IsAuthenticated)
+        @*       @if (Request.IsAuthenticated)
         {
             @Html.Partial("Partial/_TopBar")
-        }
+        }*@
         @Html.Partial("Partial/_Header")
     </header>
     <hr />
-    @* @Html.Partial("Partial/_Navigation")*@
+
     @Html.Partial("Partial/_Message")
 
 
@@ -67,13 +67,14 @@
 
     <!-- Footer -->
     <footer>
-        @Html.Partial("Partial/_BottomBar")
-        @Html.Partial("Partial/_Footer")
+        @*  @if (Request.IsAuthenticated)
+        {
+            @Html.Partial("Partial/_BottomBar")
+        }
+        @Html.Partial("Partial/_Footer")*@
     </footer>
 
-
     <!-- JS -->
-
     <script src="~/Scripts/jquery-1.9.1.min.js"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
@@ -83,30 +84,12 @@
 
     @if (TempData["command"] != null && TempData["command"].ToString() == "prepare-profile")
     {
-@*  <script src="//js.live.net/v5.0/wl.js"></script>
-        <script src="~/Scripts/account/prepare-profile.js"></script>
-        *@
         <script src="~/Scripts/account/prepare-profile-folder.js"></script>
-        
     }
 
-@*<script src="js/jquery.isotope.js"></script>*@
-    <!-- Isotope for gallery -->
-    @*<script src="js/jquery.prettyPhoto.js"></script>*@
-    <!-- prettyPhoto for images -->
-    @*<script src="js/jquery.cslider.js"></script>*@
-    <!-- Parallax slider -->
-    @*<script src="js/modernizr.custom.28468.js"></script>*@
-    @*<script src="js/filter.js"></script>*@
-    <!-- Filter for support page -->
-    @*<script src="js/cycle.js"></script>*@
-    <!-- Cycle slider -->
-    @*<script src="js/jquery.flexslider-min.js"></script>*@
-    <!-- Flex slider -->
-    @*<script src="js/jquery.tweet.js"></script>*@
-    <!-- jQuery Twitter -->
+    @RenderSection("scripts", false)
+
     @*<script src="js/easing.js"></script>*@
-    <!-- Easing -->
     @*<script src="js/custom.js"></script>*@
 
     <script type="text/javascript">
@@ -183,7 +166,6 @@
                 bottombar.hide();
             }
         });
-
 
     </script>
 </body>

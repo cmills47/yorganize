@@ -8,9 +8,11 @@
     [MemberId]        UNIQUEIDENTIFIER NOT NULL,
     PRIMARY KEY CLUSTERED ([ContextId] ASC),
     CHECK ([Status]='Deleted' OR [Status]='OnHold' OR [Status]='Dropped' OR [Status]='Active' OR [Status]=NULL),
-    FOREIGN KEY ([ParentContextId]) REFERENCES [dbo].[Context] ([ContextId]),
-    CONSTRAINT [FK__Context__MemberI__5535A963] FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId])
+    FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
+    FOREIGN KEY ([ParentContextId]) REFERENCES [dbo].[Context] ([ContextId])
 );
+
+
 
 
 

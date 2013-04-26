@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Yorganize.Domain.Models" assembly="Yorganize.Domain" auto-import="false">
+
+  <class name="Flag" table="Flag">
+
+    <id name="ID" column="FlagId">
+      <generator class="guid"></generator>
+    </id>
+
+    <property name="Url" column="FlagUrl" />
+
+  </class>
+
+</hibernate-mapping>

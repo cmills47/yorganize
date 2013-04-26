@@ -91,5 +91,7 @@
     <Build Include="dbo\Tables\ActionTag.sql" />
     <Build Include="dbo\Tables\Checklist.sql" />
     <Build Include="dbo\Tables\ChecklistContext.sql" />
+    <Build Include="dbo\Tables\MemberLiveFolder.sql" />
+    <Build Include="dbo\Tables\MemberLicencingInfo.sql" />
   </ItemGroup>
 </Project>

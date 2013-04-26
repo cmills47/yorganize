@@ -25,11 +25,13 @@
     CHECK ([Status]='Completed' OR [Status]='Active' OR [Status]=NULL),
     CHECK ([Type]='ChecklistItem' OR [Type]='InboxItem' OR [Type]='Default' OR [Type]=NULL),
     FOREIGN KEY ([FlagId]) REFERENCES [dbo].[Flag] ([FlagId]),
+    FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
     FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([ProjectId]),
     FOREIGN KEY ([SelectedNoteId]) REFERENCES [dbo].[Note] ([NoteId]),
-    CONSTRAINT [FK__Action__MemberId__4316F928] FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
     CONSTRAINT [FK_Action_0] FOREIGN KEY ([ChecklistId]) REFERENCES [dbo].[Checklist] ([ChecklistId])
 );
+
+
 
 
 

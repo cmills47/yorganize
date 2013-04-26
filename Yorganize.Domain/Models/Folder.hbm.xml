@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Yorganize.Domain.Models" assembly="Yorganize.Domain" auto-import="false">
+
+  <class name="Folder" table="Folder">
+
+    <id name="ID" column="FolderId">
+      <generator class="guid"></generator>
+    </id>
+
+    <property name="Name" column="FolderName" />
+    <property name="Position" column="FolderPosition" />
+
+    <many-to-one name="Parent" column="ParentFolderId" />
+    <many-to-one name="Owner" column="MemberId" />
+
+    <set name="Projects" table="Project">
+      <key column="FolderId" />
+      <one-to-many class="Project" />
+    </set>
+
+  </class>
+
+</hibernate-mapping>

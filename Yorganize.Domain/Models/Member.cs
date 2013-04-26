@@ -16,7 +16,7 @@ namespace Yorganize.Domain.Models
         public virtual string LastName { get; set; }
         public virtual string Locale { get; set; }
         public virtual string PreferredEmail { get; set; }
-        
+
         public virtual string AccountEmail { get; set; }
         public virtual string PersonalEmail { get; set; }
         public virtual string BusinessEmail { get; set; }

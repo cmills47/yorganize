@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Projects";
+    Layout = "~/Views/Shared/Layouts/_Home.cshtml";
+}
+
+@section scripts{
+    <script src="~/Scripts/underscore.min.js"></script>
+    <script src="~/Scripts/backbone.min.js"></script>
+    <script src="~/Scripts/backbone.wreqr.min.js"></script>
+    <script src="~/Scripts/projects/project.js"></script>
+    <script src="~/Scripts/projects/folder.js"></script>
+    <script src="~/Scripts/projects/navigation.js"></script>
+    <script src="~/Scripts/projects/application.js"></script>
+}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div id="region-breadcrumb">
+             @Html.Partial("Partial/_Breadcrumb")
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div id="region-navigation" class="span4">
+            Loading navigation...
+            @* @Html.Partial("Partial/_Projects")*@
+        </div>
+        <div id="region-center" class="span4">
+            @Html.Partial("Partial/_Edit")
+        </div>
+        <div id="region-right" class="span4">
+            @Html.Partial("Partial/_Actions")
+        </div>
+    </div>
+</div>
+
+<!-- Templates -->
+<script id="navigation-template" type="text/html">
+    @Html.Partial("Templates/_Navigation")
+</script>
+
+<script id="navigation-item-template" type="text/html">
+    @Html.Partial("Templates/_NavigationItem")
+</script>

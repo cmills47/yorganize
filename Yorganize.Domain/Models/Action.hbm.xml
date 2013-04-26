@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Yorganize.Domain.Models" assembly="Yorganize.Domain" auto-import="false">
+
+  <class name="Action" table="Action">
+
+    <id name="ID" column="ActionId">
+      <generator class="guid"></generator>
+    </id>
+
+    <property name="Name" column="ActionName" />
+    <property name="Status" />
+    <property name="Type" />
+    <property name="Position" column="ActionPosition" />
+
+
+    <property name="EstimatedCompletionTime" />
+    <property name="EstimatedCompletionUnit" />
+
+    <property name="StartDate" />
+    <property name="DueDate" />
+    <property name="LastSaved" column="LastSavedTime" />
+    <property name="ReferenceDate" />
+
+    <property name="RepeatBehavior" />
+    <property name="RepeatInterval" />
+    <property name="RepeatUnit" />
+
+    <many-to-one name="Flag" column="FlagId" />
+    <many-to-one name="SelectedNote" column="SelectedNoteId" />
+
+    <many-to-one name="Project" column="ProjectId" />
+    <many-to-one name="Owner" column="MemberId" />
+
+  </class>
+
+</hibernate-mapping>

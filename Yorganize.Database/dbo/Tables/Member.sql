@@ -1,20 +1,22 @@
 ﻿CREATE TABLE [dbo].[Member] (
     [MemberId]            UNIQUEIDENTIFIER NOT NULL,
-    [LiveId]              VARCHAR (64)     NOT NULL,
+    [LiveId]              VARCHAR (64)     NULL,
     [FirstName]           NVARCHAR (256)   NULL,
     [LastName]            NVARCHAR (256)   NULL,
     [Locale]              NVARCHAR (32)    NULL,
-    [PreferredEmail]      NVARCHAR (256)   NULL,
-    [AccountEmail]        NVARCHAR (256)   NULL,
-    [PersonalEmail]       NVARCHAR (256)   NULL,
-    [BusinessEmail]       NVARCHAR (256)   NULL,
-    [OtherEmail]          NVARCHAR (256)   NULL,
-    [RefreshToken]        NVARCHAR (128)   NULL,
-    [AuthenticationToken] NVARCHAR (128)   NULL,
+    [PreferredEmail]      NVARCHAR (320)   NULL,
+    [AccountEmail]        NVARCHAR (320)   NULL,
+    [PersonalEmail]       NVARCHAR (320)   NULL,
+    [BusinessEmail]       NVARCHAR (320)   NULL,
+    [OtherEmail]          NVARCHAR (320)   NULL,
+    [RefreshToken]        VARCHAR (1024)   NULL,
+    [AuthenticationToken] VARCHAR (1024)   NULL,
     [AccessToken]         VARCHAR (1024)   NULL,
-    [YorganizeEmail]      NVARCHAR (256)   NULL,
-    CONSTRAINT [PK__Member__0CF04B186A6939DD] PRIMARY KEY CLUSTERED ([MemberId] ASC)
+    [YorganizeEmail]      NVARCHAR (320)   NULL,
+    PRIMARY KEY CLUSTERED ([MemberId] ASC)
 );
+
+
 
 
 

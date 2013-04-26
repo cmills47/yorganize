@@ -110,26 +110,32 @@ namespace Yorganize.Business.Repository
             return All().Where(expression).AsQueryable();
         }
 
-        public void BeginTransaction()
+        public ITransaction BeginTransaction()
         {
             if (_session.Transaction != null && _session.Transaction.IsActive)
-                return; // no need to start a new transaction
+                return _session.Transaction; // no need to start a new transaction
 
-            _session.BeginTransaction();
+           return _session.BeginTransaction();
         }
 
-        public void CommitTransaction()
+        public void CommitTransaction(ITransaction transaction = null)
         {
-            if (_session.Transaction.IsActive)
-                _session.Transaction.Commit();
+            if (transaction == null)
+                transaction = _session.Transaction;
+
+            if (transaction!= null && transaction.IsActive)
+                transaction.Commit();
             else
                 throw new InvalidOperationException("There is no active transaction to commit.");
         }
 
-        public void RollbackTransaction()
+        public void RollbackTransaction(ITransaction transaction = null)
         {
-            if (_session.Transaction.IsActive)
-                _session.Transaction.Rollback();
+            if (transaction == null)
+                transaction = _session.Transaction;
+
+            if (transaction!=null && transaction.IsActive)
+                transaction.Rollback();
             else
                 throw new InvalidOperationException("There is no active transaction to rollback.");
         }

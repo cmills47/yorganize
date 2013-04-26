@@ -68,6 +68,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.2.2.13055\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -87,6 +91,10 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -205,6 +213,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,7 +221,12 @@
     <Compile Include="Infrastructure\AutoMapperNinjectModule.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\MicrosoftScopedClient.cs" />
-    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Mappings\FolderMappings.cs" />
+    <Compile Include="Mappings\ProjectMappings.cs" />
+    <Compile Include="Models\ActionModel.cs" />
+    <Compile Include="Models\FlagModel.cs" />
+    <Compile Include="Models\FolderModel.cs" />
+    <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -416,11 +430,17 @@
     <Content Include="Content\font\fontawesome-webfont.ttf" />
     <Content Include="Content\font\fontawesome-webfont.eot" />
     <Content Include="Content\font\FontAwesome.otf" />
-    <Content Include="Fonts\LiveSymbol.ttf" />
+    <Content Include="Content\font\LiveSymbol.ttf" />
     <None Include="Properties\PublishProfiles\yorganizeapp - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\yorganizeapp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\account\prepare-profile-folder.js" />
+    <Content Include="Scripts\backbone.js" />
+    <Content Include="Scripts\backbone.marionette.js" />
+    <Content Include="Scripts\backbone.marionette.min.js" />
+    <Content Include="Scripts\backbone.min.js" />
+    <Content Include="Scripts\backbone.wreqr.js" />
+    <Content Include="Scripts\backbone.wreqr.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -440,8 +460,17 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\projects\action.js" />
+    <Content Include="Scripts\projects\application.js" />
+    <Content Include="Scripts\projects\folder.js" />
+    <Content Include="Scripts\projects\navigation.js" />
+    <Content Include="Scripts\projects\project.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\utils.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -449,19 +478,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
-    <Content Include="Images\accent.png" />
-    <Content Include="Images\bullet.png" />
-    <Content Include="Images\heroAccent.png" />
-    <Content Include="Images\orderedList0.png" />
-    <Content Include="Images\orderedList1.png" />
-    <Content Include="Images\orderedList2.png" />
-    <Content Include="Images\orderedList3.png" />
-    <Content Include="Images\orderedList4.png" />
-    <Content Include="Images\orderedList5.png" />
-    <Content Include="Images\orderedList6.png" />
-    <Content Include="Images\orderedList7.png" />
-    <Content Include="Images\orderedList8.png" />
-    <Content Include="Images\orderedList9.png" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Web.config" />
@@ -475,17 +491,19 @@
     <Content Include="Views\Shared\Partial\_Features.cshtml" />
     <Content Include="Views\Shared\Partial\_Pricing.cshtml" />
     <Content Include="Views\Shared\Partial\_TopBar.cshtml" />
-    <Content Include="Views\Home\Projects.cshtml" />
-    <Content Include="Views\Shared\Partial\_Actions.cshtml" />
-    <Content Include="Views\Shared\Partial\_Projects.cshtml" />
-    <Content Include="Views\Shared\Partial\_Edit.cshtml" />
-    <Content Include="Views\Shared\Partial\_Breadcrumb.cshtml" />
+    <Content Include="Views\Projects\Partial\_Actions.cshtml" />
+    <Content Include="Views\Projects\Partial\_Projects.cshtml" />
+    <Content Include="Views\Projects\Partial\_Edit.cshtml" />
+    <Content Include="Views\Projects\Partial\_Breadcrumb.cshtml" />
     <Content Include="Views\Shared\Partial\_BottomBar.cshtml" />
-    <Content Include="Views\Shared\Partial\_EditFiles.cshtml" />
-    <Content Include="Views\Shared\Partial\_EditDetails.cshtml" />
+    <Content Include="Views\Projects\Partial\_EditFiles.cshtml" />
+    <Content Include="Views\Projects\Partial\_EditDetails.cshtml" />
     <Content Include="Views\Shared\Partial\_ActionsNested.cshtml" />
     <Content Include="Views\Shared\Partial\_Login.cshtml" />
     <Content Include="Views\Shared\Partial\_Message.cshtml" />
+    <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\Projects\Templates\_Navigation.cshtml" />
+    <Content Include="Views\Projects\Templates\_NavigationItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\Partial\" />

@@ -47,7 +47,7 @@ namespace Yorganize.Web.Infrastructure
             string errorDescription = context.Request.QueryString["error_description"];
 
             if (!string.IsNullOrEmpty(error))
-                return new AuthenticationResult(new BusinessException(string.Format("{0}:{1}",error, errorDescription)));
+                return new AuthenticationResult(new BusinessException(string.Format("{0}:{1}", error, errorDescription)));
 
             string rawUrl = context.Request.Url.ToString();
             rawUrl = Regex.Replace(rawUrl, "&code=[^&]*", "");
@@ -149,16 +149,15 @@ namespace Yorganize.Web.Infrastructure
                     using (var sr = new StreamReader(responseStream))
                     {
                         string data = sr.ReadToEnd();
-                        var tokenData = JsonConvert.DeserializeObject<OAuth2AccessTokenData>(data);
+                        var tokenData = JsonConvert.DeserializeObject<OAuth2AccessTokenDataExtended>(data);
                         if (tokenData != null)
                         {
                             return new
                                 {
                                     Access = tokenData.AccessToken,
-                                    Authentication = authorizationCode,
+                                    Authentication = tokenData.AuthenticationToken,//authorizationCode,
                                     Refresh = tokenData.RefreshToken
                                 };
-
                         }
                     }
                 }
@@ -185,10 +184,9 @@ namespace Yorganize.Web.Infrastructure
         private static string CreateQueryString(IEnumerable<KeyValuePair<string, string>> args)
         {
             if (!args.Any())
-            {
                 return string.Empty;
-            }
-            StringBuilder sb = new StringBuilder(args.Count() * 10);
+
+            var sb = new StringBuilder(args.Count() * 10);
 
             foreach (var p in args)
             {
@@ -212,6 +210,14 @@ namespace Yorganize.Web.Infrastructure
             public string Name { get; set; }
             public Emails Emails { get; set; }
             public string Locale { get; set; }
+        }
+
+        protected class OAuth2AccessTokenDataExtended : OAuth2AccessTokenData
+        {
+            // Summary:
+            // Gets or sets the authentication token.
+            [JsonProperty("authentication_token")]
+            public string AuthenticationToken { get; set; }
         }
 
         protected class Emails

@@ -5,8 +5,10 @@
     [MemberId]    UNIQUEIDENTIFIER NOT NULL,
     PRIMARY KEY CLUSTERED ([ChecklistId] ASC, [MemberId] ASC),
     FOREIGN KEY ([ChecklistId]) REFERENCES [dbo].[Checklist] ([ChecklistId]),
-    CONSTRAINT [FK__Rate__MemberId__70DDC3D8] FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId])
+    FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId])
 );
+
+
 
 
 

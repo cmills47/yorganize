@@ -26,9 +26,11 @@
     CHECK ([Type]='Independent' OR [Type]='Ordered' OR [Type]='Parallel' OR [Type]=NULL),
     FOREIGN KEY ([FlagId]) REFERENCES [dbo].[Flag] ([FlagId]),
     FOREIGN KEY ([FolderId]) REFERENCES [dbo].[Folder] ([FolderId]),
-    FOREIGN KEY ([SelectedNoteId]) REFERENCES [dbo].[Note] ([NoteId]),
-    CONSTRAINT [FK__Project__MemberI__693CA210] FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId])
+    FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
+    FOREIGN KEY ([SelectedNoteId]) REFERENCES [dbo].[Note] ([NoteId])
 );
+
+
 
 
 
