@@ -491,7 +491,7 @@
     <Content Include="Views\Shared\Partial\_Features.cshtml" />
     <Content Include="Views\Shared\Partial\_Pricing.cshtml" />
     <Content Include="Views\Shared\Partial\_TopBar.cshtml" />
-    <Content Include="Views\Projects\Partial\_Actions.cshtml" />
+    <Content Include="Views\Projects\Partial\_ActionsOld.cshtml" />
     <Content Include="Views\Projects\Partial\_Projects.cshtml" />
     <Content Include="Views\Projects\Partial\_Edit.cshtml" />
     <Content Include="Views\Projects\Partial\_Breadcrumb.cshtml" />
@@ -504,6 +504,9 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\Templates\_Navigation.cshtml" />
     <Content Include="Views\Projects\Templates\_NavigationItem.cshtml" />
+    <Content Include="Views\Projects\Partial\_Actions.cshtml" />
+    <Content Include="Views\Projects\Templates\_ActionsFolder.cshtml" />
+    <Content Include="Views\Projects\Templates\_ActionsProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\Partial\" />

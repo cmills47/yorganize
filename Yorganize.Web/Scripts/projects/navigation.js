@@ -21,8 +21,6 @@ NavigationView = Backbone.View.extend({
             this.model = new FolderModel();
 
         this.model.bind("change", this.render, this);
-        // model: FolderModel
-        // collection: NavigationItemCollection
     },
 
     render: function () {
