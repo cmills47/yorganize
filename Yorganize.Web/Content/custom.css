@@ -85,6 +85,14 @@ header {
     line-height: 28px;
 }
 
+.tidate a {
+    color: ghostwhite;
+}
+
+.tidate a:hover {
+    text-decoration: none;
+}
+
 .tidate .tisub {
     font-size: 12px;
     font-weight: normal;

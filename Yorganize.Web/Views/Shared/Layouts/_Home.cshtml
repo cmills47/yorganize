@@ -50,10 +50,10 @@
 
     <!-- Header Starts -->
     <header>
-        @*       @if (Request.IsAuthenticated)
+        @if (Request.IsAuthenticated)
         {
             @Html.Partial("Partial/_TopBar")
-        }*@
+        }
         @Html.Partial("Partial/_Header")
     </header>
     <hr />
@@ -133,13 +133,6 @@
                 content: '<i class="icon-cogs"></i> Settings'
             });
 
-
-            // checkboxes
-            $('input[type=checkbox]').iCheck({
-                labelHover: false,
-                cursor: true,
-                checkboxClass: 'icheckbox_square-blue',
-            });
 
             var $files = $('#edit-files');
             var $details = $('#edit-details');

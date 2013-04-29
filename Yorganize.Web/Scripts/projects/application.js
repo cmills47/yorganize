@@ -2,6 +2,7 @@
 var ProjectsRouter = Backbone.Router.extend({
 
     initialize: function (options) {
+        console.log("initializing router...");
         this.data_loaded = false;
 
         // create collections and models
@@ -9,68 +10,106 @@ var ProjectsRouter = Backbone.Router.extend({
 
         // create views 
         this.navigationView = new NavigationView({ el: "#region-navigation" });
+        this.breadcrumbView = new BreadcrumbView({ el: "#region-breadcrumb" });
+        this.actionsView = new ActionsView({ el: "#region-actions" });
 
         // add event handlers
         this.vent = new Backbone.Wreqr.EventAggregator();
-        addEventHandlers(this.vent);
+        addEventHandlers(this, this.vent);
+
     },
 
-    load_data: function (callback) {
+    load_data: function (router, folder, selected, callback) {
         // load data (fetch folders collection)
-        var router = this;
         this.folders.fetch({
             success: function (collection, response, options) {
                 //console.log(collection);
+                console.log("data loaded.");
+                router.data_loaded = true;
                 if (callback)
-                    callback(collection);
+                    callback(folder, selected, collection);
             }, reset: true
         });
 
-        return true;
+        return false;
     },
 
     routes: {
-        "": "index",
-        "folder/:folder": "index",
-        "folder/:folder/project/:project": "index"
+        "": "folder",
+        "folder/:folder": "folder",
+        "folder/:folder/selected/:selected": "folder",
+        "selected/:selected": "selected"
     },
 
-    index: function (folder, project) {
+    folder: function (folder, selected) {
+        this.set_up = false;
+        console.log("mathed route: folder [folder:" + folder + ", selected:" + selected + "]");
 
         // load data
-        this.data_loaded = this.data_loaded || this.load_data(function (collection) {
-            // folders loaded 
+        this.data_loaded = this.data_loaded || this.load_data(this, folder, selected, this.setup);
 
-            // if no folder selected
-            if (!folder) {
-                folder = collection.findWhere({ ID: null }); // get root folder
-                router.navigationView.model = folder;
-                router.navigationView.render();
-                //console.log(folder);
-                /*
-                router.navigationItems.reset(collection.filter(function(folder) {
-                    return (folder.get("ParentID") == null); // if no route get root folders
-                }));
-  */
-            }
-        });
+        // do route setup if required
+        if (this.data_loaded && !this.set_up)
+            this.setup(folder, selected, this.folders);
 
-        if (!this.categories_loaded)
-            return;
+    },
 
-        // render views
-        // ...
+    selected: function (selected) {
+        this.folder(null, selected);
+    },
 
-        // set route data
-        // ..
+    setup: function (folder, selected, collection) {
 
+        // folders loaded 
+
+
+        // get current folder
+
+        if (!folder) // if no folder selected
+            folder = collection.findWhere({ ID: null }); // get root folder
+        else
+            folder = collection.findWhere({ ID: folder }); // find selected folder 
+
+
+        // find selected item (folder or project)
+        if (selected)
+            selected = _.findWhere(folder.getContents(), { id: selected });
+
+        console.log("setting up...", folder, selected);
+
+        // set current folder on navigation view
+        router.navigationView.model = folder;
+        router.navigationView.selected = selected;
+        router.navigationView.render();
+        
+        // set parrent folder on breadcrumb view
+        router.breadcrumbView.model = folder.getParent();
+        router.breadcrumbView.render();
+
+        // set current folder on actions view
+        router.actionsView.model = selected ? selected : folder;
+        router.actionsView.render();
+
+        this.set_up = true;
     }
 
 });
 
+function addEventHandlers(router, vent) {
+    vent.on("navigate", function (folder, selected) {
+        var route = "";
+        if (folder) {
+            route += "folder/" + folder;
+            if (selected)
+                route += "/";
+        }
 
-function addEventHandlers(vent) {
+        if (selected)
+            route += "selected/" + selected;
 
+        console.log("navigating to: " + route);
+        router.navigate(route, { trigger: true });
+    });
 }
 
 $(function () {

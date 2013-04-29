@@ -90,7 +90,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -460,7 +460,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\projects\action.js" />
+    <Content Include="Scripts\projects\actions.js" />
     <Content Include="Scripts\projects\application.js" />
     <Content Include="Scripts\projects\folder.js" />
     <Content Include="Scripts\projects\navigation.js" />
@@ -494,7 +494,7 @@
     <Content Include="Views\Projects\Partial\_ActionsOld.cshtml" />
     <Content Include="Views\Projects\Partial\_Projects.cshtml" />
     <Content Include="Views\Projects\Partial\_Edit.cshtml" />
-    <Content Include="Views\Projects\Partial\_Breadcrumb.cshtml" />
+    <Content Include="Views\Projects\Templates\_Breadcrumb.cshtml" />
     <Content Include="Views\Shared\Partial\_BottomBar.cshtml" />
     <Content Include="Views\Projects\Partial\_EditFiles.cshtml" />
     <Content Include="Views\Projects\Partial\_EditDetails.cshtml" />
@@ -504,7 +504,7 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\Templates\_Navigation.cshtml" />
     <Content Include="Views\Projects\Templates\_NavigationItem.cshtml" />
-    <Content Include="Views\Projects\Partial\_Actions.cshtml" />
+    <Content Include="Views\Projects\Templates\_Actions.cshtml" />
     <Content Include="Views\Projects\Templates\_ActionsFolder.cshtml" />
     <Content Include="Views\Projects\Templates\_ActionsProject.cshtml" />
   </ItemGroup>

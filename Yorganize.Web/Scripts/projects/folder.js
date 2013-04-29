@@ -4,7 +4,9 @@
         Name: "new folder",
         Position: 0,
         ParentID: null,
-        Projects: new ProjectsCollection()
+        Projects: new ProjectsCollection(),
+        
+        itemType: "folder"
     },
 
     idAttribute: "ID",
@@ -14,8 +16,12 @@
         return response;
     },
 
+    getParentId: function () {
+        return this.get("ParentID");
+    },
+
     getParent: function () {
-        return this.collection.findWhere({ ID: this.get("ParentID") });
+        return this.collection.findWhere({ ID: this.getParentId() });
     },
 
     // returns a combined list of folders and projects directly under the current folder

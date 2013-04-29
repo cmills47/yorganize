@@ -19,13 +19,13 @@ namespace Yorganize.Domain.Models
         public virtual int EstimatedCompletionTime { get; set; }
         public virtual string EstimatedCompletionUnit { get; set; }
 
-        public virtual DateTime StartDate { get; set; }
-        public virtual DateTime DueDate { get; set; }
-        public virtual DateTime LastSaved { get; set; }
-        public virtual DateTime ReferenceDate { get; set; }
+        public virtual DateTime? StartDate { get; set; }
+        public virtual DateTime? DueDate { get; set; }
+        public virtual DateTime? LastSaved { get; set; }
+        public virtual DateTime? ReferenceDate { get; set; }
 
         public virtual string RepeatBehavior { get; set; }
-        public virtual int RepeatInterval { get; set; }
+        public virtual int? RepeatInterval { get; set; }
         public virtual string RepeatUnit { get; set; }
 
         public virtual Flag Flag { get; set; }

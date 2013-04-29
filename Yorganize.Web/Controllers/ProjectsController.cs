@@ -52,7 +52,7 @@ namespace Yorganize.Web.Controllers
                                         where project.Folder == null
                                         select project;
 
-                rootProjectsQuery = rootProjectsQuery.FetchMany(p => p.Actions)
+                rootProjectsQuery = rootProjectsQuery//.FetchMany(p => p.Actions)
                                                      .Distinct();
 
                 var rootProjects = rootProjectsQuery.ToList();

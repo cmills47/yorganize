@@ -10,30 +10,37 @@
     <script src="~/Scripts/projects/project.js"></script>
     <script src="~/Scripts/projects/folder.js"></script>
     <script src="~/Scripts/projects/navigation.js"></script>
+    <script src="~/Scripts/projects/actions.js"></script>
     <script src="~/Scripts/projects/application.js"></script>
 }
 <div class="container-fluid">
     <div class="row-fluid">
         <div id="region-breadcrumb">
-             @Html.Partial("Partial/_Breadcrumb")
+            Loading breadcrumb...
+          
         </div>
     </div>
 
     <div class="row-fluid">
         <div id="region-navigation" class="span4">
             Loading navigation...
-            @* @Html.Partial("Partial/_Projects")*@
         </div>
         <div id="region-center" class="span4">
             @Html.Partial("Partial/_Edit")
         </div>
-        <div id="region-right" class="span4">
-            @Html.Partial("Partial/_Actions")
+        <div id="region-actions" class="span4">
+            Loading actions...
         </div>
     </div>
 </div>
+<!-- Breadcrumb Templates -->
 
-<!-- Templates -->
+<script id="breadcrumb-template" type="text/html">
+    @Html.Partial("Templates/_Breadcrumb")
+</script>
+
+<!-- Navigation Templates -->
+
 <script id="navigation-template" type="text/html">
     @Html.Partial("Templates/_Navigation")
 </script>
@@ -41,3 +48,20 @@
 <script id="navigation-item-template" type="text/html">
     @Html.Partial("Templates/_NavigationItem")
 </script>
+
+<!-- Actions Templates -->
+
+<script id="actions-template" type="text/html">
+    @Html.Partial("Templates/_Actions")
+</script>
+
+<script id="actions-folder-template" type="text/html">
+    @Html.Partial("Templates/_ActionsFolder")
+</script>
+
+<script id="actions-project-template" type="text/html">
+    @Html.Partial("Templates/_ActionsProject")
+</script>
+
+
+

@@ -8,7 +8,10 @@ namespace Yorganize.Web.Mappings
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<Project, ProjectModel>();
+            Mapper.CreateMap<Project, ProjectModel>()
+                  .ForMember(m => m.Actions, o => o.Ignore())
+                  .ForMember(m => m.Flag, o => o.Ignore());
+            //TODO: remap flag and actions
         }
     }
 }
