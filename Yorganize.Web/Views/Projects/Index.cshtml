@@ -7,10 +7,12 @@
     <script src="~/Scripts/underscore.min.js"></script>
     <script src="~/Scripts/backbone.min.js"></script>
     <script src="~/Scripts/backbone.wreqr.min.js"></script>
+    <script src="~/Scripts/projects/actions.js"></script>
     <script src="~/Scripts/projects/project.js"></script>
     <script src="~/Scripts/projects/folder.js"></script>
+    <script src="~/Scripts/projects/breadcrumb.js"></script>
     <script src="~/Scripts/projects/navigation.js"></script>
-    <script src="~/Scripts/projects/actions.js"></script>
+    
     <script src="~/Scripts/projects/application.js"></script>
 }
 <div class="container-fluid">
@@ -33,6 +35,7 @@
         </div>
     </div>
 </div>
+
 <!-- Breadcrumb Templates -->
 
 <script id="breadcrumb-template" type="text/html">
@@ -63,5 +66,8 @@
     @Html.Partial("Templates/_ActionsProject")
 </script>
 
+<script id="actions-action-template" type="text/html">
+    @Html.Partial("Templates/_Action")
+</script>
 
 

@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using Yorganize.Domain.Models;
+using System;
 using Yorganize.Web.Models;
 
 namespace Yorganize.Web.Mappings
 {
-    public class ProjectMappings : Profile
+    public class ActionMappings : Profile
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<Project, ProjectModel>()
+            Mapper.CreateMap<Domain.Models.Action, ActionModel>()
                   .ForMember(m => m.Flag, o => o.Ignore());
         }
     }

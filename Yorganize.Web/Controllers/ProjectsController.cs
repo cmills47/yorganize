@@ -37,13 +37,13 @@ namespace Yorganize.Web.Controllers
             using (var tr = _folderRepository.BeginTransaction())
             {
                 var foldersQuery = from folder in _folderRepository.All()
-                        // where folder.Owner.ID
-                        select folder;
-                
+                                   // where folder.Owner.ID
+                                   select folder;
+
                 foldersQuery = foldersQuery.FetchMany(f => f.Projects)
                     .ThenFetch(p => p.Actions)
                     .Distinct();
-                
+
                 var folders = foldersQuery.ToList();
 
 
@@ -52,8 +52,9 @@ namespace Yorganize.Web.Controllers
                                         where project.Folder == null
                                         select project;
 
-                rootProjectsQuery = rootProjectsQuery//.FetchMany(p => p.Actions)
-                                                     .Distinct();
+                rootProjectsQuery = rootProjectsQuery
+                    .FetchMany(p => p.Actions)
+                    .Distinct();
 
                 var rootProjects = rootProjectsQuery.ToList();
 
@@ -63,8 +64,8 @@ namespace Yorganize.Web.Controllers
                     {
                         ID = Guid.Empty,
                         Parent = null,
-                        Name = ".",
-                        Projects =  rootProjects,
+                        Name = "Projects",
+                        Projects = rootProjects,
                     });
 
                 var foldersModel = Mapper.Map<IEnumerable<Folder>, IEnumerable<FolderModel>>(folders);

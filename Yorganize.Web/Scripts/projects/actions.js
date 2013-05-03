@@ -1,4 +1,35 @@
-﻿ActionFolderView = Backbone.View.extend({
+﻿ActionModel = Backbone.Model.extend({
+    defaults: {
+        Name: "new action",
+        Position: 0,
+        Type: null,
+        Status: null,
+        ProjectID: null,
+
+        itemType: "action"
+    },
+
+    idAttribute: "ID"
+});
+
+ActionsCollection = Backbone.Collection.extend({
+    model: ActionModel
+});
+
+ActionView = Backbone.View.extend({
+    initialize: function (options) {
+        this.template = $('#actions-action-template').html();
+    },
+
+    render: function () {
+        var $content = _.template(this.template, this.model.toJSON());
+        this.$el.html($content);
+
+        return this;
+    }
+});
+
+ActionFolderView = Backbone.View.extend({
     initialize: function (options) {
         this.template = $('#actions-folder-template').html();
         this.ident = this.options.ident || 0;
@@ -11,7 +42,7 @@
 
         var contents = this.model.getContents(); // get folders and projects
         if (contents)
-            renderItems(this.$el, contents, this.ident+30);
+            renderItems(this.$el, contents, this.ident + 30);
 
         return this;
     }
@@ -27,6 +58,13 @@ ActionProjectView = Backbone.View.extend({
         this.model.set("ident", this.ident);
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
+
+        // render actions
+        var $container = this.$('#actions');
+        this.model.Actions.forEach(function (action) {
+            var actionView = new ActionView({ model: action });
+            $container.prepend(actionView.render().el);
+        });
 
         return this;
     }
@@ -67,7 +105,7 @@ function renderItems($container, items, ident) {
         }
 
         $container.append(itemView.render().el);
-        
+
         // checkboxes
         $('input[type=checkbox]').iCheck({
             labelHover: false,

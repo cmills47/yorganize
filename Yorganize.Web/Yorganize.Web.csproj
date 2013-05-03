@@ -221,6 +221,7 @@
     <Compile Include="Infrastructure\AutoMapperNinjectModule.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\MicrosoftScopedClient.cs" />
+    <Compile Include="Mappings\ActionMappings.cs" />
     <Compile Include="Mappings\FolderMappings.cs" />
     <Compile Include="Mappings\ProjectMappings.cs" />
     <Compile Include="Models\ActionModel.cs" />
@@ -462,6 +463,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\projects\actions.js" />
     <Content Include="Scripts\projects\application.js" />
+    <Content Include="Scripts\projects\breadcrumb.js" />
     <Content Include="Scripts\projects\folder.js" />
     <Content Include="Scripts\projects\navigation.js" />
     <Content Include="Scripts\projects\project.js" />
@@ -507,6 +509,7 @@
     <Content Include="Views\Projects\Templates\_Actions.cshtml" />
     <Content Include="Views\Projects\Templates\_ActionsFolder.cshtml" />
     <Content Include="Views\Projects\Templates\_ActionsProject.cshtml" />
+    <Content Include="Views\Projects\Templates\_Action.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\Partial\" />

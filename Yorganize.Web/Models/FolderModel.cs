@@ -16,6 +16,6 @@ namespace Yorganize.Web.Models
         public  string Name { get; set; }
         public  int Position { get; set; }
       
-        public virtual IEnumerable<ProjectModel> Projects { get; set; }
+        public IEnumerable<ProjectModel> Projects { get; set; }
     }
 }

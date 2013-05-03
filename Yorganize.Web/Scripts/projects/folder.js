@@ -1,18 +1,24 @@
 ﻿FolderModel = Backbone.Model.extend({
     defaults: {
-        Type: "folder",
         Name: "new folder",
         Position: 0,
+        Type: null,
         ParentID: null,
-        Projects: new ProjectsCollection(),
-        
+
         itemType: "folder"
     },
 
+    Projects: new ProjectsCollection(),
     idAttribute: "ID",
 
     parse: function (response, options) {
-        response.Projects = new ProjectsCollection(response.Projects);
+        this.Projects = new ProjectsCollection(response.Projects);
+        this.Projects.forEach(function (project) {
+            project.Actions = new ActionsCollection(project.get("Actions"));
+            project.unset("Actions");
+        }, this);
+        response.Projects = null;
+
         return response;
     },
 
@@ -25,14 +31,16 @@
     },
 
     // returns a combined list of folders and projects directly under the current folder
-    getContents: function () {
+    // if self is true, includes the folder itself into the contents list
+    getContents: function (self) {
         if (!this.collection) return null;
 
         var folders = this.collection.filter(function (folder) {
-            return folder.get("ParentID") == this.get("ID") && folder.get("ID") != null;
+            var match = folder.get("ParentID") == this.get("ID") && folder.get("ID") != null;
+            return match || (self && folder.get("ID") == this.get("ID"));
         }, this);
 
-        [].push.apply(folders, this.get("Projects").models);
+        [].push.apply(folders, this.Projects.models);
 
         return folders;
     }
