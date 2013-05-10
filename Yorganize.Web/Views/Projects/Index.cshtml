@@ -12,7 +12,6 @@
     <script src="~/Scripts/projects/folder.js"></script>
     <script src="~/Scripts/projects/breadcrumb.js"></script>
     <script src="~/Scripts/projects/navigation.js"></script>
-    
     <script src="~/Scripts/projects/application.js"></script>
 }
 <div class="container-fluid">
@@ -27,8 +26,8 @@
         <div id="region-navigation" class="span4">
             Loading navigation...
         </div>
-        <div id="region-center" class="span4">
-            @Html.Partial("Partial/_Edit")
+        <div id="region-edit" class="span4">
+            
         </div>
         <div id="region-actions" class="span4">
             Loading actions...
@@ -70,4 +69,24 @@
     @Html.Partial("Templates/_Action")
 </script>
 
+<script id="edit-folder-template" type="text/html">
+    @Html.Partial("Templates/_EditFolder")
+</script>
 
+<script id="edit-project-template" type="text/html">
+    @Html.Partial("Templates/_EditProject")
+</script>
+
+
+<script id="edit-project-details-template" type="text/html">
+    @Html.Partial("Templates/_EditProjectDetails")
+</script>
+
+
+<script id="edit-project-files-template" type="text/html">
+    @Html.Partial("Templates/_EditProjectFiles")
+</script>
+
+<script id="edit-action-template" type="text/html">
+    @Html.Partial("Templates/_EditAction")
+</script>

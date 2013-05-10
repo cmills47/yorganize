@@ -6,6 +6,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
+using System.Web.Security;
+using Yorganize.Business.Providers.Membership.Principal;
 
 namespace Yorganize.Web
 {
@@ -23,6 +26,28 @@ namespace Yorganize.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+        }
+
+        protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
+        {
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+                if (authTicket.UserData == "OAuth" || string.IsNullOrEmpty(authTicket.UserData))
+                    return;
+
+                LiveIdPrincipalSerializedModel serializeModel = serializer.Deserialize<LiveIdPrincipalSerializedModel>(authTicket.UserData);
+                LiveIdPrincipal newUser = new LiveIdPrincipal(authTicket.Name)
+                {
+                    UserId = serializeModel.UserId,
+                    LiveId = serializeModel.LiveId
+                };
+
+                HttpContext.Current.User = newUser;
+            }
         }
     }
 }

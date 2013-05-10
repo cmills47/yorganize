@@ -25,7 +25,6 @@ namespace Yorganize.Domain.Models
         public virtual string AuthenticationToken { get; set; }
         public virtual string RefreshToken { get; set; }
 
-
         public virtual string YorganizeEmail { get; set; }
     }
 }

@@ -13,7 +13,7 @@
     <many-to-one name="Parent" column="ParentFolderId" />
     <many-to-one name="Owner" column="MemberId" />
 
-    <set name="Projects" table="Project">
+    <set name="Projects" table="Project" inverse ="true">
       <key column="FolderId" />
       <one-to-many class="Project" />
     </set>

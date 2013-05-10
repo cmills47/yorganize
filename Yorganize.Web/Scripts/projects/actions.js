@@ -1,4 +1,7 @@
-﻿ActionModel = Backbone.Model.extend({
+﻿
+/* ACTION MODEL */
+
+ActionModel = Backbone.Model.extend({
     defaults: {
         Name: "new action",
         Position: 0,
@@ -12,9 +15,13 @@
     idAttribute: "ID"
 });
 
+/* ACTIONS COLLECTION */
+
 ActionsCollection = Backbone.Collection.extend({
     model: ActionModel
 });
+
+/* ACTION VIEW*/
 
 ActionView = Backbone.View.extend({
     initialize: function (options) {
@@ -28,6 +35,8 @@ ActionView = Backbone.View.extend({
         return this;
     }
 });
+
+/* ACTION FOLDER VIEW */
 
 ActionFolderView = Backbone.View.extend({
     initialize: function (options) {
@@ -47,6 +56,8 @@ ActionFolderView = Backbone.View.extend({
         return this;
     }
 });
+
+/* ACTION PROJECT VIEW */
 
 ActionProjectView = Backbone.View.extend({
     initialize: function (options) {
@@ -70,10 +81,12 @@ ActionProjectView = Backbone.View.extend({
     }
 });
 
+/* ACTIONS VIEW */
+
 ActionsView = Backbone.View.extend({
     initialize: function () {
         this.template = $('#actions-template').html();
-        //  this.model.bind("change", this.render, this);
+        // model can be a folder or a project
     },
 
     render: function () {
@@ -85,14 +98,15 @@ ActionsView = Backbone.View.extend({
         var contents = this.model.getContents(); // get folders and projects
 
         var $container = this.$('#items');
-        $container.empty();
         renderItems($container, contents, 0);
+        
     }
 });
 
 function renderItems($container, items, ident) {
+    $container.empty();
     _.each(items, function (item) {
-        var itemView = null;
+        var itemView;
         switch (item.get("itemType")) {
             case "folder":
                 itemView = new ActionFolderView({ model: item, ident: ident });
@@ -115,6 +129,15 @@ function renderItems($container, items, ident) {
     });
 }
 
+/*  EDIT ACTION VIEW */
 
+EditActionView = Backbone.View.extend({
+    initialize: function () {
 
+    },
 
+    render: function () {
+
+        return this;
+    }
+});

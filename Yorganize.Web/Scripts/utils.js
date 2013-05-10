@@ -101,3 +101,11 @@ function validateForm($form) {
 
     return $form;
 }
+
+// bootstrap utils
+$(document).ready(function() {
+    // error handling
+    window.onerror = function(msg, url, line) {
+        warningMessage(msg);
+    };
+});

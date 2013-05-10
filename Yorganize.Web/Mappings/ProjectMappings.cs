@@ -10,6 +10,9 @@ namespace Yorganize.Web.Mappings
         {
             Mapper.CreateMap<Project, ProjectModel>()
                   .ForMember(m => m.Flag, o => o.Ignore());
+
+            Mapper.CreateMap<ProjectModel, Project>()
+                .ForMember(m => m.Folder, o => o.ResolveUsing<FolderMappings.FolderResolver>().FromMember(s => s.FolderID));
         }
     }
 }

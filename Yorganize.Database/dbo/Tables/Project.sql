@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Project] (
-    [ProjectId]               UNIQUEIDENTIFIER NOT NULL,
+    [ProjectId]               UNIQUEIDENTIFIER CONSTRAINT [DF_Project_ProjectId] DEFAULT (newid()) NOT NULL,
     [ProjectName]             NVARCHAR (256)   NULL,
     [Status]                  VARCHAR (16)     NULL,
     [Type]                    VARCHAR (16)     NULL,
@@ -25,10 +25,12 @@
     CHECK ([Status]='Completed' OR [Status]='OnHold' OR [Status]='Dropped' OR [Status]='Active' OR [Status]=NULL),
     CHECK ([Type]='Independent' OR [Type]='Ordered' OR [Type]='Parallel' OR [Type]=NULL),
     FOREIGN KEY ([FlagId]) REFERENCES [dbo].[Flag] ([FlagId]),
-    FOREIGN KEY ([FolderId]) REFERENCES [dbo].[Folder] ([FolderId]),
     FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
-    FOREIGN KEY ([SelectedNoteId]) REFERENCES [dbo].[Note] ([NoteId])
+    FOREIGN KEY ([SelectedNoteId]) REFERENCES [dbo].[Note] ([NoteId]),
+    CONSTRAINT [FK__Project__FolderI__68487DD7] FOREIGN KEY ([FolderId]) REFERENCES [dbo].[Folder] ([FolderId]) ON DELETE CASCADE
 );
+
+
 
 
 

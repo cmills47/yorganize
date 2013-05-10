@@ -31,8 +31,7 @@
     <many-to-one name="Folder" column="FolderId" />
     <many-to-one name="Owner" column="MemberId" />
 
-
-    <set name="Actions" table="Action">
+    <set name="Actions" table="Action" inverse="true">
       <key column="ProjectID" />
       <one-to-many class="Action" />
     </set>

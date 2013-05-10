@@ -12,6 +12,8 @@ using Yorganize.Business.Exceptions;
 using Yorganize.Business.Repository;
 using Yorganize.Domain.Models;
 using Yorganize.Web.Infrastructure;
+using Yorganize.Business.Providers.Membership.Principal;
+using System.Web;
 
 namespace Yorganize.Web.Controllers
 {
@@ -31,6 +33,24 @@ namespace Yorganize.Web.Controllers
             FormsAuthentication.SignOut();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private void CreateAuthenticationTicket(string username, Guid userId, string liveId, bool persistent)
+        {
+
+            LiveIdPrincipalSerializedModel serializeModel = new LiveIdPrincipalSerializedModel()
+            {
+                UserId = userId,
+                LiveId = liveId
+            };
+
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            string userData = serializer.Serialize(serializeModel);
+
+            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, username, DateTime.Now, DateTime.Now.AddDays(8), persistent, userData);
+            string encTicket = FormsAuthentication.Encrypt(authTicket);
+            HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+            Response.Cookies.Add(faCookie);
         }
 
         [AllowAnonymous]
@@ -74,9 +94,10 @@ namespace Yorganize.Web.Controllers
 
                 member.YorganizeEmail = GetYorganizeEmail(new List<string> { member.PreferredEmail, member.PersonalEmail, member.BusinessEmail, member.AccountEmail }, member.FirstName, member.LastName);
 
-                _memberRepository.Insert(member);
+                Guid memberID = _memberRepository.Insert(member);
 
-                FormsAuthentication.SetAuthCookie(result.UserName, false);
+                //FormsAuthentication.SetAuthCookie(result.UserName, false);
+                CreateAuthenticationTicket(result.UserName, memberID, result.ProviderUserId, false); 
                 TempData.Add("command", "prepare-profile");
                 TempData.Add("token", result.ExtraData["token.access"]);
 
@@ -84,7 +105,8 @@ namespace Yorganize.Web.Controllers
             }
 
             // user already registered
-            FormsAuthentication.SetAuthCookie(result.UserName, false);
+            //FormsAuthentication.SetAuthCookie(result.UserName, false);
+            CreateAuthenticationTicket(result.UserName, member.ID, result.ProviderUserId, false); 
             return RedirectToLocal(returnUrl);
         }
 

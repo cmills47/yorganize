@@ -493,13 +493,12 @@
     <Content Include="Views\Shared\Partial\_Features.cshtml" />
     <Content Include="Views\Shared\Partial\_Pricing.cshtml" />
     <Content Include="Views\Shared\Partial\_TopBar.cshtml" />
-    <Content Include="Views\Projects\Partial\_ActionsOld.cshtml" />
     <Content Include="Views\Projects\Partial\_Projects.cshtml" />
-    <Content Include="Views\Projects\Partial\_Edit.cshtml" />
+    <Content Include="Views\Projects\Templates\_EditProject.cshtml" />
     <Content Include="Views\Projects\Templates\_Breadcrumb.cshtml" />
     <Content Include="Views\Shared\Partial\_BottomBar.cshtml" />
-    <Content Include="Views\Projects\Partial\_EditFiles.cshtml" />
-    <Content Include="Views\Projects\Partial\_EditDetails.cshtml" />
+    <Content Include="Views\Projects\Templates\_EditProjectFiles.cshtml" />
+    <Content Include="Views\Projects\Templates\_EditProjectDetails.cshtml" />
     <Content Include="Views\Shared\Partial\_ActionsNested.cshtml" />
     <Content Include="Views\Shared\Partial\_Login.cshtml" />
     <Content Include="Views\Shared\Partial\_Message.cshtml" />
@@ -510,6 +509,8 @@
     <Content Include="Views\Projects\Templates\_ActionsFolder.cshtml" />
     <Content Include="Views\Projects\Templates\_ActionsProject.cshtml" />
     <Content Include="Views\Projects\Templates\_Action.cshtml" />
+    <Content Include="Views\Projects\Templates\_EditFolder.cshtml" />
+    <Content Include="Views\Projects\Templates\_EditAction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\Partial\" />

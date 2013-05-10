@@ -1,4 +1,6 @@
-﻿/* ROUTER */
+﻿
+/* PROJECTS ROUTER */
+
 var ProjectsRouter = Backbone.Router.extend({
 
     initialize: function () {
@@ -12,6 +14,7 @@ var ProjectsRouter = Backbone.Router.extend({
         this.navigationView = new NavigationView({ el: "#region-navigation" });
         this.breadcrumbView = new BreadcrumbView({ el: "#region-breadcrumb", parent: this.navigationView });
         this.actionsView = new ActionsView({ el: "#region-actions" });
+        this.editView = null;
 
         // add event handlers
         this.vent = new Backbone.Wreqr.EventAggregator();
@@ -66,6 +69,8 @@ var ProjectsRouter = Backbone.Router.extend({
         this.nav(null, folder, selected);
     },
 
+    /* ROUTE SETUP */
+
     setup: function (nav, folder, selected, collection) {
 
         // folders loaded 
@@ -90,10 +95,10 @@ var ProjectsRouter = Backbone.Router.extend({
             throw "Selection folder not found.";
 
         // find selected item (folder or project)
-        if (selected)
-            selected = _.findWhere(folder.getContents(true), { id: selected });
 
-        console.log("setting up...");
+        selected = _.findWhere(folder.getContents(true), { id: selected ? selected : null });
+
+        console.log("setting up... " /*, nav, folder, selected*/);
 
         // set current folder on navigation view
         router.navigationView.model = nav;
@@ -112,13 +117,49 @@ var ProjectsRouter = Backbone.Router.extend({
         router.actionsView.render();
 
         this.set_up = true;
+    },
+
+
+    edit: function (model) {
+
+        // unbinds and closes current editing view (if any)
+        if (this.editView) {
+            this.editView.remove();
+        }
+
+        var $region = $('#region-edit');
+
+        if (model) {
+            switch (model.get("itemType")) {
+                case "folder":
+                    this.editView = new EditFolderView({ model: model })
+                        .render();
+                    break;
+                case "project":
+                    this.editView = new EditProjectView({ model: model })
+                        .render();
+                    break;
+                case "action":
+                    this.editView = new EditActionView({ model: model })
+                    .render();
+                    break;
+                default:
+                    errorMessage("Invalid item type supplied for editing");
+                    break;
+            }
+
+            $region.html(this.editView.el);
+        } else $region.html("");
+
     }
 
 });
 
-function addEventHandlers(router, vent) {
-    vent.on("navigate", function (nav, folder, selected) {
+/* ROUTER EVENT HANDLERS */
 
+function addEventHandlers(router, vent) {
+
+    vent.on("navigate", function (nav, folder, selected) {
         var route = "";
         if (nav) {
             route += "nav/" + nav;
@@ -137,7 +178,53 @@ function addEventHandlers(router, vent) {
         console.log("navigating to: " + route);
         router.navigate(route, { trigger: true });
     });
+
+    vent.on("new-folder", function (parent) {
+        var folder = new FolderModel({
+            Name: "new folder",
+            ParentID: parent.id
+        });
+
+        parent.collection.add(folder);
+        folder.save(null, {
+            success: function (model, response, options) {
+                router.navigationView.addItem(model);
+                vent.trigger("edit-folder", folder);
+            },
+            error: function (model, request, options) {
+                errorMessage("Failed to create new folder.");
+            }
+        });
+    });
+
+    vent.on("edit-folder", function (folder) {
+        router.edit(folder);
+    });
+
+    vent.on("new-project", function (parent) {
+        var project = new ProjectModel({
+            Name: "new project",
+            FolderID: parent.id
+        });
+
+        parent.Projects.add(project);
+        project.save(null, {
+            success: function (model, response, options) {
+                router.navigationView.addItem(model);
+                vent.trigger("edit-project", project);
+            },
+            error: function (model, request, options) {
+                errorMessage("Failed to create new project.");
+            }
+        });
+    });
+
+    vent.on("edit-project", function (project) {
+        router.edit(project);
+    });
 }
+
+/* ROUTER REGISTRATION */
 
 $(function () {
     window.router = new ProjectsRouter();
