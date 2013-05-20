@@ -101,9 +101,7 @@ var ProjectsRouter = Backbone.Router.extend({
         console.log("setting up... " /*, nav, folder, selected*/);
 
         // set current folder on navigation view
-        router.navigationView.model = nav;
-        router.navigationView.folder = folder;
-        router.navigationView.selected = selected;
+        router.navigationView.setModels(nav, folder, selected);
         router.navigationView.render();
 
         // set parrent folder on breadcrumb view
@@ -192,7 +190,6 @@ function addEventHandlers(router, vent) {
         folder.save(null, {
             success: function (model, response, options) {
                 parent.collection.add(folder);
-                router.navigationView.addItem(model); // TODO: only if nav is current folder
                 vent.trigger("edit:open", folder);
             },
             error: function (model, request, options) {
@@ -212,7 +209,6 @@ function addEventHandlers(router, vent) {
         project.save(null, {
             success: function (model, response, options) {
                 parent.Projects.add(project);
-                router.navigationView.addItem(model); // TODO: only if nav is current folder
                 vent.trigger("edit:open", project);
             },
             error: function (model, request, options) {

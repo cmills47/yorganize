@@ -82,6 +82,14 @@ NavigationView = Backbone.View.extend({
             $container.append(itemView.render().el);
         }, this);
     },
+    
+    setModels: function(nav, folder, selected) {
+        this.model = nav;
+        this.folder = folder;
+        this.selected = selected;
+
+        this.model.bind("contents:changed", this.render, this);
+    },
 
     select: function (e) {
         window.router.vent.trigger("navigate", this.model.id, this.model.id, this.model.id);
@@ -96,17 +104,6 @@ NavigationView = Backbone.View.extend({
     newProject: function (e) {
         window.router.vent.trigger("new-project", this.model);
         e.preventDefault();
-    },
-
-    // adds a new navigation item at the bottom of the list
-    addItem: function (item) {
-        var itemView = new NavigationItemView({
-            model: item,
-            parent: this,
-            className: this.selected && this.selected.id == item.id ? "active" : ""
-        }, this);
-
-        var $container = this.$('#items');
-        $container.append(itemView.render().el);
     }
+
 });
