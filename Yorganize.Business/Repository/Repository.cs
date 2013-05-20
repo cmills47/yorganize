@@ -82,17 +82,37 @@ namespace Yorganize.Business.Repository
 
         public void Delete(T entity)
         {
-            BeginTransaction();
-            _session.Delete(entity);
-            CommitTransaction();
+            using (var t = BeginTransaction())
+            {
+                try
+                {
+                    _session.Delete(entity);
+                    CommitTransaction(t);
+                }
+                catch
+                {
+                    RollbackTransaction(t);
+                    throw;
+                }
+            }
         }
 
         public void Delete(IEnumerable<T> entities)
         {
-            BeginTransaction();
-            foreach (T entity in entities)
-                _session.Delete(entity);
-            CommitTransaction();
+            using (var t = BeginTransaction())
+            {
+                try
+                {
+                    foreach (T entity in entities)
+                        _session.Delete(entity);
+                    CommitTransaction(t);
+                }
+                catch
+                {
+                    RollbackTransaction(t);
+                    throw;
+                }
+            }
         }
 
         public IQueryable<T> All()
@@ -115,7 +135,7 @@ namespace Yorganize.Business.Repository
             if (_session.Transaction != null && _session.Transaction.IsActive)
                 return _session.Transaction; // no need to start a new transaction
 
-           return _session.BeginTransaction();
+            return _session.BeginTransaction();
         }
 
         public void CommitTransaction(ITransaction transaction = null)
@@ -123,7 +143,7 @@ namespace Yorganize.Business.Repository
             if (transaction == null)
                 transaction = _session.Transaction;
 
-            if (transaction!= null && transaction.IsActive)
+            if (transaction != null && transaction.IsActive)
                 transaction.Commit();
             else
                 throw new InvalidOperationException("There is no active transaction to commit.");
@@ -134,7 +154,7 @@ namespace Yorganize.Business.Repository
             if (transaction == null)
                 transaction = _session.Transaction;
 
-            if (transaction!=null && transaction.IsActive)
+            if (transaction != null && transaction.IsActive)
                 transaction.Rollback();
             else
                 throw new InvalidOperationException("There is no active transaction to rollback.");

@@ -91,10 +91,12 @@ ActionFolderView = Backbone.View.extend({
         this.template = $('#actions-folder-template').html();
         this.ident = this.options.ident || 0;
         this.model.bind("change", this.render, this);
+        this.model.bind("toggle", this.toggle, this);
     },
 
     events: {
-        "click #edit-folder": "editFolder"
+        "click #edit-folder": "editFolder",
+        "click #header-zone": "toggleContents"
     },
 
     render: function () {
@@ -112,6 +114,25 @@ ActionFolderView = Backbone.View.extend({
     editFolder: function (e) {
         window.router.vent.trigger("edit:open", this.model);
         e.preventDefault();
+        e.stopPropagation();
+    },
+
+    toggle: function (e) {
+        console.log("toggle");
+        this.$el.toggle();
+        
+    },
+
+    toggleContents: function (e) {
+        // toggle all sub-folders and projects
+        
+        var contents = this.model.getContents(false);
+        console.log(contents);
+        _.each(contents, function (model) {
+            model.trigger("toggle");
+        });
+        e.preventDefault();
+        e.stopPropagation();
     }
 });
 
@@ -122,11 +143,13 @@ ActionProjectView = Backbone.View.extend({
         this.template = $('#actions-project-template').html();
         this.ident = this.options.ident || 0;
         this.model.bind("change", this.render, this);
+        this.model.bind("toggle", this.toggle, this);
     },
 
     events: {
         "click #new-action": "newAction",
-        "click #edit-project": "editProject"
+        "click #edit-project": "editProject",
+        "click #header-zone": "toggleActions"
     },
 
     render: function () {
@@ -152,6 +175,17 @@ ActionProjectView = Backbone.View.extend({
     editProject: function (e) {
         window.router.vent.trigger("edit:open", this.model);
         e.preventDefault();
+        e.stopPropagation();
+    },
+
+    toggle: function (e) {
+        this.$el.toggle();
+    },
+
+    toggleActions: function (e) {
+        this.$el.find('#actions-zone').toggle();
+        e.preventDefault();
+        e.stopPropagation();
     }
 
 });
