@@ -12,11 +12,19 @@ ProjectModel = Backbone.Model.extend({
         itemType: "project"
     },
 
-    Actions: new ActionsCollection(),
+    Actions: null,
     idAttribute: "ID",
 
+    initialize: function() {
+        this.on("contents:changed", function () {
+            var parent = this.getParent();
+            if (parent && parent.id != this.id)
+                parent.trigger("contents:changed");
+        }, this);
+    },
+    
     parse: function (response, options) {
-        this.Actions = new ActionsCollection(response.Actions);
+        this.Actions = new ActionsCollection(response.Actions, {parent: this});
         delete response.Actions; // remove Actions from response once used
 
         return response;
@@ -45,6 +53,10 @@ ProjectModel = Backbone.Model.extend({
     getParentId: function () {
         return this.get("FolderID");
     },
+    
+    getParent: function() {
+        return this.collection.parent;
+    },
 
     // returns itself instead of contents
     getContents: function () {
@@ -55,7 +67,22 @@ ProjectModel = Backbone.Model.extend({
 /* PROJECT COLLECTION */
 
 ProjectsCollection = Backbone.Collection.extend({
-    model: ProjectModel
+    model: ProjectModel,
+    comparator: function (a, b) {
+        return a.get("Position") - b.get("Position");
+    },
+    
+    initialize: function (models, options) {
+        this.parent = options.parent;
+
+        this.on("add", function (model) {
+            model.getParent().trigger("contents:changed");
+        });
+
+        this.on("remove", function (model) {
+            model.getParent().trigger("contents:changed");
+        });
+    }
 });
 
 /* EDIT PROJECT VIEW */
@@ -136,7 +163,7 @@ EditProjectDetailsView = Backbone.View.extend({
     render: function () {
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
-        console.log("details");
+        
         return this;
     }
 });
@@ -151,10 +178,8 @@ EditProjectFilesView = Backbone.View.extend({
     render: function () {
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
-        // this.$('#folder-name').blur("Name", _.bind(this.updateModel, this));
-        console.log("files", this.template);
+        
         return this;
     }
-
 
 });

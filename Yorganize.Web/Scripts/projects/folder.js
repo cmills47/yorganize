@@ -11,17 +11,27 @@ FolderModel = Backbone.Model.extend({
         itemType: "folder"
     },
 
-    Projects: new ProjectsCollection(),
+    Projects: null,
     idAttribute: "ID",
 
+    initialize: function () {
+        // on contents changed event trigger the same event on parent
+        this.on("contents:changed", function () {
+            var parent = this.getParent();
+            if (parent && parent.id != this.id)
+                parent.trigger("contents:changed");
+        }, this);
+    },
+
     parse: function (response, options) {
-        this.Projects = new ProjectsCollection(response.Projects);
+        this.Projects = new ProjectsCollection(response.Projects, { parent: this });
         this.Projects.forEach(function (project) {
-            project.Actions = new ActionsCollection(project.get("Actions"));
+            var actions = project.get("Actions");
+            project.Actions = new ActionsCollection(actions, { parent: project });
             project.unset("Actions", { silent: true });
         }, this);
         delete response.Projects; // remove Projects from response once used
-       
+
         return response;
     },
 
@@ -54,8 +64,8 @@ FolderModel = Backbone.Model.extend({
     },
 
     // returns a combined list of folders and projects directly under the current folder
-    // if self is true, includes the folder itself into the contents list
-    getContents: function (self) {
+    getContents: function (self) // if self is true, includes the folder itself into the contents list
+    {
         if (!this.collection) return null;
 
         var folders = this.collection.filter(function (folder) {
@@ -63,9 +73,10 @@ FolderModel = Backbone.Model.extend({
             return match || (self && folder.get("ID") == this.get("ID"));
         }, this);
 
-        [].push.apply(folders, this.Projects.models);
+        var projects = this.Projects.models;
+        [].push.apply(folders, projects);
 
-        folders.sort(function(a, b) {
+        folders.sort(function (a, b) {
             return a.get("Position") - b.get("Position");
         });
 
@@ -78,7 +89,21 @@ FolderModel = Backbone.Model.extend({
 
 FoldersCollection = Backbone.Collection.extend({
     model: FolderModel,
-    url: "Projects/GetData"
+    url: "Projects/GetData",
+    comparator: function (a, b) {
+        return a.get("Position") - b.get("Position");
+    },
+
+    initialize: function () {
+
+        this.on("add", function (model) {
+            model.getParent().trigger("contents:changed");
+        });
+
+        this.on("remove", function (model) {
+            model.getParent().trigger("contents:changed");
+        });
+    }
 });
 
 /* EDIT FOLDER VIEW */

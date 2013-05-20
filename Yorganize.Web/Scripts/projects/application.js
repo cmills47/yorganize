@@ -113,7 +113,7 @@ var ProjectsRouter = Backbone.Router.extend({
         router.breadcrumbView.render();
 
         // set current folder on actions view
-        router.actionsView.model = selected ? selected : folder;
+        router.actionsView.setModel(selected ? selected : folder);
         router.actionsView.render();
 
         this.set_up = true;
@@ -178,6 +178,10 @@ function addEventHandlers(router, vent) {
         console.log("navigating to: " + route);
         router.navigate(route, { trigger: true });
     });
+    
+    vent.on("edit:open", function (model) {
+        router.edit(model);
+    });
 
     vent.on("new-folder", function (parent) {
         var folder = new FolderModel({
@@ -185,20 +189,16 @@ function addEventHandlers(router, vent) {
             ParentID: parent.id
         });
 
-        parent.collection.add(folder);
         folder.save(null, {
             success: function (model, response, options) {
-                router.navigationView.addItem(model);
-                vent.trigger("edit-folder", folder);
+                parent.collection.add(folder);
+                router.navigationView.addItem(model); // TODO: only if nav is current folder
+                vent.trigger("edit:open", folder);
             },
             error: function (model, request, options) {
                 errorMessage("Failed to create new folder.");
             }
         });
-    });
-
-    vent.on("edit-folder", function (folder) {
-        router.edit(folder);
     });
 
     vent.on("new-project", function (parent) {
@@ -207,11 +207,13 @@ function addEventHandlers(router, vent) {
             FolderID: parent.id
         });
 
-        parent.Projects.add(project);
+        project.Folder = parent;
+
         project.save(null, {
             success: function (model, response, options) {
-                router.navigationView.addItem(model);
-                vent.trigger("edit-project", project);
+                parent.Projects.add(project);
+                router.navigationView.addItem(model); // TODO: only if nav is current folder
+                vent.trigger("edit:open", project);
             },
             error: function (model, request, options) {
                 errorMessage("Failed to create new project.");
@@ -219,9 +221,23 @@ function addEventHandlers(router, vent) {
         });
     });
 
-    vent.on("edit-project", function (project) {
-        router.edit(project);
+    vent.on("new-action", function (parent) {
+        var action = new ActionModel({
+            Name: "new action",
+            ProjectID: parent.id
+        });
+
+        action.save(null, {
+            success: function (model, response, options) {
+                parent.Actions.add(action);
+                vent.trigger("edit:open", action);
+            },
+            error: function (model, request, options) {
+                errorMessage("Failed to create new action.");
+            }
+        });
     });
+    
 }
 
 /* ROUTER REGISTRATION */

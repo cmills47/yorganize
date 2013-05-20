@@ -1,7 +1,8 @@
 ﻿<!-- Project -->
 <div class="tidate b-lblue" style="margin-left: <%= ident %>px;">
     <div>
-        <%= Name %><div class="pull-right">
+        <a id="edit-project" href="#"><%= Position %> &nbsp;<%= Name %></a>
+        <div class="pull-right">
             <i class="icon-chevron-down"></i>
         </div>
     </div>
@@ -12,11 +13,11 @@
 </div>
 
 <!-- Actions -->
-<div id="actions" class="timatter">
-
+<div class="timatter">
+    <div id="actions"></div>
     <div class="span12 action">
         <img src="~/Content/icons/actions/small-newaction.png" />
-        <a href="#">New Action</a>
+        <a id="new-action" href="#">New Action</a>
     </div>
 
     <!-- Actions END -->

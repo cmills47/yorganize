@@ -30,7 +30,7 @@ namespace Yorganize.Web.Models
         public FlagModel Flag { get; set; }
         public Guid? SelectedNoteID { get; set; }
 
-        public Guid ProjectID { get; set; }
+        public Guid? ProjectID { get; set; }
         public Guid OwnerID { get; set; }
     }
 }

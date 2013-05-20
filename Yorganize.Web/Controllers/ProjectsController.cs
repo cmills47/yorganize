@@ -19,15 +19,18 @@ namespace Yorganize.Web.Controllers
     {
         private readonly IKeyedRepository<Guid, Folder> _folderRepository;
         private readonly IKeyedRepository<Guid, Project> _projectRepository;
+        private readonly IKeyedRepository<Guid, Domain.Models.Action> _actionRepository;
 
         public ProjectsController
         (
             IKeyedRepository<Guid, Folder> folderRepository,
-            IKeyedRepository<Guid, Project> projectRepository
+            IKeyedRepository<Guid, Project> projectRepository,
+            IKeyedRepository<Guid, Domain.Models.Action> actionRepository
         )
         {
             _folderRepository = folderRepository;
             _projectRepository = projectRepository;
+            _actionRepository = actionRepository;
         }
 
         public ActionResult Index()
@@ -200,6 +203,60 @@ namespace Yorganize.Web.Controllers
             return new JsonNetResult("Project deleted.");
         }
 
+        [HttpPost]
+        public ActionResult CreateAction(ActionModel model)
+        {
+            var owner = new Member { ID = User.As<ILiveIdPrincipal>().UserId };
 
+            using (var ts = new TransactionScope())
+            {
+                using (var tr = _actionRepository.BeginTransaction())
+                {
+                    var actionPosition = (from a in _actionRepository.All()
+                                          where a.Owner == owner && a.Project.ID == model.ProjectID
+                                          orderby a.Position descending
+                                          select a.Position).FirstOrDefault() ?? 0;
+
+                    _actionRepository.CommitTransaction(tr);
+
+                    model.Position = actionPosition + 1;
+                }
+
+                var action = Mapper.Map<ActionModel, Domain.Models.Action>(model);
+                action.Owner = owner;
+
+                _actionRepository.Save(action);
+
+                ts.Complete();
+                Mapper.Map(action, model);
+            }
+
+            return new JsonNetResult(model);
+        }
+
+        [HttpPut]
+        public ActionResult UpdateAction(ActionModel model)
+        {
+            if (model == null || model.ID == default(Guid))
+                throw new BusinessException("Failed to update action. Unknown identifier.");
+
+            var action = _actionRepository.FindByID(model.ID);
+            Mapper.Map(model, action);
+            _actionRepository.Update(action);
+
+            return new JsonNetResult(model);
+        }
+
+        [HttpDelete]
+        public ActionResult DeleteAction(Guid id)
+        {
+            var action = _actionRepository.FindByID(id);
+            if (action == null)
+                throw new BusinessException("Failed to delete action. Not found.");
+
+            _actionRepository.Delete(action);
+
+            return new JsonNetResult("Action deleted.");
+        }
     }
 }

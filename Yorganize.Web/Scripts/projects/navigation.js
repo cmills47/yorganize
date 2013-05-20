@@ -24,6 +24,7 @@ NavigationItemView = Backbone.View.extend({
     },
 
     select: function (e) {
+        console.log("selecting ->", this.model.get("Name"));
         window.router.vent.trigger("navigate", this.parent.model.id, this.model.getParentId(), this.model.id);
         e.preventDefault();
     },

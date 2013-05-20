@@ -465,6 +465,7 @@
     <Content Include="Scripts\projects\application.js" />
     <Content Include="Scripts\projects\breadcrumb.js" />
     <Content Include="Scripts\projects\folder.js" />
+    <Content Include="Scripts\projects\linkedcollection.js" />
     <Content Include="Scripts\projects\navigation.js" />
     <Content Include="Scripts\projects\project.js" />
     <Content Include="Scripts\underscore.js" />
@@ -511,6 +512,8 @@
     <Content Include="Views\Projects\Templates\_Action.cshtml" />
     <Content Include="Views\Projects\Templates\_EditFolder.cshtml" />
     <Content Include="Views\Projects\Templates\_EditAction.cshtml" />
+    <Content Include="Views\Projects\Templates\_EditActionFiles.cshtml" />
+    <Content Include="Views\Projects\Templates\_EditActionDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\Partial\" />
