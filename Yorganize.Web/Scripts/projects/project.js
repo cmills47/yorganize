@@ -15,16 +15,16 @@ ProjectModel = Backbone.Model.extend({
     Actions: null,
     idAttribute: "ID",
 
-    initialize: function() {
+    initialize: function () {
         this.on("contents:changed", function () {
             var parent = this.getParent();
             if (parent && parent.id != this.id)
                 parent.trigger("contents:changed");
         }, this);
     },
-    
+
     parse: function (response, options) {
-        this.Actions = new ActionsCollection(response.Actions, {parent: this});
+        this.Actions = new ActionsCollection(response.Actions, { parent: this });
         delete response.Actions; // remove Actions from response once used
 
         return response;
@@ -53,8 +53,8 @@ ProjectModel = Backbone.Model.extend({
     getParentId: function () {
         return this.get("FolderID");
     },
-    
-    getParent: function() {
+
+    getParent: function () {
         return this.collection.parent;
     },
 
@@ -71,7 +71,7 @@ ProjectsCollection = Backbone.Collection.extend({
     comparator: function (a, b) {
         return a.get("Position") - b.get("Position");
     },
-    
+
     initialize: function (models, options) {
         this.parent = options.parent;
 
@@ -81,6 +81,22 @@ ProjectsCollection = Backbone.Collection.extend({
 
         this.on("remove", function (model) {
             model.getParent().trigger("contents:changed");
+        });
+        
+        this.on("destroy", function (model, collection) {
+            
+            var parent = collection.parent; // the parent folder
+
+            // update greater siblings positions
+            _.each
+            (
+                parent.getContents(false, function (item) {
+                    return item.get("Position") > model.get("Position");
+                }), // for each greater sibling
+                function (sibling) {
+                    sibling.set("Position", sibling.get("Position") - 1);
+                } // decrement position
+            );
         });
     }
 });
@@ -133,7 +149,9 @@ EditProjectView = Backbone.View.extend({
         if (!confirm("Are you sure you want to delete this project?"))
             return;
 
-        this.model.destroy();
+        this.model.destroy({
+            wait: true
+        });
     },
 
     editDetails: function (e) {
@@ -163,7 +181,7 @@ EditProjectDetailsView = Backbone.View.extend({
     render: function () {
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
-        
+
         return this;
     }
 });
@@ -178,7 +196,7 @@ EditProjectFilesView = Backbone.View.extend({
     render: function () {
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
-        
+
         return this;
     }
 

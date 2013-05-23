@@ -57,6 +57,17 @@ ActionsCollection = Backbone.Collection.extend({
         this.on("remove", function (model) {
             model.getParent().trigger("contents:changed");
         });
+
+        this.on("destroy", function (model, collection) {
+            var parent = collection.parent; // the parent project
+
+            // update greater siblings positions
+            parent.Actions.forEach(function (action) {
+                console.log("dec", action.get("Position"));
+                if (action.get("Position") > model.get("Position"))// for each greater sibling
+                    action.set("Position", action.get("Position") - 1);// decrement position
+            });
+        });
     }
 });
 
@@ -65,6 +76,7 @@ ActionsCollection = Backbone.Collection.extend({
 ActionView = Backbone.View.extend({
     initialize: function (options) {
         this.template = $('#actions-action-template').html();
+        this.model.bind("change", this.render, this);
     },
 
     events: {
@@ -120,12 +132,12 @@ ActionFolderView = Backbone.View.extend({
     toggle: function (e) {
         console.log("toggle");
         this.$el.toggle();
-        
+
     },
 
     toggleContents: function (e) {
         // toggle all sub-folders and projects
-        
+
         var contents = this.model.getContents(false);
         console.log(contents);
         _.each(contents, function (model) {
@@ -170,6 +182,7 @@ ActionProjectView = Backbone.View.extend({
     newAction: function (e) {
         window.router.vent.trigger("new-action", this.model);
         e.preventDefault();
+        e.stopPropagation();
     },
 
     editProject: function (e) {
@@ -220,10 +233,14 @@ ActionsView = Backbone.View.extend({
 
     setModel: function (model) {
         if (this.model) // unbind previous events
-            this.model.off("contents:changed", this.render, this);
+            this.model.off(null, null, this);
+
+        // set model
         this.model = model;
+
         // bind events to new model
         this.model.on("contents:changed", this.render, this);
+        this.model.on("destroy", this.destroyed, this);
     },
 
     newFolder: function (e) {
@@ -235,6 +252,10 @@ ActionsView = Backbone.View.extend({
         window.router.vent.trigger("new-project", this.model);
         e.preventDefault();
     },
+
+    destroyed: function (model) {
+        window.router.vent.trigger("navigate:sel-destroyed", model);
+    }
 });
 
 function renderItems($container, items, ident) {
@@ -310,7 +331,9 @@ EditActionView = Backbone.View.extend({
         if (!confirm("Are you sure you want to delete this action?"))
             return;
 
-        this.model.destroy();
+        this.model.destroy({
+            wait: true
+        });
     },
 
     editDetails: function (e) {

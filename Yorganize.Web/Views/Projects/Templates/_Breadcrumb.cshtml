@@ -1,11 +1,13 @@
 ﻿<div class="span4">
-    <div class="time">
-        <div class="tidate b-lblue">
+    <% if (!IsRoot) { %>
+    <div id="breadcrumb-nav" class="time">
+        <div  class="tidate <% if(IsSelected) { %> b-lblue <% } else { %> b-blue <% } %>">
             <a href="#" id="nav-parent"><i class="icon-folder-open-alt"></i></a><a href="#" id="sel-parent">&nbsp;<%= Parent %></a>
         </div>
     </div>
+    <% } %>
 </div>
 <div class="span4"></div>
-<div class="span4">
+<div id="breadcrumb-sel" class="span4">
     <h5 class="title"><%= Selected %></h5>
 </div>

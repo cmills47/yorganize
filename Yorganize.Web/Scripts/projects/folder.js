@@ -64,16 +64,19 @@ FolderModel = Backbone.Model.extend({
     },
 
     // returns a combined list of folders and projects directly under the current folder
-    getContents: function (self) // if self is true, includes the folder itself into the contents list
-    {
+    // if <self> is true, includes the folder itself into the contents list
+    // if <filter> is specified, further filters the folders list
+    getContents: function (self, filter) {
         if (!this.collection) return null;
 
         var folders = this.collection.filter(function (folder) {
             var match = folder.get("ParentID") == this.get("ID") && folder.get("ID") != null;
-            return match || (self && folder.get("ID") == this.get("ID"));
+            match = match || (self && folder.get("ID") == this.get("ID"));
+            match = match && (!filter || filter(folder));
+            return match;
         }, this);
 
-        var projects = this.Projects.models;
+        var projects = filter ? _.filter(this.Projects.models, filter) : this.Projects.models;
         [].push.apply(folders, projects);
 
         folders.sort(function (a, b) {
@@ -103,7 +106,24 @@ FoldersCollection = Backbone.Collection.extend({
         this.on("remove", function (model) {
             model.getParent().trigger("contents:changed");
         });
+
+        this.on("destroy", function (model, collection, options) {
+
+            var parent = this.findWhere({ ID: model.getParentId() });
+
+            // update greater siblings positions
+            _.each
+            (
+                parent.getContents(false, function (item) {
+                    return item.get("Position") > model.get("Position");
+                }), // for each greater sibling
+                function (sibling) {
+                    sibling.set("Position", sibling.get("Position") - 1);
+                } // decrement position
+            );
+        });
     }
+    
 });
 
 /* EDIT FOLDER VIEW */
@@ -140,6 +160,8 @@ EditFolderView = Backbone.View.extend({
         if (!confirm("Are you sure you want to delete this folder?"))
             return;
 
-        this.model.destroy();
+        this.model.destroy({
+            wait: true
+        });
     }
 });

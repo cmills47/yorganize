@@ -47,25 +47,27 @@ NavigationView = Backbone.View.extend({
         this.folder = options.folder;
         this.selected = options.selected;
         // this.model is the current nav folder
-        // this.model.bind("change", this.render, this);
     },
 
     events: {
         "click #sel-nav": "select", // select current folder
         "click #new-folder": "newFolder",
-        "click #new-project" : "newProject"
+        "click #new-project": "newProject"
     },
 
     render: function () {
         console.log("rendering navigation...");
 
-        var $content = _.template(this.template, this.model.toJSON());
+        var navModel = this.model.toJSON();
+        navModel.IsSelected = this.model.id == this.selected.id;
+
+        var $content = _.template(this.template, navModel);
         this.$el.html($content);
 
         var contents = this.model.getContents(); // get folders and projects
 
         var $container = this.$('#items');
-        
+
         if (this.selected && this.selected.id == this.model.id) {
             this.$el.addClass("active");
         }
@@ -82,13 +84,20 @@ NavigationView = Backbone.View.extend({
             $container.append(itemView.render().el);
         }, this);
     },
-    
-    setModels: function(nav, folder, selected) {
+
+    setModels: function (nav, folder, selected) {
+        if (this.model) // unbind previous events
+            this.model.off(null, null, this);
+
+        // set models
         this.model = nav;
         this.folder = folder;
         this.selected = selected;
-
-        this.model.bind("contents:changed", this.render, this);
+        
+        // bind events to new model
+        this.model.on("change", this.render, this);
+        this.model.on("contents:changed", this.render, this);
+        this.model.on("destroy", this.destroyed, this);
     },
 
     select: function (e) {
@@ -100,10 +109,14 @@ NavigationView = Backbone.View.extend({
         window.router.vent.trigger("new-folder", this.model);
         e.preventDefault();
     },
-    
+
     newProject: function (e) {
         window.router.vent.trigger("new-project", this.model);
         e.preventDefault();
+    },
+    
+    destroyed: function(model) {
+        window.router.vent.trigger("navigate:nav-destroyed", model);
     }
 
 });

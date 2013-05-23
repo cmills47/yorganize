@@ -133,11 +133,39 @@ namespace Yorganize.Web.Controllers
         [HttpDelete]
         public ActionResult DeleteFolder(Guid id)
         {
-            var folder = _folderRepository.FindByID(id);
-            if (folder == null)
-                throw new BusinessException("Failed to delete folder. Not found.");
+            using (var ts = new TransactionScope())
+            {
+                var folder = _folderRepository.FindByID(id);
 
-            _folderRepository.Delete(folder);
+                if (folder == null)
+                    throw new BusinessException("Failed to delete folder. Not found.");
+
+                Guid? parentID = folder.Parent != null ? folder.Parent.ID : default(Guid?);
+
+                using (_folderRepository.BeginTransaction())
+                {
+                    var siblingFolders = (from f in _folderRepository.All()
+                                          where f.Parent.ID == parentID
+                                                      && f.Position > folder.Position
+                                          select f).ToList();
+
+                    var siblingProjects = (from p in _projectRepository.All()
+                                           where p.Folder.ID == parentID
+                                                       && p.Position > folder.Position
+                                           select p).ToList();
+
+                    siblingFolders.ForEach(sf => sf.Position--);
+                    siblingProjects.ForEach(sp => sp.Position--);
+
+                    _folderRepository.Update(siblingFolders);
+
+                    _projectRepository.Update(siblingProjects);
+                }
+
+                _folderRepository.Delete(folder);
+
+                ts.Complete();
+            }
 
             return new JsonNetResult("Folder deleted");
         }
@@ -194,11 +222,38 @@ namespace Yorganize.Web.Controllers
         [HttpDelete]
         public ActionResult DeleteProject(Guid id)
         {
-            var project = _projectRepository.FindByID(id);
-            if (project == null)
-                throw new BusinessException("Failed to delete project. Not found.");
+            using (var ts = new TransactionScope())
+            {
+                var project = _projectRepository.FindByID(id);
+                if (project == null)
+                    throw new BusinessException("Failed to delete project. Not found.");
 
-            _projectRepository.Delete(project);
+                Guid? parentID = project.Folder != null ? project.Folder.ID : default(Guid?);
+
+                using (_projectRepository.BeginTransaction())
+                {
+                    var siblingFolders = (from f in _folderRepository.All()
+                                          where f.Parent.ID == parentID
+                                                      && f.Position > project.Position
+                                          select f).ToList();
+
+                    var siblingProjects = (from p in _projectRepository.All()
+                                           where p.Folder.ID == parentID
+                                                       && p.Position > project.Position
+                                           select p).ToList();
+
+                    siblingFolders.ForEach(sf => sf.Position--);
+                    siblingProjects.ForEach(sp => sp.Position--);
+
+                    _folderRepository.Update(siblingFolders);
+
+                    _projectRepository.Update(siblingProjects);
+                }
+
+                _projectRepository.Delete(project);
+
+                ts.Complete();
+            }
 
             return new JsonNetResult("Project deleted.");
         }
@@ -250,11 +305,29 @@ namespace Yorganize.Web.Controllers
         [HttpDelete]
         public ActionResult DeleteAction(Guid id)
         {
-            var action = _actionRepository.FindByID(id);
-            if (action == null)
-                throw new BusinessException("Failed to delete action. Not found.");
+            using (var ts = new TransactionScope())
+            {
+                var action = _actionRepository.FindByID(id);
+                if (action == null)
+                    throw new BusinessException("Failed to delete action. Not found.");
 
-            _actionRepository.Delete(action);
+                Guid? parentID = action.Project != null ? action.Project.ID : default(Guid?);
+
+                using (_actionRepository.BeginTransaction())
+                {
+                    var siblingActions = (from a in _actionRepository.All()
+                                           where a.Project.ID == parentID
+                                                       && a.Position > action.Position
+                                           select a).ToList();
+
+                    siblingActions.ForEach(sp => sp.Position--);
+                    _actionRepository.Update(siblingActions);
+                }
+
+                _actionRepository.Delete(action);
+
+                ts.Complete();
+            }
 
             return new JsonNetResult("Action deleted.");
         }

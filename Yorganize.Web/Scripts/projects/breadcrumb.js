@@ -3,6 +3,7 @@
 
 BreadcrumbModel = Backbone.Model.extend({
     defaults: {
+        Nav: null,     // the currently nav folder
         Parent: null,  // navigation folder's parent
         Selected: null // selected item
     }
@@ -25,20 +26,16 @@ BreadcrumbView = Backbone.View.extend({
     },
 
     render: function () {
-        var parent = this.model.get("Parent");
-        var selected = this.model.get("Selected");
+        console.log("rendering breadcrumb...");
+        
+        var parent = this.model.get("Parent").get("Name");
+        var selected = this.model.get("Selected").get("Name");
+        var isRoot = this.model.get("Nav").id == this.model.get("Parent").id;
+        var isSelected = this.model.get("Parent").id == this.model.get("Selected").id;
 
-        if (selected)
-            selected.bind("change", this.render, this); // todo: set parent and selected via methods that will bind and unbind prev events
-
-        var parentName = parent ? parent.get("Name") : null;
-        var selectedName = selected ? selected.get("Name") : "nothing selected";
-
-        var $content = _.template(this.template, { Parent: parentName, Selected: selectedName });
+        var $content = _.template(this.template, { Parent: parent, Selected: selected, IsRoot: isRoot, IsSelected: isSelected });
         this.$el.html($content);
-
-       // console.log("breadcrumb:", parent, selected);
-
+        
         return this;
     },
 
@@ -55,5 +52,27 @@ BreadcrumbView = Backbone.View.extend({
         var parent = this.model.get("Parent");
         window.router.vent.trigger("navigate", this.parent.model.id, parent.getParentId(), parent.id);
         e.preventDefault();
+    },
+
+    setModels: function (nav, sel, render) {
+        var parent = this.model.get("Parent");
+        var selected = this.model.get("Selected");
+
+        // remove previous bindings if set
+        if (parent)
+            parent.off("change", this.render, this);
+
+        if (selected)
+            selected.off("change", this.render, this);
+
+        // set current models
+        this.model.set({ Nav: nav, Parent: nav.getParent(), Selected: sel }, { silent: !render });
+
+        // add bindings for current models
+        if (parent)
+            parent.on("change", this.render, this);
+
+        if (selected)
+            selected.on("change", this.render, this);
     }
 });

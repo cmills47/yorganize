@@ -106,8 +106,7 @@ var ProjectsRouter = Backbone.Router.extend({
 
         // set parrent folder on breadcrumb view
 
-        router.breadcrumbView.model.set({ Parent: nav.getParent() });
-        router.breadcrumbView.model.set({ Selected: selected });
+        router.breadcrumbView.setModels(nav, selected);
         router.breadcrumbView.render();
 
         // set current folder on actions view
@@ -176,7 +175,31 @@ function addEventHandlers(router, vent) {
         console.log("navigating to: " + route);
         router.navigate(route, { trigger: true });
     });
-    
+
+    // current selected item was destroyed
+    vent.on("navigate:sel-destroyed", function (sel) {
+        console.log("sel-destroyed");
+
+        var nav = router.navigationView.model;
+
+        if (nav.id == sel.id) // if the item is also the current nav item
+            nav = nav.getParent();
+
+        var selected = sel.getParent();
+        vent.trigger("navigate", nav.id, selected.getParentId(), selected.id);
+    });
+
+    // current navigation item was destroyed 
+    vent.on("navigate:nav-destroyed", function (nav) {
+        console.log("nav-destroyed");
+        var selected = router.actionsView.model;
+
+        if (nav.id == selected.id) // if the item is also the selected item
+            return; // do nothing, the 'sel-destroyed' event will handle it
+
+        vent.trigger("navigate", nav.getParentId(), selected.getParentId(), selected.id);
+    });
+
     vent.on("edit:open", function (model) {
         router.edit(model);
     });
@@ -233,7 +256,7 @@ function addEventHandlers(router, vent) {
             }
         });
     });
-    
+
 }
 
 /* ROUTER REGISTRATION */
