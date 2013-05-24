@@ -27,8 +27,12 @@
     FOREIGN KEY ([FlagId]) REFERENCES [dbo].[Flag] ([FlagId]),
     FOREIGN KEY ([MemberId]) REFERENCES [dbo].[Member] ([MemberId]),
     FOREIGN KEY ([SelectedNoteId]) REFERENCES [dbo].[Note] ([NoteId]),
-    CONSTRAINT [FK__Project__FolderI__68487DD7] FOREIGN KEY ([FolderId]) REFERENCES [dbo].[Folder] ([FolderId]) ON DELETE CASCADE
+    CONSTRAINT [FK__Project__FolderI__1C873BEC] FOREIGN KEY ([FolderId]) REFERENCES [dbo].[Folder] ([FolderId]) ON DELETE CASCADE
 );
+
+
+
+
 
 
 
