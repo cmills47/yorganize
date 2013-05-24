@@ -8,7 +8,8 @@ FolderModel = Backbone.Model.extend({
         Type: null,
         ParentID: null,
 
-        itemType: "folder"
+        itemType: "folder",
+        expanded: true
     },
 
     Projects: null,
@@ -84,6 +85,11 @@ FolderModel = Backbone.Model.extend({
         });
 
         return folders;
+    },
+
+    toggle: function () {
+        this.set({ expanded: !this.get("expanded") });
+        console.log("expanded:", this.get("expanded"));
     }
 
 });

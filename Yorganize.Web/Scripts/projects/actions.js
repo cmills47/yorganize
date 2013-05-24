@@ -103,22 +103,23 @@ ActionFolderView = Backbone.View.extend({
         this.template = $('#actions-folder-template').html();
         this.ident = this.options.ident || 0;
         this.model.bind("change", this.render, this);
-        this.model.bind("toggle", this.toggle, this);
     },
 
     events: {
         "click #edit-folder": "editFolder",
-        "click #header-zone": "toggleContents"
+        "click #header-zone": "toggle"
     },
 
     render: function () {
         this.model.set("ident", this.ident, { silent: true });
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
-
-        var contents = this.model.getContents(); // get folders and projects
-        if (contents)
-            renderItems(this.$el, contents, this.ident + 30);
+        
+        if (this.model.get("expanded")) {
+            var contents = this.model.getContents(); // get folders and projects
+            if (contents)
+                renderItems(this.$el, contents, this.ident + 30);
+        }
 
         return this;
     },
@@ -130,22 +131,12 @@ ActionFolderView = Backbone.View.extend({
     },
 
     toggle: function (e) {
-        console.log("toggle");
-        this.$el.toggle();
+        this.model.toggle();
 
-    },
-
-    toggleContents: function (e) {
-        // toggle all sub-folders and projects
-
-        var contents = this.model.getContents(false);
-        console.log(contents);
-        _.each(contents, function (model) {
-            model.trigger("toggle");
-        });
         e.preventDefault();
         e.stopPropagation();
     }
+
 });
 
 /* ACTION PROJECT VIEW */
@@ -155,13 +146,12 @@ ActionProjectView = Backbone.View.extend({
         this.template = $('#actions-project-template').html();
         this.ident = this.options.ident || 0;
         this.model.bind("change", this.render, this);
-        this.model.bind("toggle", this.toggle, this);
     },
 
     events: {
         "click #new-action": "newAction",
         "click #edit-project": "editProject",
-        "click #header-zone": "toggleActions"
+        "click #header-zone": "toggle"
     },
 
     render: function () {
@@ -170,11 +160,13 @@ ActionProjectView = Backbone.View.extend({
         this.$el.html($content);
 
         // render actions
-        var $container = this.$('#actions');
-        this.model.Actions.forEach(function (action) {
-            var actionView = new ActionView({ model: action });
-            $container.append(actionView.render().el);
-        });
+        if (this.model.get("expanded")) {
+            var $container = this.$('#actions');
+            this.model.Actions.forEach(function (action) {
+                var actionView = new ActionView({ model: action });
+                $container.append(actionView.render().el);
+            });
+        } else this.$el.find('#actions-zone').hide();
 
         return this;
     },
@@ -192,11 +184,8 @@ ActionProjectView = Backbone.View.extend({
     },
 
     toggle: function (e) {
-        this.$el.toggle();
-    },
+        this.model.toggle();
 
-    toggleActions: function (e) {
-        this.$el.find('#actions-zone').toggle();
         e.preventDefault();
         e.stopPropagation();
     }
@@ -271,7 +260,7 @@ function renderItems($container, items, ident) {
             default:
                 throw "unknown type: " + item.get("Type");
         }
-        console.log("rendering " + item.get("itemType") + " " + item.get("Name") + " " + ident);
+        //console.log("rendering " + item.get("itemType") + " " + item.get("Name") + " " + ident);
         $container.append(itemView.render().el);
 
         // checkboxes

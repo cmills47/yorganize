@@ -3,7 +3,11 @@
     <div>
         <a id="edit-project" href="#"><%= Position %> &nbsp;<%= Name %></a>
         <div class="pull-right">
-            <i class="icon-chevron-down"></i>
+            <% if (expanded) { %>
+                <i class="icon-chevron-up"></i>
+            <% } else { %>
+                <i class="icon-chevron-down"></i>
+            <% } %>
         </div>
     </div>
 

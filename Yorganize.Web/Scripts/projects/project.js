@@ -9,7 +9,8 @@ ProjectModel = Backbone.Model.extend({
         Type: null,
         FolderID: null,
 
-        itemType: "project"
+        itemType: "project",
+        expanded: true
     },
 
     Actions: null,
@@ -61,6 +62,10 @@ ProjectModel = Backbone.Model.extend({
     // returns itself instead of contents
     getContents: function () {
         return [this];
+    },
+    
+    toggle: function() {
+        this.set({ expanded: !this.get("expanded") });
     }
 });
 

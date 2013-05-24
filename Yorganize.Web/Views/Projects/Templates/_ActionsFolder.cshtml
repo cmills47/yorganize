@@ -2,7 +2,13 @@
 <div id="header-zone" class="tidate b-blue" style="margin-left: <%= ident %>px;">
     <div>
         <a id="edit-folder" href="#"><%= Position %> &nbsp;<%= Name %></a>
-        <div class="pull-right"><i class="icon-chevron-down"></i></div>
+        <div class="pull-right">
+            <% if (expanded) { %>
+                <i class="icon-chevron-up"></i>
+            <% } else { %>
+                <i class="icon-chevron-down"></i>
+            <% } %>
+        </div>
     </div>
 
     <div class="tisub">
