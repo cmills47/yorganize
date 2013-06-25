@@ -7,6 +7,12 @@ body {
     font-size: 15px;
     line-height: 25px;
     font-weight: 400;
+    background: url("images/background-1a.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -1160,7 +1166,7 @@ blockquote {
     text-decoration: none;
 }
 
-.c-block > div {
+.c-block > a > div {
     color: #fff;
     /*min-height: 100px;*/
     font-size: 14px;

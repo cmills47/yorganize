@@ -1,13 +1,15 @@
-﻿<div class="tidate <% if(IsSelected) { %> b-lblue <% } else { %> b-blue <% } %>">
+﻿<div class="tidate tihead <% if(IsSelected) { %> b-lblue <% } else { %> b-blue <% } %>">
     <a href="#" id="sel-nav"><%= Name %></a>
 </div>
-<div class="timatter">
+<div class="timatter no-side-padding">
     <ul id="items" class="nav nav-pills nav-stacked">
         <!-- navigation items -->
     </ul>
-    <a href="#" id="new-project">
-        <img src="~/Content/icons/actions/small-newproject.png" />&nbsp;New Project</a><br />
-    <a href="#" id="new-folder">
-        <img src="~/Content/icons/actions/small-newfolder.png" />&nbsp;New Folder</a>
+    <div style="padding: 0 10px">
+        <a href="#" id="new-project">
+            <img src="~/Content/icons/actions/small-newproject.png" />&nbsp;New Project</a><br />
+        <a href="#" id="new-folder">
+            <img src="~/Content/icons/actions/small-newfolder.png" />&nbsp;New Folder</a>
+    </div>
 </div>
 <div class="clearfix"></div>

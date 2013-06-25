@@ -1,8 +1,8 @@
 ﻿<!-- Project -->
-<div id="header-zone" class="tidate b-lblue" style="margin-left: <%= ident %>px;">
+<div id="header-zone" class="tidate b-lblue" style="cursor: pointer; margin-left: <%= ident %>px;">
     <div>
         <a id="edit-project" href="#"><%= Position %> &nbsp;<%= Name %></a>
-        <div class="pull-right">
+        <div id="expand-arrow" class="pull-right" style="cursor: default">
             <% if (expanded) { %>
                 <i class="icon-chevron-up"></i>
             <% } else { %>

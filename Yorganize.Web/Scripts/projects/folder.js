@@ -89,7 +89,6 @@ FolderModel = Backbone.Model.extend({
 
     toggle: function () {
         this.set({ expanded: !this.get("expanded") });
-        console.log("expanded:", this.get("expanded"));
     }
 
 });

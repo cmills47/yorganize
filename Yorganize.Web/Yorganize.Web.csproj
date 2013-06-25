@@ -287,6 +287,9 @@
     <Content Include="Content\icons\attachments\edit-audio-a.png" />
     <Content Include="Content\icons\attachments\edit-pictures-a.png" />
     <Content Include="Content\icons\attachments\edit-video-a.png" />
+    <Content Include="Content\icons\favicon.ico" />
+    <Content Include="Content\icons\small\small-bluefolder-a.png" />
+    <Content Include="Content\icons\small\small-bluefolder-b.png" />
     <Content Include="Content\icons\top\bed.png" />
     <Content Include="Content\icons\top\boss.png" />
     <Content Include="Content\icons\top\building.png" />
@@ -345,6 +348,7 @@
     <Content Include="Content\icons\bottom\bottom-sort.png" />
     <Content Include="Content\icons\bottom\bottom-splitter.png" />
     <Content Include="Content\icons\bottom\bottom-undo.png" />
+    <Content Include="Content\images\background-1a.png" />
     <Content Include="Content\images\bg_direction_nav.png" />
     <Content Include="Content\images\border-b.png" />
     <Content Include="Content\images\border-g.png" />
@@ -357,7 +361,6 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\images\yorganize_website_logo_63px.png" />
     <Content Include="Content\lblue.css" />
-    <Content Include="Content\test.css" />
     <Content Include="Content\theme.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -444,6 +447,7 @@
     <Content Include="Scripts\backbone.wreqr.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\date.format.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />

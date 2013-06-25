@@ -80,6 +80,7 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.icheck.min.js"></script>
+    <script src="~/Scripts/date.format.js"></script>
     <script src="~/Scripts/utils.js"></script>
 
     @if (TempData["command"] != null && TempData["command"].ToString() == "prepare-profile")
@@ -97,7 +98,7 @@
             // top bar trigger
             $('#top-bar-trigger').mouseenter(function () {
                 $('#top-bar-trigger').popover("hide");
-                $('#top-bar').show();
+                $('#top-bar').slideDown('slow');
             });
 
             $('#top-bar-trigger').popover({
@@ -130,12 +131,9 @@
             $('#cog-menu').popover({
                 placement: "bottom",
                 html: true, // todo: get content from template
-                content: '<i class="icon-cogs"></i> Settings'
+                content: '<i class="icon-cogs"></i> Settings',
+                trigger: "click"
             });
-
-
-            var $files = $('#edit-files');
-            var $details = $('#edit-details');
 
         });
 
@@ -143,11 +141,16 @@
             // hide top-bar when click outside
             var topbar = $('#top-bar');
             var bottombar = $('#bottom-bar');
+            var settings = $('#cog-menu');
 
             if (topbar.has(e.target).length === 0 && bottombar.has(e.target).length === 0) {
-                topbar.hide();
+                topbar.slideUp();
                 bottombar.hide();
             }
+
+            // hide settings popover when click outside
+            if (settings.has(e.target).length == 0)
+                settings.popover("hide");
         });
 
     </script>

@@ -106,22 +106,60 @@ ActionFolderView = Backbone.View.extend({
     },
 
     events: {
-        "click #edit-folder": "editFolder",
-        "click #header-zone": "toggle"
+        //"click #edit-folder": "editFolder",
+        "click #header-zone": "editFolder",
+        "click #expand-arrow": "toggle"
     },
 
     render: function () {
         this.model.set("ident", this.ident, { silent: true });
         var $content = _.template(this.template, this.model.toJSON());
         this.$el.html($content);
+
+        var $icon = this.$el.find('#expand');
         
+        this.undelegateEvents();
+      
         if (this.model.get("expanded")) {
-            var contents = this.model.getContents(); // get folders and projects
-            if (contents)
-                renderItems(this.$el, contents, this.ident + 30);
+            $icon.addClass("icon-spinner icon-spin");
+
+            var $view = this;
+            var $promise = new $.Deferred(); // promise to render contents
+            
+            $.when($promise).then(function() {
+                $icon.removeClass("icon-spinner icon-spin");
+                $icon.addClass("icon-chevron-up");
+            });
+            
+            setTimeout(function() {
+                $view.renderContents($view, $promise);
+            }, 10);
+
         }
+        else
+            $icon.addClass("icon-chevron-down");
+    
+        this.delegateEvents();
 
         return this;
+    },
+    
+    renderContents: function ($view, $promise) {
+
+        var $expand = $view.$el.find('#expand-arrow');
+        var $empty = $view.$el.find('#empty-zone');
+
+        // get folders and projects
+        var contents = this.model.getContents();
+        if (contents && contents.length > 0)
+            renderItems($view.$el, contents, $view.ident + 30);
+        else {
+            $expand.hide();
+            $empty.show();
+        }
+        $promise.resolve();
+
+        return $promise;
     },
 
     editFolder: function (e) {
@@ -150,8 +188,10 @@ ActionProjectView = Backbone.View.extend({
 
     events: {
         "click #new-action": "newAction",
-        "click #edit-project": "editProject",
-        "click #header-zone": "toggle"
+        //"click #edit-project": "editProject",
+        "click #header-zone": "editProject",
+        "click #expand-arrow": "toggle"
+
     },
 
     render: function () {

@@ -2,10 +2,14 @@
     <div class="span9">
         <a id="edit-action" href="#"><%= Position %> &nbsp;<%= Name %></a>
         <br />
-        <span>Errands</span>
+        <span class="tisub">Errands</span>
     </div>
-    <div class="span2">
-        <% if (DueDate) { %><%= new Date(DueDate).toDateString("dd,MM") %><% } %>
+    <div class="span2 tisub">
+        note
+        <br />
+        <span class="due">
+            <% if (DueDate) { %><%= new Date(DueDate).format("ddd, d/mm") %><% } %>
+        </span>
     </div>
     <div class="span1">
         <input type="checkbox" name="a1" />

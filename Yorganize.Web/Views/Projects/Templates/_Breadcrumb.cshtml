@@ -1,13 +1,16 @@
 ﻿<div class="span4">
     <% if (!IsRoot) { %>
-    <div id="breadcrumb-nav" class="time">
-        <div  class="tidate <% if(IsSelected) { %> b-lblue <% } else { %> b-blue <% } %>">
-            <a href="#" id="nav-parent"><i class="icon-folder-open-alt"></i></a><a href="#" id="sel-parent">&nbsp;<%= Parent %></a>
+    <div class="span1" style="background-color: transparent; top:45%">
+        <a href="#" id="nav-parent"><img src="~/Content/icons/small/small-bluefolder-b.png"/ style="width:100%;"></a>
+    </div>
+    <div id="breadcrumb-nav" class="time span11">
+        <div class="tidate ticrumb <% if(IsSelected) { %> b-lblue <% } else { %> b-blue <% } %>">
+            <div><a href="#" id="sel-parent">&nbsp;<%= Parent %></a></div>
         </div>
     </div>
     <% } %>
 </div>
 <div class="span4"></div>
 <div id="breadcrumb-sel" class="span4">
-    <h5 class="title"><%= Selected %></h5>
+        <h4><a id="edit-current" href="#"><%= Selected %> </a></h4>
 </div>

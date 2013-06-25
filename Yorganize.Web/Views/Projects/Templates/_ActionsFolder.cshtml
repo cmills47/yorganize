@@ -1,12 +1,12 @@
 ﻿<!-- Folders -->
-<div id="header-zone" class="tidate b-blue" style="margin-left: <%= ident %>px;">
+<div id="header-zone" class="tidate b-blue" style="cursor: pointer; margin-left: <%= ident %>px;">
     <div>
         <a id="edit-folder" href="#"><%= Position %> &nbsp;<%= Name %></a>
-        <div class="pull-right">
+        <div id="expand-arrow" class="pull-right" style="cursor: default">
             <% if (expanded) { %>
-                <i class="icon-chevron-up"></i>
+            <i id="expand" class="icon-chevron-up"></i>
             <% } else { %>
-                <i class="icon-chevron-down"></i>
+            <i id="expand" class="icon-chevron-down"></i>
             <% } %>
         </div>
     </div>
@@ -18,6 +18,13 @@
             <i class="icon-folder-close"></i>New Project
         </div>
     </div>
+</div>
+
+<!-- Empty folder zone -->
+<div id="empty-zone" class="timatter hide">
+    <br/>
+    <!-- Empty zone END -->
+    <div class="clearfix"></div>
 </div>
 
 <!-- Folder END -->

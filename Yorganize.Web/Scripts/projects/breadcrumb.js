@@ -22,12 +22,13 @@ BreadcrumbView = Backbone.View.extend({
 
     events: {
         "click #nav-parent": "navigate",
-        "click #sel-parent": "select"
+        "click #sel-parent": "select",
+        "click #edit-current": "edit"
     },
 
     render: function () {
         console.log("rendering breadcrumb...");
-        
+
         var parent = this.model.get("Parent").get("Name");
         var selected = this.model.get("Selected").get("Name");
         var isRoot = this.model.get("Nav").id == this.model.get("Parent").id;
@@ -35,7 +36,7 @@ BreadcrumbView = Backbone.View.extend({
 
         var $content = _.template(this.template, { Parent: parent, Selected: selected, IsRoot: isRoot, IsSelected: isSelected });
         this.$el.html($content);
-        
+
         return this;
     },
 
@@ -51,6 +52,13 @@ BreadcrumbView = Backbone.View.extend({
     select: function (e) {
         var parent = this.model.get("Parent");
         window.router.vent.trigger("navigate", this.parent.model.id, parent.getParentId(), parent.id);
+        e.preventDefault();
+    },
+
+    edit: function (e) {
+        var selected = this.model.get("Selected");
+        if (selected && selected.id)
+            window.router.vent.trigger("edit:open", selected);
         e.preventDefault();
     },
 
